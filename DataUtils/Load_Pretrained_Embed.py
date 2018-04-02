@@ -13,9 +13,10 @@ import torch
 from collections import OrderedDict
 import numpy as np
 import tqdm
-import hyperparams as hy
-torch.manual_seed(hy.seed_num)
-np.random.seed(hy.seed_num)
+
+from DataUtils.Common import *
+torch.manual_seed(seed_num)
+np.random.seed(seed_num)
 
 
 def load_pretrained_emb_zeros(path, text_field_words_dict, pad=None, set_padding=False):

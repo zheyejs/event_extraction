@@ -12,9 +12,10 @@
 
 import torch
 import random
-import hyperparams as hy
-torch.manual_seed(hy.seed_num)
-random.seed(hy.seed_num)
+
+from DataUtils.Common import *
+torch.manual_seed(seed_num)
+random.seed(seed_num)
 
 
 class Instance:

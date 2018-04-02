@@ -9,24 +9,19 @@
     FUNCTION : main
 """
 
-import os
-import sys
 import argparse
 import datetime
-import torch
-import Dataloader.config as config
-from Dataloader.Alphabet import *
-from Dataloader.Batch_Iterator import *
-from Dataloader import DataConll2000_Loader_Chunking
-from Dataloader import DataConll2000_Loader_POS
+import Config.config as configurable
+from DataUtils.Alphabet import *
+from DataUtils.Batch_Iterator import *
 from Dataloader import DataConll2003_Loader_NER
-from Dataloader import DataConll2003_Loader_Chunking
-from Dataloader.Load_Pretrained_Embed import *
-from Dataloader.Common import unkkey, paddingkey
+from DataUtils.Load_Pretrained_Embed import *
+from DataUtils.Common import seed_num, paddingkey
 from models.model_PNC import *
+import train_conll2003
 import random
 import shutil
-import hyperparams as hy
+
 # solve default encoding problem
 from imp import reload
 defaultencoding = 'utf-8'
@@ -35,103 +30,29 @@ if sys.getdefaultencoding() != defaultencoding:
     sys.setdefaultencoding(defaultencoding)
 
 # random seed
-torch.manual_seed(hy.seed_num)
-random.seed(hy.seed_num)
-
-# init hyperparams instance
-
+torch.manual_seed(seed_num)
+random.seed(seed_num)
 
 
 # load data / create alphabet / create iterator
-def load_Conll2000_Chunking(args):
+def load_MSRA(config):
     print("Loading Conll2000 Chunking Data......")
     # read file
-    data_loader = DataConll2000_Loader_Chunking.DataLoader()
-    train_data, test_data = data_loader.dataLoader(path=[args.train_path, args.test_path], shuffle=args.shuffle)
-
-    # create the alphabet
-    create_alphabet = CreateAlphabet(min_freq=args.min_freq)
-    create_alphabet.build_vocab(train_data=train_data, test_data=test_data)
-
-    # create iterator
-    create_iter = Iterators()
-    train_iter, test_iter = create_iter.createIterator(batch_size=[args.batch_size, len(test_data)],
-                                                       data=[train_data, test_data], operator=create_alphabet,
-                                                       args=args)
-    return train_iter, test_iter, create_alphabet
-
-
-# load data / create alphabet / create iterator
-def load_Conll2000_POS(args):
-    print("Loading Conll2000 POS Data......")
-    # read file
-    data_loader = DataConll2000_Loader_POS.DataLoader()
-    train_data, test_data = data_loader.dataLoader(path=[args.train_path, args.test_path], shuffle=args.shuffle)
-
-    # create the alphabet
-    create_alphabet = CreateAlphabet(min_freq=args.min_freq)
-    create_alphabet.build_vocab(train_data=train_data, test_data=test_data)
-
-    # create iterator
-    create_iter = Iterators()
-    train_iter, test_iter = create_iter.createIterator(batch_size=[args.batch_size, len(test_data)],
-                                                       data=[train_data, test_data], operator=create_alphabet,
-                                                       args=args)
-    return train_iter, test_iter, create_alphabet
-
-
-# load data / create alphabet / create iterator
-def load_Conll2003_NER(args):
-    print("Loading Conll2003 NER Data......")
-    # read file
     data_loader = DataConll2003_Loader_NER.DataLoader()
-    train_data, dev_data, test_data = data_loader.dataLoader(path=[args.train_path, args.dev_path, args.test_path],
-                                                             shuffle=args.shuffle)
+    train_data, dev_data, test_data = data_loader.dataLoader(path=[config.train_file, config.dev_file, config.test_file],
+                                                             shuffle=config.shuffle)
 
     # create the alphabet
-    create_alphabet = CreateAlphabet(min_freq=args.min_freq)
+    create_alphabet = CreateAlphabet(min_freq=config.min_freq)
     create_alphabet.build_vocab(train_data=train_data, dev_data=dev_data, test_data=test_data)
 
     # create iterator
     create_iter = Iterators()
-    train_iter, dev_iter, test_iter = create_iter.createIterator(batch_size=[args.batch_size, len(dev_data), len(test_data)],
-                                                       data=[train_data, dev_data, test_data], operator=create_alphabet,
-                                                       args=args)
+    train_iter, dev_iter, test_iter = create_iter.createIterator(
+        batch_size=[config.batch_size, len(dev_data), len(test_data)],
+        data=[train_data, dev_data, test_data], operator=create_alphabet,
+        args=config)
     return train_iter, dev_iter, test_iter, create_alphabet
-
-
-# load data / create alphabet / create iterator
-def load_Conll2003_Chunking(args):
-    print("Loading Conll2003 Chunking Data......")
-    # read file
-    data_loader = DataConll2003_Loader_Chunking.DataLoader()
-    train_data, dev_data, test_data = data_loader.dataLoader(path=[args.train_path, args.dev_path, args.test_path],
-                                                             shuffle=args.shuffle)
-
-    # create the alphabet
-    create_alphabet = CreateAlphabet(min_freq=args.min_freq)
-    create_alphabet.build_vocab(train_data=train_data, dev_data=dev_data, test_data=test_data)
-
-    # create iterator
-    create_iter = Iterators()
-    train_iter, dev_iter, test_iter = create_iter.createIterator(batch_size=[args.batch_size, len(dev_data), len(test_data)],
-                                                       data=[train_data, dev_data, test_data], operator=create_alphabet,
-                                                       args=args)
-    return train_iter, dev_iter, test_iter, create_alphabet
-
-
-def show_params():
-    print("\nParameters:")
-    if os.path.exists("./Parameters.txt"):
-        os.remove("./Parameters.txt")
-    file = open("Parameters.txt", "a", encoding="UTF-8")
-    for attr, value in sorted(args.__dict__.items()):
-        if attr.upper() != "PRETRAINED_WEIGHT":
-            print("\t{}={}".format(attr.upper(), value))
-        file.write("\t{}={}\n".format(attr.upper(), value))
-    file.close()
-    shutil.copy("./Parameters.txt", args.save_dir)
-    shutil.copy("./hyperparams.py", args.save_dir)
 
 
 def main():
@@ -143,46 +64,35 @@ def main():
 
     # get iter
     create_alphabet = None
-    if args.Conll2000 is True and args.Chunking is True:
-        train_iter, test_iter, create_alphabet = load_Conll2000_Chunking(args)
-    if args.Conll2000 is True and args.POS is True:
-        train_iter, test_iter, create_alphabet = load_Conll2000_POS(args)
-    if args.Conll2003 is True and args.NER is True:
-        train_iter, dev_iter, test_iter, create_alphabet = load_Conll2003_NER(args)
-    if args.Conll2003 is True and args.Chunking is True:
-        train_iter, dev_iter, test_iter, create_alphabet = load_Conll2003_Chunking(args)
+    train_iter, dev_iter, test_iter, create_alphabet = load_MSRA(config)
 
-    args.embed_num = create_alphabet.word_alphabet.vocab_size
-    args.class_num = create_alphabet.label_alphabet.vocab_size
-    args.paddingId = create_alphabet.word_paddingId
-    args.create_alphabet = create_alphabet
-    print("embed_num : {}, class_num : {}".format(args.embed_num, args.class_num))
-    print("PaddingID {}".format(args.paddingId))
+    config.embed_num = create_alphabet.word_alphabet.vocab_size
+    config.class_num = create_alphabet.label_alphabet.vocab_size
+    config.paddingId = create_alphabet.word_paddingId
+    config.create_alphabet = create_alphabet
+    print("embed_num : {}, class_num : {}".format(config.embed_num, config.class_num))
+    print("PaddingID {}".format(config.paddingId))
 
-    if args.word_Embedding:
+    if config.pretrained_embed:
         print("Using Pre_Trained Embedding.")
-        pretrain_embed = load_pretrained_emb_zeros(path=args.word_Embedding_Path,
+        pretrain_embed = load_pretrained_emb_zeros(path=config.pretrained_embed_file,
                                                    text_field_words_dict=create_alphabet.word_alphabet.id2words,
                                                    pad=paddingkey)
-        # calculate_oov(path=args.word_Embedding_Path, text_field_words_dict=text_field.vocab.itos,
-        #               pad=text_field.pad_token)
-        args.pretrained_weight = pretrain_embed
-
-    # print params
-    show_params()
+        config.pretrained_weight = pretrain_embed
 
     model = None
-    if args.model_PNC is True:
-        print("loading PNC(POS,NER,Chunking) model.....")
-        model = PNC(args)
-        shutil.copy("./models/model_PNC.py", args.save_dir)
+    if config.model_BiLstm is True:
+        print("loading model.....")
+        model = PNC(config)
+        # shutil.copytree("./models", config.save_dir)
         print(model)
-        if args.use_cuda is True:
-            print("Using Cuda Speed Up......")
+        if config.use_cuda is True:
             model = model.cuda()
         print("Training Start......")
         if os.path.exists("./Test_Result.txt"):
             os.remove("./Test_Result.txt")
+
+    train_conll2003.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, args=config)
 
 
 if __name__ == "__main__":
@@ -191,7 +101,7 @@ if __name__ == "__main__":
     parser.add_argument('--config_file', default="./Config/config.cfg")
     args = parser.parse_args()
 
-    config = config.Configurable(config_file=args.config_file)
+    config = configurable.Configurable(config_file=args.config_file)
     if config.use_cuda is False:
         print("Using GPU To Train......")
 

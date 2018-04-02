@@ -10,16 +10,15 @@
         Loading conll2003 dataset
         Download From Here : https://www.clips.uantwerpen.be/conll2003/ner/
 """
-import os
 import sys
 import re
 import random
-import shutil
 import torch
-from Dataloader.Instance import Instance
-import hyperparams as hy
-torch.manual_seed(hy.seed_num)
-random.seed(hy.seed_num)
+from DataUtils.Instance import Instance
+
+from DataUtils.Common import *
+torch.manual_seed(seed_num)
+random.seed(seed_num)
 
 
 class DataLoader():
@@ -78,13 +77,12 @@ class DataLoader():
                 else:
                     line = line.strip().split(" ")
                     # print(line)
-                    assert len(line) == 4, "Error Format"
                     word = line[0]
                     # word = self.clean_str(word)
                     # if word is "":
                     #     continue
                     inst.words.append(word.lower())
-                    inst.labels.append(line[3])
+                    inst.labels.append(line[1])
                 # if now_line == 36 * 16:
                 #     break
             if len(inst.words) != 0:

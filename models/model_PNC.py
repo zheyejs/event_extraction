@@ -17,31 +17,32 @@ from torch.autograd import Variable as Variable
 import random
 import torch.nn.init as init
 import numpy as np
-import hyperparams
-torch.manual_seed(hyperparams.seed_num)
-random.seed(hyperparams.seed_num)
+
+from DataUtils.Common import *
+torch.manual_seed(seed_num)
+random.seed(seed_num)
 
 
 class PNC(nn.Module):
 
-    def __init__(self, args):
+    def __init__(self, config):
         super(PNC, self).__init__()
-        self.args = args
+        self.args = config
         self.cat_size = 5
 
-        V = args.embed_num
-        D = args.embed_dim
-        C = args.class_num
-        paddingId = args.paddingId
+        V = config.embed_num
+        D = config.embed_dim
+        C = config.class_num
+        paddingId = config.paddingId
 
         self.embed = nn.Embedding(V, D, padding_idx=paddingId)
 
-        if args.word_Embedding:
-            self.embed.weight.data.copy_(args.pretrained_weight)
+        if config.pretrained_embed:
+            self.embed.weight.data.copy_(config.pretrained_weight)
         # self.embed.weight.requires_grad = False
 
-        self.dropout_embed = nn.Dropout(args.dropout_embed)
-        self.dropout = nn.Dropout(args.dropout)
+        self.dropout_embed = nn.Dropout(config.dropout_emb)
+        self.dropout = nn.Dropout(config.dropout)
 
         self.batchNorm = nn.BatchNorm1d(D * 5)
 

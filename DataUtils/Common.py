@@ -9,6 +9,7 @@
     FUNCTION : Common File
 """
 
+seed_num = 233
 unkkey = "<unk>"
 paddingkey = "<pad>"
 judge_flag = "##$$"

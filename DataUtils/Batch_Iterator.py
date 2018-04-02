@@ -12,11 +12,10 @@
 import torch
 from torch.autograd import Variable
 import random
-from Dataloader.Common import unkkey, paddingkey
-from Dataloader.Instance import Instance
-import hyperparams as hy
-torch.manual_seed(hy.seed_num)
-random.seed(hy.seed_num)
+
+from DataUtils.Common import *
+torch.manual_seed(seed_num)
+random.seed(seed_num)
 
 
 class Batch_Features:

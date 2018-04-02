@@ -14,10 +14,9 @@ import sys
 import torch
 import random
 import collections
-from Dataloader.Common import unkkey, paddingkey
-import hyperparams as hy
-torch.manual_seed(hy.seed_num)
-random.seed(hy.seed_num)
+from DataUtils.Common import seed_num, unkkey, paddingkey
+torch.manual_seed(seed_num)
+random.seed(seed_num)
 
 
 class CreateAlphabet:
@@ -104,11 +103,6 @@ class CreateAlphabet:
         # Create id2words and words2id by the Alphabet Class
         self.word_alphabet.initialWord2idAndId2Word(self.word_state)
         self.label_alphabet.initialWord2idAndId2Word(self.label_state)
-        if self.args.ininital_from_Pretrained is True:
-            self.pretrained_alphabet.initial_from_pretrain(pretrain_file=self.args.word_Embedding_Path,
-                                                           unk=unkkey, padding=paddingkey)
-            self.pretrained_alphabet_source.initial_from_pretrain(pretrain_file=self.args.word_Embedding_Path_Source,
-                                                                  unk=unkkey, padding=paddingkey)
 
         # unkId and paddingId
         self.word_unkId = self.word_alphabet.loadWord2idAndId2Word(unkkey)
@@ -119,9 +113,6 @@ class CreateAlphabet:
         # fix the vocab
         self.word_alphabet.set_fixed_flag(True)
         self.label_alphabet.set_fixed_flag(True)
-        if self.args.ininital_from_Pretrained is True:
-            self.pretrained_alphabet.set_fixed_flag(True)
-            self.pretrained_alphabet_source.set_fixed_flag(True)
 
 
 class Alphabet:
