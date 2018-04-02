@@ -1,0 +1,139 @@
+
+from configparser import ConfigParser
+import os
+
+
+class Configurable(object):
+    def __init__(self, config_file):
+        config = ConfigParser()
+        config.read(config_file)
+        self._config = config
+
+        print('Loaded config file sucessfully.')
+        for section in config.sections():
+            for k, v in config.items(section):
+                print(k, ":", v)
+        if not os.path.isdir(self.save_direction):
+            os.mkdir(self.save_direction)
+        config.write(open(config_file, 'w'))
+
+    # Data
+    @property
+    def pretrained_embed(self):
+        return self._config.getboolean('Data', 'pretrained_embed')
+
+    @property
+    def pretrained_embed_file(self):
+        return self._config.get('Data', 'pretrained_embed_file')
+
+    @property
+    def train_file(self):
+        return self._config.get('Data', 'train_file')
+
+    @property
+    def dev_file(self):
+        return self._config.get('Data', 'dev_file')
+
+    @property
+    def test_file(self):
+        return self._config.get('Data', 'test_file')
+
+    @property
+    def min_freq(self):
+        return self._config.getint('Data', 'min_freq')
+
+    @property
+    def shuffle(self):
+        return self._config.getboolean('Data', 'shuffle')
+
+    @property
+    def epochs_shuffle(self):
+        return self._config.getboolean('Data', 'epochs_shuffle')
+
+    # Save
+    @property
+    def save_direction(self):
+        return self._config.get('Save', 'save_direction')
+
+    @property
+    def rm_model(self):
+        return self._config.getboolean('Save', 'rm_model')
+
+    # Model
+    @property
+    def lstm_layers(self):
+        return self._config.getint("Model", "lstm_layers")
+
+    @property
+    def embed_dim(self):
+        return self._config.getint("Model", "embed_dim")
+
+    @property
+    def lstm_hiddens(self):
+        return self._config.getint("Model", "lstm_hiddens")
+
+    @property
+    def dropout_emb(self):
+        return self._config.getfloat("Model", "dropout_emb")
+
+    @property
+    def dropout(self):
+        return self._config.getfloat("Model", "dropout")
+
+    # Optimizer
+    @property
+    def adam(self):
+        return self._config.getboolean("Optimizer", "adam")
+
+    @property
+    def learning_rate(self):
+        return self._config.getfloat("Optimizer", "learning_rate")
+
+    @property
+    def learning_rate_decay(self):
+        return self._config.getfloat("Optimizer", "learning_rate_decay")
+
+    @property
+    def weight_decay(self):
+        return self._config.getfloat("Optimizer", "weight_decay")
+
+    @property
+    def clip_max_norm(self):
+        return self._config.getint("Optimizer", "clip_max_norm")
+
+    # Train
+    @property
+    def num_threads(self):
+        return self._config.getint("Train", "num_threads")
+
+    @property
+    def use_cuda(self):
+        return self._config.getboolean("Train", "use_cuda")
+
+    @property
+    def set_use_cuda(self, use_cuda):
+        self._config.set("Train", "use_cuda", use_cuda)
+
+    @property
+    def epochs(self):
+        return self._config.getint("Train", "epochs")
+
+    @property
+    def batch_size(self):
+        return self._config.getint("Train", "batch_size")
+
+    @property
+    def dev_batch_size(self):
+        return self._config.getint("Train", "dev_batch_size")
+
+    @property
+    def test_batch_size(self):
+        return self._config.getint("Train", "test_batch_size")
+
+    @property
+    def log_interval(self):
+        return self._config.getint("Train", "log_interval")
+
+
+
+
