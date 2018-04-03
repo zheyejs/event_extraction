@@ -126,7 +126,7 @@ class Iterators:
                     batch_label_features[id_inst * max_word_size + id_word_index] = inst.label_index[id_word_index]
                 else:
                     # batch_label_features.data[id_inst * max_word_size + id_word_index] = operator.label_unkId
-                    batch_label_features[id_inst * max_word_size + id_word_index] = 2
+                    batch_label_features[id_inst * max_word_size + id_word_index] = 0
                     # batch_label_features.data[id_inst * max_word_size + id_word_index] = operator.label_alphabet.loadWord2idAndId2Word("O")
 
         # batch

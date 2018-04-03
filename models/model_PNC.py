@@ -35,8 +35,8 @@ class PNC(nn.Module):
         C = config.class_num
         paddingId = config.paddingId
 
-        # self.embed = nn.Embedding(V, D, padding_idx=paddingId)
-        self.embed = nn.Embedding(V, D)
+        self.embed = nn.Embedding(V, D, padding_idx=paddingId)
+        # self.embed = nn.Embedding(V, D)
 
         if config.pretrained_embed:
             self.embed.weight.data.copy_(config.pretrained_weight)
@@ -54,7 +54,7 @@ class PNC(nn.Module):
         # self.bilstm.bias.uniform_(-np.sqrt(6 / (config.lstm_hiddens + 1)), np.sqrt(6 / (config.lstm_hiddens + 1)))
 
         # self.linear = nn.Linear(in_features=D * self.cat_size, out_features=C, bias=True)
-        self.linear = nn.Linear(in_features=config.lstm_hiddens * 2, out_features=C, bias=False)
+        self.linear = nn.Linear(in_features=config.lstm_hiddens * 2, out_features=C, bias=True)
         init.xavier_uniform(self.linear.weight)
         # self.linear.bias.data.uniform_(-np.sqrt(6 / (config.lstm_hiddens + 1)), np.sqrt(6 / (config.lstm_hiddens + 1)))
 

@@ -54,21 +54,20 @@ class DataLoader():
             insts = self.Load_Each_Data(path=path[id_data], shuffle=shuffle)
             if shuffle is True:
                 print("shuffle data......")
-                # random.shuffle(insts)
+                random.shuffle(insts)
             self.data_list.append(insts)
         # return train/dev/test data
-        return self.data_list[0], self.data_list[1], self.data_list[2]
-        # return self.data_list[0], self.data_list[1]
+        if len(self.data_list) == 3:
+            return self.data_list[0], self.data_list[1], self.data_list[2]
+        elif len(self.data_list) == 2:
+            return self.data_list[0], self.data_list[1]
 
     def Load_Each_Data(self, path=None, shuffle=False):
         assert path is not None, "The Data Path Is Not Allow Empty."
         insts = []
         with open(path, encoding="UTF-8") as f:
             inst = Instance()
-            # now_line = 0
             for line in f.readlines():
-                # now_line += 1
-                # sys.stdout.write("\rhandling with the {} line".format(now_line))
                 line = line.strip()
                 if line == "" and len(inst.words) != 0:
                     inst.words_size = len(inst.words)
@@ -80,17 +79,16 @@ class DataLoader():
                     word = line[0]
                     inst.words.append(word.lower())
                     inst.labels.append(line[1])
-                if len(insts) == 16:
-                    break
+                # if len(insts) == 32:
+                #     break
             if len(inst.words) != 0:
                 inst.words_size = len(inst.words)
                 insts.append(inst)
-            print("\n")
+            # print("\n")
         return insts
 
 
 if __name__ == "__main__":
-    print("Loading conll2000 dataset.")
     path = ["../Data/test/test.txt", "../Data/test/test.txt", "../Data/test/test.txt"]
     conll2000data = DataLoader()
     conll2000data.dataLoader(path=path, shuffle=True)

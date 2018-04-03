@@ -59,35 +59,35 @@ def train(train_iter, dev_iter, test_iter, model, args):
             if args.clip_max_norm is not None:
                 utils.clip_grad_norm(model.parameters(), max_norm=args.clip_max_norm)
             optimizer.step()
-
             model.zero_grad()
             optimizer.zero_grad()
 
             steps += 1
             if steps % args.log_interval == 0:
-                sys.stdout.write("\rbatch_count = [{}] , loss is {:.6f}, Tag Acc is {:.6f}%".format(batch_count + 1,
+                sys.stdout.write("\rbatch_count = [{}] , loss is {:.6f}, [TAG ACC is {:.6f}%]".format(batch_count + 1,
                                  loss.data[0], train_eval.acc()))
         if steps is not 0:
             dev_eval.clear_PRF()
             eval(dev_iter, model, dev_eval, file, best_fscore, epoch, args, test=False)
-            model.train()
+            # model.train()
         if steps is not 0:
             test_eval.clear_PRF()
             eval(test_iter, model, test_eval, file, best_fscore, epoch, args, test=True)
-            model.train()
+            # model.train()
 
 
 def eval(data_iter, model, eval_instance, file, best_fscore, epoch, args, test=False):
     model.eval()
     # eval time
+    eval_acc = Eval()
     eval_PRF = EvalPRF()
     gold_labels = []
     predict_labels = []
     for batch_features in data_iter:
         logit = model(batch_features)
+        getAcc(eval_acc, batch_features, logit, args)
         for id_batch in range(batch_features.batch_length):
             inst = batch_features.inst[id_batch]
-            # eval_PRF = EvalPRF()
             predict_label = []
             for id_word in range(inst.words_size):
                 maxId = getMaxindex(logit[id_batch][id_word], logit.size(2), args)
@@ -98,15 +98,16 @@ def eval(data_iter, model, eval_instance, file, best_fscore, epoch, args, test=F
     # p, r, f = entity_evalPRF_exact(gold_labels=gold_labels, predict_labels=predict_labels)
     #
     # calculate the F-Score
+
     p, r, f = eval_instance.getFscore()
     # p = p * 100
     # f = f * 100
     # r = r * 100
     test_flag = "Test"
     if test is False:
-        print("\n")
+        print()
         test_flag = "Dev"
-        if f > best_fscore.best_dev_fscore:
+        if f >= best_fscore.best_dev_fscore:
             best_fscore.best_dev_fscore = f
             best_fscore.best_epoch = epoch
             best_fscore.best_test = True
@@ -114,7 +115,8 @@ def eval(data_iter, model, eval_instance, file, best_fscore, epoch, args, test=F
         best_fscore.p = p
         best_fscore.r = r
         best_fscore.f = f
-    print("{} eval: precision = {:.6f}%  recall = {:.6f}% , f-score = {:.6f}%".format(test_flag, p, r, f))
+    # print("eval acc {}".format(eval_acc.acc()))
+    print("{} eval: precision = {:.6f}%  recall = {:.6f}% , f-score = {:.6f}%,  [TAG-ACC = {:.6f}%]".format(test_flag, p, r, f, eval_acc.acc()))
     if test is True:
         print("The Current Best Dev F-score: {:.6f}, Locate on {} Epoch.".format(best_fscore.best_dev_fscore,
                                                                                  best_fscore.best_epoch))
@@ -123,10 +125,10 @@ def eval(data_iter, model, eval_instance, file, best_fscore, epoch, args, test=F
             best_fscore.p, best_fscore.r, best_fscore.f))
     if test is False:
         file.write("The {} Epoch, All {} Epoch.\n".format(epoch, args.epochs))
-    file.write("{} eval: precision = {:.6f}%  recall = {:.6f}% , f-score = {:.6f}%\n".format(test_flag, p, r, f))
+    file.write("{} eval: precision = {:.6f} %  recall = {:.6f} % , f-score = {:.6f} %\n".format(test_flag, p, r, f))
     if test is True:
         file.write("The Current Best Dev F-score: {:.6f}, Locate on {} Epoch.\n".format(best_fscore.best_dev_fscore, best_fscore.best_epoch))
-        file.write("The Current Best Test Result: precision = {:.6f}%  recall = {:.6f}% , f-score = {:.6f}%\n\n".format(
+        file.write("The Current Best Test Result: precision = {:.6f} %  recall = {:.6f} % , f-score = {:.6f} %\n\n".format(
             best_fscore.p, best_fscore.r, best_fscore.f))
     if test is True:
         best_fscore.best_test = False
@@ -134,6 +136,7 @@ def eval(data_iter, model, eval_instance, file, best_fscore, epoch, args, test=F
 
 
 def getMaxindex(model_out, label_size, args):
+    # model_out.data[0] = -9999
     max = model_out.data[0]
     maxIndex = 0
     for idx in range(1, label_size):
@@ -143,8 +146,8 @@ def getMaxindex(model_out, label_size, args):
     return maxIndex
 
 
-def getAcc(train_eval, batch_features, logit, args):
-    train_eval.clear_PRF()
+def getAcc(eval_acc, batch_features, logit, args):
+    eval_acc.clear_PRF()
     for id_batch in range(batch_features.batch_length):
         inst = batch_features.inst[id_batch]
         predict_label = []
@@ -157,8 +160,8 @@ def getAcc(train_eval, batch_features, logit, args):
         for p_lable, g_lable in zip(predict_label, gold_lable):
             if p_lable == g_lable:
                 cor += 1
-        train_eval.correct_num += cor
-        train_eval.gold_num += len(gold_lable)
+        eval_acc.correct_num += cor
+        eval_acc.gold_num += len(gold_lable)
 
 
 class Best_Result:
