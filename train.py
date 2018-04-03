@@ -12,6 +12,7 @@
 import sys
 import torch
 import torch.nn.functional as F
+import torch.nn.utils as utils
 import random
 from DataUtils.eval import Eval, EvalPRF
 from DataUtils.Common import *
@@ -30,6 +31,10 @@ def train(train_iter, dev_iter, test_iter, model, args):
         # optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=args.learning_rate,
         #                              weight_decay=args.weight_decay)
 
+    if args.sgd is True:
+        print("SGD Training......")
+        optimizer = torch.optim.SGD(model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
+
     file = open("./Test_Result.txt", encoding="UTF-8", mode="a", buffering=1)
     best_fscore = Best_Result()
 
@@ -41,30 +46,35 @@ def train(train_iter, dev_iter, test_iter, model, args):
     dev_eval = Eval()
     test_eval = Eval()
     for epoch in range(1, args.epochs+1):
-        print("\n## The {} Epoch，All {} Epochs ！##".format(epoch, args.epochs))
+        print("\n## The {} Epoch, All {} Epochs ! ##".format(epoch, args.epochs))
         print("now lr is {}".format(optimizer.param_groups[0].get("lr")))
         random.shuffle(train_iter)
         model.train()
         for batch_count, batch_features in enumerate(train_iter):
-            model.zero_grad()
-            optimizer.zero_grad()
             logit = model(batch_features)
+            getAcc(train_eval, batch_features, logit, args)
             loss_logit = logit.view(logit.size(0) * logit.size(1), logit.size(2))
             loss = F.cross_entropy(loss_logit, batch_features.label_features)
-            # print(loss)
             loss.backward()
+            if args.clip_max_norm is not None:
+                utils.clip_grad_norm(model.parameters(), max_norm=args.clip_max_norm)
             optimizer.step()
+
+            model.zero_grad()
+            optimizer.zero_grad()
+
             steps += 1
             if steps % args.log_interval == 0:
-                sys.stdout.write("\rbatch_count = [{}] , loss is {:.6f}".format(batch_count + 1, loss.data[0]))
+                sys.stdout.write("\rbatch_count = [{}] , loss is {:.6f}, Tag Acc is {:.6f}%".format(batch_count + 1,
+                                 loss.data[0], train_eval.acc()))
         if steps is not 0:
             dev_eval.clear_PRF()
             eval(dev_iter, model, dev_eval, file, best_fscore, epoch, args, test=False)
-            # model.train()
+            model.train()
         if steps is not 0:
             test_eval.clear_PRF()
             eval(test_iter, model, test_eval, file, best_fscore, epoch, args, test=True)
-            # model.train()
+            model.train()
 
 
 def eval(data_iter, model, eval_instance, file, best_fscore, epoch, args, test=False):
@@ -81,13 +91,9 @@ def eval(data_iter, model, eval_instance, file, best_fscore, epoch, args, test=F
             predict_label = []
             for id_word in range(inst.words_size):
                 maxId = getMaxindex(logit[id_batch][id_word], logit.size(2), args)
-                # if maxId == args.create_alphabet.label_unkId:
-                #     continue
                 predict_label.append(args.create_alphabet.label_alphabet.from_id(maxId))
             gold_labels.append(inst.labels)
             predict_labels.append(predict_label)
-            # print(inst.labels)
-            # print(predict_labels)
             eval_PRF.evalPRF(predict_labels=predict_label, gold_labels=inst.labels, eval=eval_instance)
     # p, r, f = entity_evalPRF_exact(gold_labels=gold_labels, predict_labels=predict_labels)
     #
@@ -128,17 +134,31 @@ def eval(data_iter, model, eval_instance, file, best_fscore, epoch, args, test=F
 
 
 def getMaxindex(model_out, label_size, args):
-    # print(model_out.size())
-    # print(label_size)
-    # print(model_out)
     max = model_out.data[0]
     maxIndex = 0
     for idx in range(1, label_size):
         if model_out.data[idx] > max:
             max = model_out.data[idx]
             maxIndex = idx
-    # print(maxIndex)
     return maxIndex
+
+
+def getAcc(train_eval, batch_features, logit, args):
+    train_eval.clear_PRF()
+    for id_batch in range(batch_features.batch_length):
+        inst = batch_features.inst[id_batch]
+        predict_label = []
+        gold_lable = inst.labels
+        for id_word in range(inst.words_size):
+            maxId = getMaxindex(logit[id_batch][id_word], logit.size(2), args)
+            predict_label.append(args.create_alphabet.label_alphabet.from_id(maxId))
+        assert len(predict_label) == len(gold_lable)
+        cor = 0
+        for p_lable, g_lable in zip(predict_label, gold_lable):
+            if p_lable == g_lable:
+                cor += 1
+        train_eval.correct_num += cor
+        train_eval.gold_num += len(gold_lable)
 
 
 class Best_Result:

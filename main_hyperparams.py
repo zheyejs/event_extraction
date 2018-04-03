@@ -45,6 +45,7 @@ def load_Data(config):
     # create the alphabet
     create_alphabet = CreateAlphabet(min_freq=config.min_freq)
     create_alphabet.build_vocab(train_data=train_data, dev_data=dev_data, test_data=test_data)
+    # create_alphabet.build_vocab(train_data=test_data)
 
     # create iterator
     create_iter = Iterators()
@@ -94,6 +95,7 @@ def main():
             os.remove("./Test_Result.txt")
 
     train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, args=config)
+    # train.train(train_iter=train_iter, dev_iter=train_iter, test_iter=train_iter, model=model, args=config)
 
 
 if __name__ == "__main__":

@@ -54,7 +54,7 @@ class Iterators:
             print("*****************    create {} iterator    **************".format(id_data + 1))
             self.convert_word2id(self.data[id_data], self.operator)
             self.features = self.Create_Each_Iterator(insts=self.data[id_data], batch_size=self.batch_size[id_data],
-                                                       operator=self.operator)
+                                                      operator=self.operator)
             self.data_iter.append(self.features)
             self.features = []
         if len(self.data_iter) == 2:
@@ -110,31 +110,31 @@ class Iterators:
 
         # create with the Tensor/Variable
         # word features
-        batch_word_features = Variable(torch.zeros(batch_length, max_word_size).type(torch.LongTensor))
-        batch_label_features = Variable(torch.zeros(batch_length * max_word_size).type(torch.LongTensor))
+        batch_word_features = torch.zeros(batch_length, max_word_size).type(torch.LongTensor)
+        batch_label_features = torch.zeros(batch_length * max_word_size).type(torch.LongTensor)
 
         for id_inst in range(batch_length):
             inst = insts[id_inst]
             # copy with the word features
             for id_word_index in range(max_word_size):
                 if id_word_index < inst.words_size:
-                    batch_word_features.data[id_inst][id_word_index] = inst.words_index[id_word_index]
+                    batch_word_features[id_inst][id_word_index] = inst.words_index[id_word_index]
                 else:
-                    batch_word_features.data[id_inst][id_word_index] = operator.word_paddingId
+                    batch_word_features[id_inst][id_word_index] = operator.word_paddingId
 
                 if id_word_index < len(inst.label_index):
-                    batch_label_features.data[id_inst * max_word_size + id_word_index] = inst.label_index[id_word_index]
+                    batch_label_features[id_inst * max_word_size + id_word_index] = inst.label_index[id_word_index]
                 else:
                     # batch_label_features.data[id_inst * max_word_size + id_word_index] = operator.label_unkId
-                    batch_label_features.data[id_inst * max_word_size + id_word_index] = 0
+                    batch_label_features[id_inst * max_word_size + id_word_index] = 2
                     # batch_label_features.data[id_inst * max_word_size + id_word_index] = operator.label_alphabet.loadWord2idAndId2Word("O")
 
         # batch
         features = Batch_Features()
         features.batch_length = batch_length
         features.inst = insts
-        features.word_features = batch_word_features
-        features.label_features = batch_label_features
+        features.word_features = Variable(batch_word_features)
+        features.label_features = Variable(batch_label_features)
 
         if self.args.use_cuda is True:
             features.cuda(features)

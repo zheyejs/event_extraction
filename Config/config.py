@@ -90,6 +90,10 @@ class Configurable(object):
         return self._config.getboolean("Optimizer", "adam")
 
     @property
+    def sgd(self):
+        return self._config.getboolean("Optimizer", "sgd")
+
+    @property
     def learning_rate(self):
         return self._config.getfloat("Optimizer", "learning_rate")
 

@@ -36,7 +36,7 @@ class Eval:
         return self.precision, self.recall, self.fscore
 
     def acc(self):
-        return self.correct_num / self.gold_num
+        return (self.correct_num / self.gold_num) * 100
 
 
 class EvalPRF:
