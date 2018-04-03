@@ -14,11 +14,11 @@ import datetime
 import Config.config as configurable
 from DataUtils.Alphabet import *
 from DataUtils.Batch_Iterator import *
-from Dataloader import DataConll2003_Loader_NER
+from Dataloader import DataLoader_NER
 from DataUtils.Load_Pretrained_Embed import *
 from DataUtils.Common import seed_num, paddingkey
 from models.model_PNC import *
-import train_conll2003
+import train
 import random
 import shutil
 
@@ -35,10 +35,10 @@ random.seed(seed_num)
 
 
 # load data / create alphabet / create iterator
-def load_MSRA(config):
-    print("Loading Conll2000 Chunking Data......")
+def load_Data(config):
+    print("Loading Data......")
     # read file
-    data_loader = DataConll2003_Loader_NER.DataLoader()
+    data_loader = DataLoader_NER.DataLoader()
     train_data, dev_data, test_data = data_loader.dataLoader(path=[config.train_file, config.dev_file, config.test_file],
                                                              shuffle=config.shuffle)
 
@@ -49,7 +49,8 @@ def load_MSRA(config):
     # create iterator
     create_iter = Iterators()
     train_iter, dev_iter, test_iter = create_iter.createIterator(
-        batch_size=[config.batch_size, len(dev_data), len(test_data)],
+        # batch_size=[config.batch_size, len(dev_data), len(test_data)],
+        batch_size=[config.batch_size, config.batch_size, config.batch_size],
         data=[train_data, dev_data, test_data], operator=create_alphabet,
         args=config)
     return train_iter, dev_iter, test_iter, create_alphabet
@@ -64,7 +65,7 @@ def main():
 
     # get iter
     create_alphabet = None
-    train_iter, dev_iter, test_iter, create_alphabet = load_MSRA(config)
+    train_iter, dev_iter, test_iter, create_alphabet = load_Data(config)
 
     config.embed_num = create_alphabet.word_alphabet.vocab_size
     config.class_num = create_alphabet.label_alphabet.vocab_size
@@ -92,7 +93,7 @@ def main():
         if os.path.exists("./Test_Result.txt"):
             os.remove("./Test_Result.txt")
 
-    train_conll2003.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, args=config)
+    train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, args=config)
 
 
 if __name__ == "__main__":

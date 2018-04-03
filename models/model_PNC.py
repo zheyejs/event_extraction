@@ -44,14 +44,29 @@ class PNC(nn.Module):
         self.dropout_embed = nn.Dropout(config.dropout_emb)
         self.dropout = nn.Dropout(config.dropout)
 
-        self.batchNorm = nn.BatchNorm1d(D * 5)
+        # self.batchNorm = nn.BatchNorm1d(D * 5)
 
-        self.bilstm = nn.LSTM(input_size=500, hidden_size=100, bidirectional=False, bias=True)
+        self.bilstm = nn.LSTM(input_size=D, hidden_size=config.lstm_hiddens, num_layers=config.lstm_layers,
+                              bidirectional=True, bias=True)
+        self.init_lstm()
+        # init.xavier_uniform(self.bilstm.all_weights[0][0])
+        # self.bilstm.bias.uniform_(-np.sqrt(6 / (config.lstm_hiddens + 1)), np.sqrt(6 / (config.lstm_hiddens + 1)))
 
         # self.linear = nn.Linear(in_features=D * self.cat_size, out_features=C, bias=True)
-        self.linear = nn.Linear(in_features=D, out_features=C, bias=True)
+        self.linear = nn.Linear(in_features=config.lstm_hiddens * 2, out_features=C, bias=True)
         init.xavier_uniform(self.linear.weight)
-        # self.linear.bias.data.uniform_(-np.sqrt(6 / (D + 1)), np.sqrt(6 / (D + 1)))
+        self.linear.bias.data.uniform_(-np.sqrt(6 / (config.lstm_hiddens + 1)), np.sqrt(6 / (config.lstm_hiddens + 1)))
+
+    def init_lstm(self):
+        if self.bilstm.bidirectional is True:   weight = 2
+        else:   weight = 1
+        for i in range(weight):
+            for j in range(2):
+                # print(i, "  ", j)
+                init.xavier_uniform(self.bilstm.all_weights[i][j])
+            # for j in range(3, 4):
+            #     print(i, "  ", j)
+            #     self.bilstm.all_weights[i][j].uniform_(-np.sqrt(6 / (self.args.lstm_hiddens + 1)), np.sqrt(6 / (self.args.lstm_hiddens + 1)))
 
     def cat_embedding(self, x):
         # print("source", x)
@@ -83,12 +98,12 @@ class PNC(nn.Module):
         # print(self.args.create_alphabet.word_alphabet.from_id(word.data[0][0]))
 
         x = self.embed(word)  # (N,W,D)
-        cated_embed = self.cat_embedding(x)
-        # cated_embed = self.dropout_embed(cated_embed)
-        cated_embed, _ = self.bilstm(cated_embed)
+        # cated_embed = self.cat_embedding(x)
+        cated_embed = self.dropout_embed(x)
+        x, _ = self.bilstm(cated_embed)
         # cated_embed = self.batchNorm(cated_embed.permute(0, 2, 1))
-        cated_embed = F.tanh(cated_embed)
-        logit = self.linear(cated_embed)
+        # cated_embed = F.tanh(cated_embed)
+        logit = self.linear(x)
         # print(logit.size())
         return logit
 

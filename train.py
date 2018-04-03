@@ -9,15 +9,11 @@
     FUNCTION : None
 """
 
-import os
 import sys
 import torch
 import torch.nn.functional as F
-import torch.nn.utils as utils
-import shutil
 import random
-from eval import Eval, EvalPRF
-from eval_bio import entity_evalPRF_exact
+from DataUtils.eval import Eval, EvalPRF
 from DataUtils.Common import *
 torch.manual_seed(seed_num)
 random.seed(seed_num)
@@ -30,9 +26,9 @@ def train(train_iter, dev_iter, test_iter, model, args):
     optimizer = None
     if args.adam is True:
         print("Adam Training......")
-        # optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-        optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=args.learning_rate,
-                                     weight_decay=args.weight_decay)
+        optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
+        # optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=args.learning_rate,
+        #                              weight_decay=args.weight_decay)
 
     file = open("./Test_Result.txt", encoding="UTF-8", mode="a", buffering=1)
     best_fscore = Best_Result()
@@ -51,6 +47,7 @@ def train(train_iter, dev_iter, test_iter, model, args):
         model.train()
         for batch_count, batch_features in enumerate(train_iter):
             model.zero_grad()
+            optimizer.zero_grad()
             logit = model(batch_features)
             loss_logit = logit.view(logit.size(0) * logit.size(1), logit.size(2))
             loss = F.cross_entropy(loss_logit, batch_features.label_features)
@@ -63,12 +60,15 @@ def train(train_iter, dev_iter, test_iter, model, args):
         if steps is not 0:
             dev_eval.clear_PRF()
             eval(dev_iter, model, dev_eval, file, best_fscore, epoch, args, test=False)
+            # model.train()
         if steps is not 0:
             test_eval.clear_PRF()
             eval(test_iter, model, test_eval, file, best_fscore, epoch, args, test=True)
+            # model.train()
 
 
 def eval(data_iter, model, eval_instance, file, best_fscore, epoch, args, test=False):
+    model.eval()
     # eval time
     eval_PRF = EvalPRF()
     gold_labels = []
