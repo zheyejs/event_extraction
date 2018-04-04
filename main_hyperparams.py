@@ -95,7 +95,7 @@ def main():
             os.remove("./Test_Result.txt")
 
     train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, args=config)
-    # train.train(train_iter=test_iter, dev_iter=test_iter, test_iter=test_iter, model=model, args=config)
+    # train.train(train_iter=train_iter, dev_iter=train_iter, test_iter=train_iter, model=model, args=config)
 
 
 if __name__ == "__main__":

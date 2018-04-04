@@ -26,10 +26,12 @@ class Batch_Features:
         self.word_features = 0
         self.label_features = 0
         self.sentence_length = []
+        self.desorted_indices = None
 
     def cuda(self, features):
         features.word_features = features.word_features.cuda()
         features.label_features = features.label_features.cuda()
+        features.desorted_indices = features.desorted_indices.cuda()
 
 
 class Iterators:
@@ -133,21 +135,27 @@ class Iterators:
                     # batch_label_features.data[id_inst * max_word_size + id_word_index] = operator.label_alphabet.loadWord2idAndId2Word("O")
 
         # prepare for pack_padded_sequence
-        sorted_inputs, sorted_seq_lengths = self.prepare_pack_padded_sequence(batch_word_features, sentence_length)
+        sorted_inputs_words, sorted_seq_lengths, desorted_indices = self.prepare_pack_padded_sequence(
+            batch_word_features, sentence_length)
+        # print(sorted_inputs_label)
         # batch
         features = Batch_Features()
         features.batch_length = batch_length
         features.inst = insts
-        features.word_features = sorted_inputs
+        features.word_features = sorted_inputs_words
         features.label_features = batch_label_features
         features.sentence_length = sorted_seq_lengths
+        features.desorted_indices = desorted_indices
 
         if self.args.use_cuda is True:
             features.cuda(features)
         return features
 
-    def prepare_pack_padded_sequence(self, inputs, seq_lengths, descending=True):
+    def prepare_pack_padded_sequence(self, inputs_words, seq_lengths, descending=True):
         sorted_seq_lengths, indices = torch.sort(torch.LongTensor(seq_lengths), descending=descending)
-        sorted_inputs = inputs[indices]
-        return sorted_inputs, sorted_seq_lengths.numpy()
+        # print(indices)
+        _, desorted_indices = torch.sort(indices, descending=False)
+        sorted_inputs_words = inputs_words[indices]
+        return sorted_inputs_words, sorted_seq_lengths.numpy(), desorted_indices
+
 

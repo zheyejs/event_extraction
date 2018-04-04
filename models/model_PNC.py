@@ -95,11 +95,13 @@ class PNC(nn.Module):
         sentence_length = batch_features.sentence_length
         x = self.embed(word)  # (N,W,D)
         cated_embed = self.cat_embedding(x)
+        # cated_embed = x
         cated_embed = self.dropout_embed(cated_embed)
         # cated_embed = self.dropout_embed(x)
         packed_embed = pack_padded_sequence(cated_embed, sentence_length, batch_first=True)
         x, _ = self.bilstm(packed_embed)
         x, _ = pad_packed_sequence(x, batch_first=True)
+        x = x[batch_features.desorted_indices]
         x = F.tanh(x)
         logit = self.linear(x)
         return logit
