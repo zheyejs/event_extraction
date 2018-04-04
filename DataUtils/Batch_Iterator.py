@@ -25,6 +25,7 @@ class Batch_Features:
         self.inst = None
         self.word_features = 0
         self.label_features = 0
+        self.sentence_length = []
 
     def cuda(self, features):
         features.word_features = features.word_features.cuda()
@@ -100,7 +101,9 @@ class Iterators:
         # copy with the max length for padding
         max_word_size = -1
         max_label_size = -1
+        sentence_length = []
         for inst in insts:
+            sentence_length.append(inst.words_size)
             word_size = inst.words_size
             if word_size > max_word_size:
                 max_word_size = word_size
@@ -110,33 +113,41 @@ class Iterators:
 
         # create with the Tensor/Variable
         # word features
-        batch_word_features = torch.zeros(batch_length, max_word_size).type(torch.LongTensor)
-        batch_label_features = torch.zeros(batch_length * max_word_size).type(torch.LongTensor)
+        batch_word_features = Variable(torch.zeros(batch_length, max_word_size).type(torch.LongTensor))
+        batch_label_features = Variable(torch.zeros(batch_length * max_word_size).type(torch.LongTensor))
 
         for id_inst in range(batch_length):
             inst = insts[id_inst]
             # copy with the word features
             for id_word_index in range(max_word_size):
                 if id_word_index < inst.words_size:
-                    batch_word_features[id_inst][id_word_index] = inst.words_index[id_word_index]
+                    batch_word_features.data[id_inst][id_word_index] = inst.words_index[id_word_index]
                 else:
-                    batch_word_features[id_inst][id_word_index] = operator.word_paddingId
+                    batch_word_features.data[id_inst][id_word_index] = operator.word_paddingId
 
                 if id_word_index < len(inst.label_index):
-                    batch_label_features[id_inst * max_word_size + id_word_index] = inst.label_index[id_word_index]
+                    batch_label_features.data[id_inst * max_word_size + id_word_index] = inst.label_index[id_word_index]
                 else:
                     # batch_label_features.data[id_inst * max_word_size + id_word_index] = operator.label_unkId
-                    batch_label_features[id_inst * max_word_size + id_word_index] = 0
+                    batch_label_features.data[id_inst * max_word_size + id_word_index] = 0
                     # batch_label_features.data[id_inst * max_word_size + id_word_index] = operator.label_alphabet.loadWord2idAndId2Word("O")
 
+        # prepare for pack_padded_sequence
+        sorted_inputs, sorted_seq_lengths = self.prepare_pack_padded_sequence(batch_word_features, sentence_length)
         # batch
         features = Batch_Features()
         features.batch_length = batch_length
         features.inst = insts
-        features.word_features = Variable(batch_word_features)
-        features.label_features = Variable(batch_label_features)
+        features.word_features = sorted_inputs
+        features.label_features = batch_label_features
+        features.sentence_length = sorted_seq_lengths
 
         if self.args.use_cuda is True:
             features.cuda(features)
         return features
+
+    def prepare_pack_padded_sequence(self, inputs, seq_lengths, descending=True):
+        sorted_seq_lengths, indices = torch.sort(torch.LongTensor(seq_lengths), descending=descending)
+        sorted_inputs = inputs[indices]
+        return sorted_inputs, sorted_seq_lengths.numpy()
 

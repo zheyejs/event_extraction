@@ -14,6 +14,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 from torch.autograd import Variable as Variable
+from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 import random
 import torch.nn.init as init
 import numpy as np
@@ -35,7 +36,7 @@ class PNC(nn.Module):
         C = config.class_num
         paddingId = config.paddingId
 
-        self.embed = nn.Embedding(V, D, padding_idx=paddingId)
+        self.embed = nn.Embedding(V, D, padding_idx=paddingId, max_norm=5)
         # self.embed = nn.Embedding(V, D)
 
         if config.pretrained_embed:
@@ -47,7 +48,7 @@ class PNC(nn.Module):
 
         # self.batchNorm = nn.BatchNorm1d(D * 5)
 
-        self.bilstm = nn.LSTM(input_size=D, hidden_size=config.lstm_hiddens, dropout=config.dropout, num_layers=config.lstm_layers,
+        self.bilstm = nn.LSTM(input_size=D * 5, hidden_size=config.lstm_hiddens, dropout=config.dropout, num_layers=config.lstm_layers,
                               bidirectional=True, bias=True)
         # self.init_lstm()
         # init.xavier_uniform(self.bilstm.all_weights[0][0])
@@ -55,7 +56,7 @@ class PNC(nn.Module):
 
         # self.linear = nn.Linear(in_features=D * self.cat_size, out_features=C, bias=True)
         self.linear = nn.Linear(in_features=config.lstm_hiddens * 2, out_features=C, bias=True)
-        init.xavier_uniform(self.linear.weight)
+        # init.xavier_uniform(self.linear.weight)
         # self.linear.bias.data.uniform_(-np.sqrt(6 / (config.lstm_hiddens + 1)), np.sqrt(6 / (config.lstm_hiddens + 1)))
 
     def init_lstm(self):
@@ -91,16 +92,15 @@ class PNC(nn.Module):
 
     def forward(self, batch_features):
         word = batch_features.word_features
-        # print(word)
-        # print(self.args.create_alphabet.word_alphabet.from_id(word.data[0][0]))
-
+        sentence_length = batch_features.sentence_length
         x = self.embed(word)  # (N,W,D)
-        # cated_embed = self.cat_embedding(x)
-        cated_embed = self.dropout_embed(x)
-        x, _ = self.bilstm(cated_embed)
-        # cated_embed = self.batchNorm(cated_embed.permute(0, 2, 1))
+        cated_embed = self.cat_embedding(x)
+        cated_embed = self.dropout_embed(cated_embed)
+        # cated_embed = self.dropout_embed(x)
+        packed_embed = pack_padded_sequence(cated_embed, sentence_length, batch_first=True)
+        x, _ = self.bilstm(packed_embed)
+        x, _ = pad_packed_sequence(x, batch_first=True)
         x = F.tanh(x)
         logit = self.linear(x)
-        # print(logit.size())
         return logit
 

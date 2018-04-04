@@ -53,8 +53,8 @@ def train(train_iter, dev_iter, test_iter, model, args):
         for batch_count, batch_features in enumerate(train_iter):
             logit = model(batch_features)
             getAcc(train_eval, batch_features, logit, args)
-            loss_logit = logit.view(logit.size(0) * logit.size(1), logit.size(2))
-            loss = F.cross_entropy(loss_logit, batch_features.label_features)
+            # loss_logit = logit.view(logit.size(0) * logit.size(1), logit.size(2))
+            loss = F.cross_entropy(logit.view(logit.size(0) * logit.size(1), -1), batch_features.label_features)
             loss.backward()
             if args.clip_max_norm is not None:
                 utils.clip_grad_norm(model.parameters(), max_norm=args.clip_max_norm)

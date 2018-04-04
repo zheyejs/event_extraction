@@ -5,10 +5,8 @@
 # @Contact : bamtercelboo@{gmail.com, 163.com}
 
 """
-    FILE :  DataConll2003_Loader.py
+    FILE :
     FUNCTION :
-        Loading conll2003 dataset
-        Download From Here : https://www.clips.uantwerpen.be/conll2003/ner/
 """
 import sys
 import re
@@ -79,8 +77,8 @@ class DataLoader():
                     word = line[0]
                     inst.words.append(word.lower())
                     inst.labels.append(line[1])
-                # if len(insts) == 32:
-                #     break
+                if len(insts) == 32:
+                    break
             if len(inst.words) != 0:
                 inst.words_size = len(inst.words)
                 insts.append(inst)
