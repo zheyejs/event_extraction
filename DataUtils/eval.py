@@ -63,8 +63,6 @@ class EvalPRF:
             if p in gold_ent:
                 count += 1
                 eval.correct_num += 1
-        # print("count", count)
-        # print("correct_num", eval.correct_num)
 
     def get_ent(self, labels):
         idx = 0
@@ -88,8 +86,6 @@ class EvalPRF:
 
     def cleanLabel(self, label):
         start_label = ['B', 'b', 'M', 'm', 'E', 'e', 'S', 's', 'I', 'i']
-        # start_label = ['B', 'b', 'M', 'm', 'E', 'e', 'S', 's', 'I', 'i', 'O', 'o']
-        # start_label = ['B', 'b', "I", 'i']
         if len(label) > 2 and label[1] == '-':
             if label[0] in start_label:
                 return label[2:]
@@ -104,8 +100,6 @@ class EvalPRF:
             return False
         if (startLabel[0] == 's' or startLabel[0] == 'S') and startLabel[1] == '-':
             return False
-        # if (startLabel[0] == 'B' or startLabel[0] == 'b') and startLabel[1] == '-':
-        #     return False
         if self.cleanLabel(label) != self.cleanLabel(startLabel):
             return False
         return True

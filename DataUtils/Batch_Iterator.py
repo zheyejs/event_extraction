@@ -132,12 +132,14 @@ class Iterators:
                 else:
                     batch_label_features.data[id_inst * max_word_size + id_word_index] = operator.label_paddingId
                     # batch_label_features.data[id_inst * max_word_size + id_word_index] = 0
-                    # batch_label_features.data[id_inst * max_word_size + id_word_index] = operator.label_alphabet.loadWord2idAndId2Word("O")
+
+        # prepare for window size feature
+        self.prepare_winfeature(batch_word_features)
 
         # prepare for pack_padded_sequence
         sorted_inputs_words, sorted_seq_lengths, desorted_indices = self.prepare_pack_padded_sequence(
             batch_word_features, sentence_length)
-        # print(sorted_inputs_label)
+
         # batch
         features = Batch_Features()
         features.batch_length = batch_length
@@ -153,9 +155,25 @@ class Iterators:
 
     def prepare_pack_padded_sequence(self, inputs_words, seq_lengths, descending=True):
         sorted_seq_lengths, indices = torch.sort(torch.LongTensor(seq_lengths), descending=descending)
-        # print(indices)
         _, desorted_indices = torch.sort(indices, descending=False)
         sorted_inputs_words = inputs_words[indices]
         return sorted_inputs_words, sorted_seq_lengths.numpy(), desorted_indices
+
+    def prepare_winfeature(self, feat, wsize=5):
+        print("prepare for windows feature")
+        B, T = feat.size()
+        assert (wsize % 2 != 0), "win feature size mube be a odd number"
+        winfeat = torch.LongTensor(B, T, wsize)
+        wsizehalf = wsize // 2
+        print("B, T", B, T)
+        print("winfeat", winfeat.size())
+        print("feat size", feat.size())
+        for b in range(B):
+            for t in range(T):
+                for w in range(wsize):
+                    if t < wsizehalf:
+                        winfeat[b][t][w] = T
+                        continue
+                    winfeat[b][t][w] = t + w
 
 
