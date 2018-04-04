@@ -130,8 +130,8 @@ class Iterators:
                 if id_word_index < len(inst.label_index):
                     batch_label_features.data[id_inst * max_word_size + id_word_index] = inst.label_index[id_word_index]
                 else:
-                    # batch_label_features.data[id_inst * max_word_size + id_word_index] = operator.label_unkId
-                    batch_label_features.data[id_inst * max_word_size + id_word_index] = 0
+                    batch_label_features.data[id_inst * max_word_size + id_word_index] = operator.label_paddingId
+                    # batch_label_features.data[id_inst * max_word_size + id_word_index] = 0
                     # batch_label_features.data[id_inst * max_word_size + id_word_index] = operator.label_alphabet.loadWord2idAndId2Word("O")
 
         # prepare for pack_padded_sequence

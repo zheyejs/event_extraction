@@ -71,6 +71,7 @@ def main():
     config.embed_num = create_alphabet.word_alphabet.vocab_size
     config.class_num = create_alphabet.label_alphabet.vocab_size
     config.paddingId = create_alphabet.word_paddingId
+    config.label_paddingId = create_alphabet.label_paddingId
     config.create_alphabet = create_alphabet
     print("embed_num : {}, class_num : {}".format(config.embed_num, config.class_num))
     print("PaddingID {}".format(config.paddingId))
