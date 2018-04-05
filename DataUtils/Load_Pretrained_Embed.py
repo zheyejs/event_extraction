@@ -39,10 +39,10 @@ def load_pretrained_emb_zeros(path, text_field_words_dict, pad=None, set_padding
                 break
     f.close()
     word_count = len(text_field_words_dict)
-    print('The number of wordsDict is {} \nThe dim of pretrained embedding is {}\n'.format(str(word_count),
+    print('The number of wordsDict is {} \nThe dim of pretrained embedding is {}'.format(str(word_count),
                                                                                            str(embedding_dim)))
     embeddings = np.zeros((int(word_count), int(embedding_dim)))
-    iov_num = 0
+    iv_num = 0
     oov_num = 0
     with open(path, encoding='utf-8') as f:
         lines = f.readlines()
@@ -53,60 +53,14 @@ def load_pretrained_emb_zeros(path, text_field_words_dict, pad=None, set_padding
                 continue
             index = text_field_words_dict.get(values[0])  # digit or None
             if index:
-                iov_num += 1
+                iv_num += 1
                 vector = np.array([float(i) for i in values[1:]], dtype='float32')
                 embeddings[index] = vector
-            else:
-                oov_num += 1
-    f.close()
 
+    f.close()
+    oov_num = word_count - iv_num
+    print("iov_num {} oov_num {} oov_radio {:.4f}%".format(iv_num, oov_num, round((oov_num / word_count) * 100, 4)))
     return torch.from_numpy(embeddings).float()
-
-
-def calculate_oov(path, text_field_words_dict, pad=None, set_padding=False):
-    if not isinstance(text_field_words_dict, dict):
-        text_field_words_dict = convert_list2dict(text_field_words_dict)
-    if pad is not None:
-        padID = text_field_words_dict[pad]
-    embedding_dim = -1
-    with open(path, encoding='utf-8') as f:
-        for line in f:
-            line_split = line.strip().split(' ')
-            if len(line_split) == 1:
-                embedding_dim = line_split[0]
-                break
-            elif len(line_split) == 2:
-                embedding_dim = line_split[1]
-                break
-            else:
-                embedding_dim = len(line_split) - 1
-                break
-    f.close()
-    word_count = len(text_field_words_dict)
-    print('The number of wordsDict is {} \nThe dim of pretrained embedding is {}\n'.format(str(word_count),
-                                                                                           str(embedding_dim)))
-    embeddings = np.zeros((int(word_count), int(embedding_dim)))
-    iov_num = 0
-    oov_num = 0
-    word_list = []
-    with open(path, encoding='utf-8') as f:
-        lines = f.readlines()
-        # lines = tqdm.tqdm(lines)
-        for line in lines:
-            values = line.strip().split(' ')
-            if len(values) == 1 or len(values) == 2:
-                continue
-            word_list.append(values[0])
-    f.close()
-
-    for w in text_field_words_dict:
-        # print(w)
-        if w in word_list:
-            iov_num += 1
-        else:
-            oov_num += 1
-
-    print("\niov_num {} oov_num {} oov_radio {}".format(iov_num, oov_num, round((oov_num / (oov_num + iov_num)), 2)))
 
 
 def load_pretrained_emb_avg(path, text_field_words_dict, pad=None, set_padding=False):

@@ -28,13 +28,19 @@ def train(train_iter, dev_iter, test_iter, model, config):
     optimizer = None
     if config.adam is True:
         print("Adam Training......")
-        optimizer = torch.optim.Adam(model.parameters(), lr=config.learning_rate, weight_decay=config.weight_decay)
-        # optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=config.learning_rate,
-        #                              weight_decay=config.weight_decay)
+        if config.embed_finetune is True:
+            optimizer = torch.optim.Adam(model.parameters(), lr=config.learning_rate, weight_decay=config.weight_decay)
+        else:
+            optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=config.learning_rate,
+                                         weight_decay=config.weight_decay)
 
     if config.sgd is True:
         print("SGD Training......")
-        optimizer = torch.optim.SGD(model.parameters(), lr=config.learning_rate, weight_decay=config.weight_decay)
+        if config.embed_finetune is True:
+            optimizer = torch.optim.SGD(model.parameters(), lr=config.learning_rate, weight_decay=config.weight_decay)
+        else:
+            optimizer = torch.optim.SGD(filter(lambda p: p.requires_grad, model.parameters()), lr=config.learning_rate,
+                                        weight_decay=config.weight_decay)
 
     best_fscore = Best_Result()
 
