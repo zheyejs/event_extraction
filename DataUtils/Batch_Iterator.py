@@ -27,13 +27,13 @@ class Batch_Features:
         self.label_features = 0
         self.sentence_length = []
         self.desorted_indices = None
-        self.winfeat_batch = None
+        self.context_indices = None
 
     def cuda(self, features):
         features.word_features = features.word_features.cuda()
         features.label_features = features.label_features.cuda()
         features.desorted_indices = features.desorted_indices.cuda()
-        features.winfeat_batch = features.winfeat_batch.cuda()
+        features.context_indices = features.context_indices.cuda()
 
 
 class Iterators:
@@ -135,9 +135,9 @@ class Iterators:
                     batch_label_features.data[id_inst * max_word_size + id_word_index] = operator.label_paddingId
                     # batch_label_features.data[id_inst * max_word_size + id_word_index] = 0
 
-        # prepare for window size feature
+        # prepare for window context feature
         B, T = batch_word_features.size()
-        winfeat_batch = self.prepare_winfeature(B, T)
+        context_indices = self.prepare_winfeature(B, T)
 
         # prepare for pack_padded_sequence
         sorted_inputs_words, sorted_seq_lengths, desorted_indices = self.prepare_pack_padded_sequence(
@@ -151,7 +151,7 @@ class Iterators:
         features.label_features = batch_label_features
         features.sentence_length = sorted_seq_lengths
         features.desorted_indices = desorted_indices
-        features.winfeat_batch = winfeat_batch
+        features.context_indices = context_indices
 
         if self.args.use_cuda is True:
             features.cuda(features)
@@ -166,7 +166,8 @@ class Iterators:
     def prepare_winfeature(self, B, T, wsize=5):
         assert (wsize % 2 != 0), "win feature size mube be a odd number"
         winfeat = torch.zeros(T, wsize)
-        winfeat_batch = torch.zeros(B, T, wsize)
+        # winfeat_batch = torch.LongTensor([B, T, wsize])
+        winfeat_batch = torch.zeros(B, T, wsize).type(torch.LongTensor)
         wsizehalf = wsize // 2
         for t in range(T):
             for w in range(-wsizehalf, wsizehalf + 1):
@@ -174,6 +175,7 @@ class Iterators:
                     winfeat[t][w + wsizehalf] = T
                     continue
                 winfeat[t][w + wsizehalf] = w + t
+        print(winfeat)
         for b in range(B):
             winfeat_batch[b] = winfeat
 

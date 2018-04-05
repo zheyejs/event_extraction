@@ -18,6 +18,9 @@ from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 import random
 import torch.nn.init as init
 import numpy as np
+import time
+
+from wheel.signatures import assertTrue
 
 from DataUtils.Common import *
 torch.manual_seed(seed_num)
@@ -90,19 +93,79 @@ class PNC(nn.Module):
         # print("cated", cated_embed)
         return cated_embed
 
+    def context_embed(self, embed, batch_features):
+        context_indices = batch_features.context_indices
+        B, T, WS = context_indices.size()
+        B_embed, T_embed, dim = embed.size()
+        if assertTrue((B == B_embed) and (T == T_embed)) is False:
+            print("invalid argument")
+            exit()
+        print("context_indices", context_indices.size())
+        print("BTWS", B, T, WS)
+        # pad_embed = Variable(torch.zeros(B, dim))
+        # print(pad_embed.size())
+        # print((embed.view(B * T, -1)).size())
+        # embed = torch.cat((embed.view(B * T, -1), pad_embed), 0)
+        # print("embed", embed.size())
+        # embed = embed.view(B * (T + B), -1)
+        context_indices = context_indices.view(B, T * WS)
+        if self.args.use_cuda is True:
+            context_np = context_indices.data.cpu().numpy()
+        else:
+            context_np = np.copy(context_indices.data.numpy())
+        # context_np = context_indices.data.numpy()
+        for i in range(B):
+            for j in range(T * WS):
+                context_np[i][j] = T * i + context_np[i][j]
+        if self.args.use_cuda is True:
+            context_indices = Variable(torch.from_numpy(context_np)).cuda()
+        else:
+            context_indices = Variable(torch.from_numpy(context_np))
+        context_indices = context_indices.view(context_indices.size(0) * context_indices.size(1))
+
+        print(context_indices)
+        embed = embed.view(B * T, dim)
+        if self.args.use_cuda is True:
+            pad_embed = Variable(torch.zeros(1, dim)).cuda()
+        else:
+            pad_embed = Variable(torch.zeros(1, dim))
+        embed = torch.cat((embed, pad_embed), 0)
+        print(embed.size())
+        context_embed = torch.index_select(embed, 0, context_indices)
+        context_embed = context_embed.view(B, T, -1)
+
+        return context_embed
+
     def forward(self, batch_features):
         word = batch_features.word_features
         sentence_length = batch_features.sentence_length
         x = self.embed(word)  # (N,W,D)
-        cated_embed = self.cat_embedding(x)
-        # cated_embed = x
-        cated_embed = self.dropout_embed(cated_embed)
-        # cated_embed = self.dropout_embed(x)
-        packed_embed = pack_padded_sequence(cated_embed, sentence_length, batch_first=True)
+        context_embed = self.context_embed(x, batch_features)
+        context_embed = self.dropout_embed(context_embed)
+        packed_embed = pack_padded_sequence(context_embed, sentence_length, batch_first=True)
         x, _ = self.bilstm(packed_embed)
         x, _ = pad_packed_sequence(x, batch_first=True)
         x = x[batch_features.desorted_indices]
         x = F.tanh(x)
         logit = self.linear(x)
         return logit
+
+    # def forward(self, batch_features):
+    #     word = batch_features.word_features
+    #     sentence_length = batch_features.sentence_length
+    #     x = self.embed(word)  # (N,W,D)
+    #     start_time = time.time()
+    #     cated_embed = self.cat_embedding(x)
+    #     end_time = time.time()
+    #     print("Time", end_time - start_time)
+    #     # cated_embed = x
+    #     cated_embed = self.dropout_embed(cated_embed)
+    #     # cated_embed = self.dropout_embed(x)
+    #     packed_embed = pack_padded_sequence(cated_embed, sentence_length, batch_first=True)
+    #     x, _ = self.bilstm(packed_embed)
+    #     x, _ = pad_packed_sequence(x, batch_first=True)
+    #     x = x[batch_features.desorted_indices]
+    #     x = F.tanh(x)
+    #     logit = self.linear(x)
+    #     return logit
 
