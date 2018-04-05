@@ -17,7 +17,7 @@ from DataUtils.Batch_Iterator import *
 from Dataloader import DataLoader_NER
 from DataUtils.Load_Pretrained_Embed import *
 from DataUtils.Common import seed_num, paddingkey
-from models.model_PNC import *
+from models.BiLSTM import *
 import train
 import random
 import shutil
@@ -53,7 +53,7 @@ def load_Data(config):
         # batch_size=[config.batch_size, len(dev_data), len(test_data)],
         batch_size=[config.batch_size, config.batch_size, config.batch_size],
         data=[train_data, dev_data, test_data], operator=create_alphabet,
-        args=config)
+        config=config)
     return train_iter, dev_iter, test_iter, create_alphabet
 
 
@@ -86,17 +86,14 @@ def main():
     model = None
     if config.model_BiLstm is True:
         print("loading model.....")
-        model = PNC(config)
-        # shutil.copytree("./models", config.save_dir)
+        model = BiLSTM(config)
         print(model)
         if config.use_cuda is True:
             model = model.cuda()
         print("Training Start......")
-        if os.path.exists("./Test_Result.txt"):
-            os.remove("./Test_Result.txt")
 
-    # train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, args=config)
-    train.train(train_iter=train_iter, dev_iter=train_iter, test_iter=train_iter, model=model, args=config)
+    train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
+    # train.train(train_iter=train_iter, dev_iter=train_iter, test_iter=train_iter, model=model, config=config)
 
 
 if __name__ == "__main__":

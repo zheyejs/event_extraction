@@ -84,6 +84,10 @@ class Configurable(object):
     def dropout(self):
         return self._config.getfloat("Model", "dropout")
 
+    @property
+    def windows_size(self):
+        return self._config.getint("Model", "windows_size")
+
     # Optimizer
     @property
     def adam(self):

@@ -25,11 +25,11 @@ class CreateAlphabet:
         Function:   Build Alphabet By Alphabet Class
         Notice:     The Class Need To Change So That Complete All Kinds Of Tasks
     """
-    def __init__(self, min_freq=1, args=None):
+    def __init__(self, min_freq=1, config=None):
 
         # minimum vocab size
         self.min_freq = min_freq
-        self.args = args
+        self.config = config
 
         # storage word and label
         self.word_state = collections.OrderedDict()

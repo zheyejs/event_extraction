@@ -76,9 +76,9 @@ class DataLoader():
                     # print(line)
                     word = line[0]
                     inst.words.append(word.lower())
-                    inst.labels.append(line[1])
-                # if len(insts) == 32:
-                  #   break
+                    inst.labels.append(line[-1])
+                if len(insts) == 32:
+                    break
             if len(inst.words) != 0:
                 inst.words_size = len(inst.words)
                 insts.append(inst)
