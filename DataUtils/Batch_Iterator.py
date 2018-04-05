@@ -27,11 +27,13 @@ class Batch_Features:
         self.label_features = 0
         self.sentence_length = []
         self.desorted_indices = None
+        self.winfeat_batch = None
 
     def cuda(self, features):
         features.word_features = features.word_features.cuda()
         features.label_features = features.label_features.cuda()
         features.desorted_indices = features.desorted_indices.cuda()
+        features.winfeat_batch = features.winfeat_batch.cuda()
 
 
 class Iterators:
@@ -134,7 +136,8 @@ class Iterators:
                     # batch_label_features.data[id_inst * max_word_size + id_word_index] = 0
 
         # prepare for window size feature
-        self.prepare_winfeature(batch_word_features)
+        B, T = batch_word_features.size()
+        winfeat_batch = self.prepare_winfeature(B, T)
 
         # prepare for pack_padded_sequence
         sorted_inputs_words, sorted_seq_lengths, desorted_indices = self.prepare_pack_padded_sequence(
@@ -148,6 +151,7 @@ class Iterators:
         features.label_features = batch_label_features
         features.sentence_length = sorted_seq_lengths
         features.desorted_indices = desorted_indices
+        features.winfeat_batch = winfeat_batch
 
         if self.args.use_cuda is True:
             features.cuda(features)
@@ -159,21 +163,26 @@ class Iterators:
         sorted_inputs_words = inputs_words[indices]
         return sorted_inputs_words, sorted_seq_lengths.numpy(), desorted_indices
 
-    def prepare_winfeature(self, feat, wsize=5):
-        print("prepare for windows feature")
-        B, T = feat.size()
+    def prepare_winfeature(self, B, T, wsize=5):
         assert (wsize % 2 != 0), "win feature size mube be a odd number"
-        winfeat = torch.LongTensor(B, T, wsize)
+        winfeat = torch.zeros(T, wsize)
+        winfeat_batch = torch.zeros(B, T, wsize)
         wsizehalf = wsize // 2
-        print("B, T", B, T)
-        print("winfeat", winfeat.size())
-        print("feat size", feat.size())
+        for t in range(T):
+            for w in range(-wsizehalf, wsizehalf + 1):
+                if (w + t) < 0 or (w + t + 1) > T:
+                    winfeat[t][w + wsizehalf] = T
+                    continue
+                winfeat[t][w + wsizehalf] = w + t
         for b in range(B):
-            for t in range(T):
-                for w in range(wsize):
-                    if t < wsizehalf:
-                        winfeat[b][t][w] = T
-                        continue
-                    winfeat[b][t][w] = t + w
+            winfeat_batch[b] = winfeat
+
+        winfeat_batch = Variable(winfeat_batch)
+        return winfeat_batch
+
+
+
+
+
 
 
