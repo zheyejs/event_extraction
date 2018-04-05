@@ -73,6 +73,10 @@ class Configurable(object):
         return self._config.getint("Model", "embed_dim")
 
     @property
+    def embed_finetune(self):
+        return self._config.getboolean("Model", "embed_finetune")
+
+    @property
     def lstm_hiddens(self):
         return self._config.getint("Model", "lstm_hiddens")
 

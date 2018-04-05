@@ -39,12 +39,12 @@ class BiLSTM(nn.Module):
         C = config.class_num
         paddingId = config.paddingId
 
-        self.embed = nn.Embedding(V, D, padding_idx=paddingId, max_norm=5)
+        self.embed = nn.Embedding(V, D, padding_idx=paddingId)
         # self.embed = nn.Embedding(V, D)
 
         if config.pretrained_embed:
             self.embed.weight.data.copy_(config.pretrained_weight)
-        # self.embed.weight.requires_grad = False
+        self.embed.weight.requires_grad = self.config.embed_finetune
 
         self.dropout_embed = nn.Dropout(config.dropout_emb)
         self.dropout = nn.Dropout(config.dropout)
