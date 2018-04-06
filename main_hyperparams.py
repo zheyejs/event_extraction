@@ -107,8 +107,8 @@ if __name__ == "__main__":
     config = configurable.Configurable(config_file=args.config_file)
     if config.use_cuda is True:
         print("Using GPU To Train......")
-        torch.backends.cudnn.enabled = True
-        torch.backends.cudnn.deterministic = True
+        # torch.backends.cudnn.enabled = True
+        # torch.backends.cudnn.deterministic = True
         torch.cuda.manual_seed(seed_num)
         torch.cuda.manual_seed_all(seed_num)
         print("torch.cuda.initial_seed", torch.cuda.initial_seed())

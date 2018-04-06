@@ -131,6 +131,8 @@ def eval(data_iter, model, eval_instance, best_fscore, epoch, config, test=False
                                                                                  best_fscore.best_epoch))
         print("The Current Best Test Result: precision = {:.6f}%  recall = {:.6f}% , f-score = {:.6f}%".format(
             best_fscore.p, best_fscore.r, best_fscore.f))
+    if test is True:
+        best_fscore.best_test = False
 
 
 def getMaxindex(model_out, label_size, args):
