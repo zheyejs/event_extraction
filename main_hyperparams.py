@@ -44,8 +44,10 @@ def load_Data(config):
 
     # create the alphabet
     create_alphabet = CreateAlphabet(min_freq=config.min_freq)
-    # create_alphabet.build_vocab(train_data=train_data, dev_data=dev_data, test_data=test_data)
-    create_alphabet.build_vocab(train_data=train_data)
+    if config.embed_finetune is False:
+        create_alphabet.build_vocab(train_data=train_data, dev_data=dev_data, test_data=test_data)
+    if config.embed_finetune is True:
+        create_alphabet.build_vocab(train_data=train_data)
 
     # create iterator
     create_iter = Iterators()
