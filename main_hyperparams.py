@@ -100,6 +100,7 @@ def main():
 
 if __name__ == "__main__":
 
+    print("Process ID {}, Process Parent ID {}".format(os.getpid(), os.getppid()))
     parser = argparse.ArgumentParser(description="Chinese NER & POS")
     parser.add_argument('--config_file', default="./Config/config.cfg")
     args = parser.parse_args()
