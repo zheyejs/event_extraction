@@ -53,7 +53,9 @@ class DataLoader():
             if shuffle is True:
                 print("shuffle data......")
                 random.shuffle(insts)
-            self.data_list.append(insts)
+            # sorted(inst)
+            sorted_insts = self.sort(insts)
+            self.data_list.append(sorted_insts)
         # return train/dev/test data
         if len(self.data_list) == 3:
             return self.data_list[0], self.data_list[1], self.data_list[2]
@@ -84,6 +86,17 @@ class DataLoader():
                 insts.append(inst)
             # print("\n")
         return insts
+
+    def sort(self, insts):
+        sorted_insts  = []
+        sorted_dict = {}
+        for id_inst, inst in enumerate(insts):
+            sorted_dict[id_inst] = inst.words_size
+        dict = sorted(sorted_dict.items(), key=lambda d: d[1], reverse=True)
+        for key, value in dict:
+            sorted_insts.append(insts[key])
+        print("Sort Finished.")
+        return sorted_insts
 
 
 if __name__ == "__main__":

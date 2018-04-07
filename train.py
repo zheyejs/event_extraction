@@ -58,17 +58,20 @@ def train(train_iter, dev_iter, test_iter, model, config):
         random.shuffle(train_iter)
         model.train()
         for batch_count, batch_features in enumerate(train_iter):
+            model.zero_grad()
+            optimizer.zero_grad()
+            # if config.use_cuda is True:
+            #     batch_features.label_features = batch_features.label_features.cuda()
             logit = model(batch_features)
             getAcc(train_eval, batch_features, logit, config)
             # loss_logit = logit.view(logit.size(0) * logit.size(1), logit.size(2))
             loss = F.cross_entropy(logit.view(logit.size(0) * logit.size(1), -1), batch_features.label_features,
                                    ignore_index=config.label_paddingId)
             loss.backward()
-            if config.clip_max_norm is not None:
-                utils.clip_grad_norm(model.parameters(), max_norm=config.clip_max_norm)
+            # if config.clip_max_norm is not None:
+            #     utils.clip_grad_norm(model.parameters(), max_norm=config.clip_max_norm)
             optimizer.step()
-            model.zero_grad()
-            optimizer.zero_grad()
+
 
             steps += 1
             if steps % config.log_interval == 0:
