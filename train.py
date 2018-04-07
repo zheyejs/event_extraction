@@ -57,13 +57,13 @@ def train(train_iter, dev_iter, test_iter, model, config):
         start_time = time.time()
         random.shuffle(train_iter)
         model.train()
+        steps = 0
         for batch_count, batch_features in enumerate(train_iter):
             model.zero_grad()
             optimizer.zero_grad()
             # if config.use_cuda is True:
             #     batch_features.label_features = batch_features.label_features.cuda()
             logit = model(batch_features)
-            getAcc(train_eval, batch_features, logit, config)
             # loss_logit = logit.view(logit.size(0) * logit.size(1), logit.size(2))
             loss = F.cross_entropy(logit.view(logit.size(0) * logit.size(1), -1), batch_features.label_features,
                                    ignore_index=config.label_paddingId)
@@ -71,12 +71,12 @@ def train(train_iter, dev_iter, test_iter, model, config):
             # if config.clip_max_norm is not None:
             #     utils.clip_grad_norm(model.parameters(), max_norm=config.clip_max_norm)
             optimizer.step()
-
-
             steps += 1
             if steps % config.log_interval == 0:
-                sys.stdout.write("\rbatch_count = [{}] , loss is {:.6f}, [TAG-ACC is {:.6f}%]".format(batch_count + 1,
+                getAcc(train_eval, batch_features, logit, config)
+                sys.stdout.write("\nbatch_count = [{}] , loss is {:.6f}, [TAG-ACC is {:.6f}%]".format(batch_count + 1,
                                  loss.data[0], train_eval.acc()))
+
         end_time = time.time()
         print("\nTrain Time {:.3f}".format(end_time - start_time), end="")
         if steps is not 0:
@@ -104,7 +104,7 @@ def eval(data_iter, model, eval_instance, best_fscore, epoch, config, test=False
     predict_labels = []
     for batch_features in data_iter:
         logit = model(batch_features)
-        getAcc(eval_acc, batch_features, logit, config)
+        # getAcc(eval_acc, batch_features, logit, config)
         for id_batch in range(batch_features.batch_length):
             inst = batch_features.inst[id_batch]
             predict_label = []
@@ -114,7 +114,8 @@ def eval(data_iter, model, eval_instance, best_fscore, epoch, config, test=False
             gold_labels.append(inst.labels)
             predict_labels.append(predict_label)
             eval_PRF.evalPRF(predict_labels=predict_label, gold_labels=inst.labels, eval=eval_instance)
-
+    if eval_acc.gold_num == 0:
+        eval_acc.gold_num = 1
     p, r, f = eval_instance.getFscore()
     test_flag = "Test"
     if test is False:
