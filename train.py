@@ -217,10 +217,10 @@ def getAcc(eval_acc, batch_features, logit, args):
         inst = batch_features.inst[id_batch]
         predict_label = []
         gold_lable = inst.labels
+        maxId_batch = getMaxindex_np(logit[id_batch])
         for id_word in range(inst.words_size):
             # maxId = getMaxindex(logit[id_batch][id_word], logit.size(2), args)
-            maxId = getMaxindex_np(logit[id_batch][id_word])
-            predict_label.append(args.create_alphabet.label_alphabet.from_id(maxId))
+            predict_label.append(args.create_alphabet.label_alphabet.from_id(maxId_batch[id_word]))
         assert len(predict_label) == len(gold_lable)
         cor = 0
         for p_lable, g_lable in zip(predict_label, gold_lable):
