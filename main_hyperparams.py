@@ -53,7 +53,7 @@ def load_Data(config):
     create_iter = Iterators()
     train_iter, dev_iter, test_iter = create_iter.createIterator(
         # batch_size=[config.batch_size, len(dev_data), len(test_data)],
-        batch_size=[config.batch_size, config.batch_size, config.batch_size],
+        batch_size=[config.batch_size, config.dev_batch_size, config.test_batch_size],
         data=[train_data, dev_data, test_data], operator=create_alphabet,
         config=config)
     return train_iter, dev_iter, test_iter, create_alphabet

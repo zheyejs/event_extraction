@@ -14,6 +14,7 @@ import torch
 import torch.nn.functional as F
 import torch.nn.utils as utils
 import random
+import numpy as np
 import time
 from DataUtils.eval import Eval, EvalPRF
 from DataUtils.Common import *
@@ -109,11 +110,14 @@ def eval(data_iter, model, eval_instance, best_fscore, epoch, config, test=False
             inst = batch_features.inst[id_batch]
             predict_label = []
             for id_word in range(inst.words_size):
-                maxId = getMaxindex(logit[id_batch][id_word], logit.size(2), config)
+                # maxId = getMaxindex(logit[id_batch][id_word], logit.size(2), config)
+                maxId = getMaxindex_np(logit[id_batch][id_word])
                 predict_label.append(config.create_alphabet.label_alphabet.from_id(maxId))
             gold_labels.append(inst.labels)
             predict_labels.append(predict_label)
-            eval_PRF.evalPRF(predict_labels=predict_label, gold_labels=inst.labels, eval=eval_instance)
+            # eval_PRF.evalPRF(predict_labels=predict_label, gold_labels=inst.labels, eval=eval_instance)
+    for p_label, g_label in zip(predict_labels, gold_labels):
+        eval_PRF.evalPRF(predict_labels=p_label, gold_labels=g_label, eval=eval_instance)
     if eval_acc.gold_num == 0:
         eval_acc.gold_num = 1
     p, r, f = eval_instance.getFscore()
@@ -150,6 +154,12 @@ def getMaxindex(model_out, label_size, args):
     return maxIndex
 
 
+def getMaxindex_np(model_out):
+    model_out_list = model_out.data.tolist()
+    maxIndex = model_out_list.index(np.max(model_out_list))
+    return maxIndex
+
+
 def getAcc(eval_acc, batch_features, logit, args):
     eval_acc.clear_PRF()
     for id_batch in range(batch_features.batch_length):
@@ -157,7 +167,8 @@ def getAcc(eval_acc, batch_features, logit, args):
         predict_label = []
         gold_lable = inst.labels
         for id_word in range(inst.words_size):
-            maxId = getMaxindex(logit[id_batch][id_word], logit.size(2), args)
+            # maxId = getMaxindex(logit[id_batch][id_word], logit.size(2), args)
+            maxId = getMaxindex_np(logit[id_batch][id_word])
             predict_label.append(args.create_alphabet.label_alphabet.from_id(maxId))
         assert len(predict_label) == len(gold_lable)
         cor = 0
