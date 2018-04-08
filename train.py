@@ -83,14 +83,16 @@ def train(train_iter, dev_iter, test_iter, model, config):
         if steps is not 0:
             dev_eval.clear_PRF()
             eval_start_time = time.time()
-            eval(dev_iter, model, dev_eval, best_fscore, epoch, config, test=False)
+            # eval(dev_iter, model, dev_eval, best_fscore, epoch, config, test=False)
+            eval_batch(dev_iter, model, dev_eval, best_fscore, epoch, config, test=False)
             eval_end_time = time.time()
             print("Dev Time {:.3f}".format(eval_end_time - eval_start_time))
             # model.train()
         if steps is not 0:
             test_eval.clear_PRF()
             eval_start_time = time.time()
-            eval(test_iter, model, test_eval, best_fscore, epoch, config, test=True)
+            # eval(test_iter, model, test_eval, best_fscore, epoch, config, test=True)
+            eval_batch(test_iter, model, test_eval, best_fscore, epoch, config, test=True)
             eval_end_time = time.time()
             print("Test Time {:.3f}".format(eval_end_time - eval_start_time))
             # model.train()
@@ -105,12 +107,10 @@ def eval(data_iter, model, eval_instance, best_fscore, epoch, config, test=False
     predict_labels = []
     for batch_features in data_iter:
         logit = model(batch_features)
-        # getAcc(eval_acc, batch_features, logit, config)
         for id_batch in range(batch_features.batch_length):
             inst = batch_features.inst[id_batch]
             predict_label = []
             for id_word in range(inst.words_size):
-                # maxId = getMaxindex(logit[id_batch][id_word], logit.size(2), config)
                 maxId = getMaxindex_np(logit[id_batch][id_word])
                 predict_label.append(config.create_alphabet.label_alphabet.from_id(maxId))
             gold_labels.append(inst.labels)
@@ -143,8 +143,51 @@ def eval(data_iter, model, eval_instance, best_fscore, epoch, config, test=False
         best_fscore.best_test = False
 
 
+def eval_batch(data_iter, model, eval_instance, best_fscore, epoch, config, test=False):
+    model.eval()
+    # eval time
+    eval_acc = Eval()
+    eval_PRF = EvalPRF()
+    gold_labels = []
+    predict_labels = []
+    for batch_features in data_iter:
+        logit = model(batch_features)
+        for id_batch in range(batch_features.batch_length):
+            inst = batch_features.inst[id_batch]
+            maxId_batch = getMaxindex_batch(logit[id_batch])
+            predict_label = []
+            for id_word in range(inst.words_size):
+                predict_label.append(config.create_alphabet.label_alphabet.from_id(maxId_batch[id_word]))
+            gold_labels.append(inst.labels)
+            predict_labels.append(predict_label)
+    for p_label, g_label in zip(predict_labels, gold_labels):
+        eval_PRF.evalPRF(predict_labels=p_label, gold_labels=g_label, eval=eval_instance)
+    if eval_acc.gold_num == 0:
+        eval_acc.gold_num = 1
+    p, r, f = eval_instance.getFscore()
+    test_flag = "Test"
+    if test is False:
+        print()
+        test_flag = "Dev"
+        if f >= best_fscore.best_dev_fscore:
+            best_fscore.best_dev_fscore = f
+            best_fscore.best_epoch = epoch
+            best_fscore.best_test = True
+    if test is True and best_fscore.best_test is True:
+        best_fscore.p = p
+        best_fscore.r = r
+        best_fscore.f = f
+    print("{} eval: precision = {:.6f}%  recall = {:.6f}% , f-score = {:.6f}%,  [TAG-ACC = {:.6f}%]".format(test_flag, p, r, f, eval_acc.acc()))
+    if test is True:
+        print("The Current Best Dev F-score: {:.6f}, Locate on {} Epoch.".format(best_fscore.best_dev_fscore,
+                                                                                 best_fscore.best_epoch))
+        print("The Current Best Test Result: precision = {:.6f}%  recall = {:.6f}% , f-score = {:.6f}%".format(
+            best_fscore.p, best_fscore.r, best_fscore.f))
+    if test is True:
+        best_fscore.best_test = False
+
+
 def getMaxindex(model_out, label_size, args):
-    # model_out.data[0] = -9999
     max = model_out.data[0]
     maxIndex = 0
     for idx in range(1, label_size):
@@ -158,6 +201,14 @@ def getMaxindex_np(model_out):
     model_out_list = model_out.data.tolist()
     maxIndex = model_out_list.index(np.max(model_out_list))
     return maxIndex
+
+
+def getMaxindex_batch(model_out):
+    model_out_list = model_out.data.tolist()
+    maxIndex_batch = []
+    for list in model_out_list:
+        maxIndex_batch.append(list.index(np.max(list)))
+    return maxIndex_batch
 
 
 def getAcc(eval_acc, batch_features, logit, args):
