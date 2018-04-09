@@ -11,7 +11,7 @@
 
 -  	`Instance.py` ------ It is a instance file to storage data that you read from train/dev/test file
 
--     	`eval.py` ------ The file is a eval script, For calculate F-score, recall, precision. And decode model result for NER (support ` BMES, BIO`  label)(Reference: https://github.com/yunan4nlp)
+-     	`eval.py` ------ The file is a eval script, For calculate F-score, recall, precision. And decode model result for NER (support `BMES, BIO`  label)(Reference: https://github.com/yunan4nlp)
 
 -  	`eval_bio.py` ------ The role is same with the script of  `eval.py` ,  It is contains `eval_type = exact, binary, propor`, also support ` BMES, BIO`  label.(Reference: https://github.com/Joyce94)
 
