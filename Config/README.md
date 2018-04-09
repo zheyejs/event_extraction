@@ -22,7 +22,6 @@
 
 	- `rm_model` (True or False) ------ remove model to save space(now not use).
 
-
 - [Model]
 
 	- `model-bilstm` (True or False) ------ Bilstm model.
@@ -38,3 +37,29 @@
 	- `dropout-emb/dropout `(float) ------ dropout for prevent overfitting.
 
 	- `windows-size` (integer) ------ Context window feature size.
+
+- [Optimizer]
+
+	- `adam` (True or False) ------ `torch.optim.Adam`
+
+	- `sgd` (True or False)  ------ `torch.optim.SGD`
+
+	- `learning-rate`(float) ------ learning rate(0.001, 0.01).
+
+	- ` learning-rate-decay`(float) ------ learning rate decay.
+
+	- `weight-decay` (float) ------ 1e-8.
+
+	- `clip-max-norm` (Integer number) ------ 5, 10, 15.
+
+- [Train]
+
+	- `num-threads` (Integer) ------ threads.
+
+	- `use-cuda` (True or False) ------ support `cuda` speed up.
+
+	- `epochs` (Integer) ------ train epochs
+
+	- `batch-size/dev-batch-size/test-batch-size` (Integer) ------ number of batch
+
+	- `log-interval`(Integer) ------ steps of print log.
