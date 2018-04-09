@@ -2,6 +2,9 @@
 
 - Pre-Trained Embedding: `word2vec or glove `
 
-- Download it.
+- Download it and modify `config.cfg` file.
 
+- Congig/config.cfg  
+	`pretrained-embed = True  or False  `  
+	`pretrained-embed-file = "pre-reained embedding path"`
 
