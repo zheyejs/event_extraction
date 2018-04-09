@@ -41,6 +41,7 @@ def load_Data(config):
     data_loader = DataLoader_NER.DataLoader()
     train_data, dev_data, test_data = data_loader.dataLoader(path=[config.train_file, config.dev_file, config.test_file],
                                                              shuffle=config.shuffle)
+    print("train sentence {}, dev sentence {}, test sentence {}.".format(len(train_data), len(dev_data), len(test_data)))
 
     # create the alphabet
     create_alphabet = CreateAlphabet(min_freq=config.min_freq)
