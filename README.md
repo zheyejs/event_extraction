@@ -21,11 +21,24 @@
 
 ## Data ##
 
+- The number of sentences in the two data is calculated as follows:
+![](https://i.imgur.com/5BgPews.jpg)
+
 ## Time ##
+
+- A simple test of the training speed and decoding time on the `CPU` and `GPU`，requires only `4 seconds` for the decoding time on the GPU. why so fast ?  In terms of decoding, batch calculation is performed in some places, so the decoding time is much faster than one sentence.
+
+![](https://i.imgur.com/RjaG80A.jpg)
 
 ## Performance ##
 
+- The following results are based on the neural network model of `BiLSTM + context feature`.
+
+![](https://i.imgur.com/mG3JyuC.jpg)
+
 ## Reference ##
+
+- updating......
 
 ## Question ##
 
