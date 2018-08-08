@@ -22,6 +22,7 @@
 ## Data ##
 
 - The number of sentences in the two data is calculated as follows:
+- The data format of MSRA and Conll2003 is BIO.
 ![](https://i.imgur.com/5BgPews.jpg)
 
 ## Time ##
