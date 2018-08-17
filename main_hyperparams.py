@@ -17,7 +17,7 @@ from DataUtils.Batch_Iterator import *
 from Dataloader import DataLoader_NER
 from DataUtils.Load_Pretrained_Embed import *
 from DataUtils.Common import seed_num, paddingkey
-from models.BiLSTM import *
+from models.BiLSTM_Context import *
 import train
 import random
 import shutil
