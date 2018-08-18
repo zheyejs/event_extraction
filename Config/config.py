@@ -23,6 +23,22 @@ class Configurable(object):
         return self._config.getboolean('Data', 'pretrained_embed')
 
     @property
+    def zeros(self):
+        return self._config.getboolean('Data', 'zeros')
+
+    @property
+    def avg(self):
+        return self._config.getboolean('Data', 'avg')
+
+    @property
+    def uniform(self):
+        return self._config.getboolean('Data', 'uniform')
+
+    @property
+    def nnembed(self):
+        return self._config.getboolean('Data', 'nnembed')
+
+    @property
     def pretrained_embed_file(self):
         return self._config.get('Data', 'pretrained_embed_file')
 
@@ -39,6 +55,10 @@ class Configurable(object):
         return self._config.get('Data', 'test_file')
 
     @property
+    def max_count(self):
+        return self._config.getint('Data', 'max_count')
+
+    @property
     def min_freq(self):
         return self._config.getint('Data', 'min_freq')
 
@@ -52,8 +72,32 @@ class Configurable(object):
 
     # Save
     @property
+    def save_dict(self):
+        return self._config.getboolean('Save', 'save_dict')
+
+    @property
     def save_direction(self):
         return self._config.get('Save', 'save_direction')
+
+    @property
+    def dict_directory(self):
+        return self._config.get('Save', 'dict_directory')
+
+    @property
+    def word_dict(self):
+        return self._config.get('Save', 'word_dict')
+
+    @property
+    def label_dict(self):
+        return self._config.get('Save', 'label_dict')
+
+    @property
+    def model_name(self):
+        return self._config.get('Save', 'model_name')
+
+    @property
+    def save_model(self):
+        return self._config.getboolean('Save', 'save_model')
 
     @property
     def rm_model(self):
@@ -61,8 +105,12 @@ class Configurable(object):
 
     # Model
     @property
-    def model_BiLstm(self):
-        return self._config.getboolean("Model", "model_BiLstm")
+    def model_bilstm(self):
+        return self._config.getboolean("Model", "model_bilstm")
+
+    @property
+    def model_bilstm_context(self):
+        return self._config.getboolean("Model", "model_bilstm_context")
 
     @property
     def lstm_layers(self):

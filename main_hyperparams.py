@@ -18,6 +18,7 @@ from Dataloader import DataLoader_NER
 from DataUtils.Load_Pretrained_Embed import *
 from DataUtils.Common import seed_num, paddingkey
 from models.BiLSTM_Context import *
+from models.BiLSTM import BiLSTM
 import train
 import random
 import shutil
@@ -60,6 +61,105 @@ def load_Data(config):
     return train_iter, dev_iter, test_iter, create_alphabet
 
 
+def save_dict2file(dict, path):
+    print("Saving dictionary")
+    if os.path.exists(path):
+        print("path {} is exist, deleted.".format(path))
+    file = open(path, encoding="UTF-8", mode="w")
+    for word, index in dict.items():
+        # print(word, index)
+        file.write(str(word) + "\t" + str(index) + "\n")
+    file.close()
+    print("Save dictionary finished.")
+
+
+def save_dictionary(config):
+    if config.save_dict is True:
+        if os.path.exists(config.dict_directory):
+            shutil.rmtree(config.dict_directory)
+        if not os.path.isdir(config.dict_directory):
+            os.makedirs(config.dict_directory)
+
+        config.word_dict_path = "/".join([config.dict_directory, config.word_dict])
+        config.label_dict_path = "/".join([config.dict_directory, config.label_dict])
+        print("word_dict_path : {}".format(config.word_dict_path))
+        print("label_dict_path : {}".format(config.label_dict_path))
+        save_dict2file(config.create_alphabet.word_alphabet.words2id, config.word_dict_path)
+        save_dict2file(config.create_alphabet.label_alphabet.words2id, config.label_dict_path)
+        # copy to mulu
+        print("copy dictionary to {}".format(config.save_dir))
+        shutil.copytree(config.dict_directory, "/".join([config.save_dir, config.dict_directory]))
+
+
+def pre_embed(config, create_alphabet):
+    pretrain_embed = None
+    if config.pretrained_embed and config.zeros:
+        print("Using Pre_Trained Embedding.")
+        pretrain_embed = load_pretrained_emb_zeros(path=config.pretrained_embed_file,
+                                                   text_field_words_dict=create_alphabet.word_alphabet.id2words,
+                                                   pad=paddingkey)
+    elif config.pretrained_embed and config.avg:
+        print("Using Pre_Trained Embedding.")
+        pretrain_embed = load_pretrained_emb_avg(path=config.pretrained_embed_file,
+                                                 text_field_words_dict=create_alphabet.word_alphabet.id2words,
+                                                 pad=paddingkey)
+    elif config.pretrained_embed and config.uniform:
+        print("Using Pre_Trained Embedding.")
+        pretrain_embed = load_pretrained_emb_uniform(path=config.pretrained_embed_file,
+                                                     text_field_words_dict=create_alphabet.word_alphabet.id2words,
+                                                     pad=paddingkey)
+    elif config.pretrained_embed and config.nnembed:
+        print("Using Pre_Trained Embedding.")
+        pretrain_embed = load_pretrained_emb_Embedding(path=config.pretrained_embed_file,
+                                                       text_field_words_dict=create_alphabet.word_alphabet.id2words,
+                                                       pad=paddingkey)
+    return pretrain_embed
+
+
+def get_learning_algorithm(config):
+    algorithm = None
+    if config.adam is True:
+        algorithm = "Adam"
+    elif config.sgd is True:
+        algorithm = "SGD"
+    print("learning algorithm is {}.".format(algorithm))
+    return algorithm
+
+
+def get_params(config, create_alphabet):
+    # get algorithm
+    # config.learning_algorithm = get_learning_algorithm(config)
+
+    # get params
+    config.embed_num = create_alphabet.word_alphabet.vocab_size
+    config.class_num = create_alphabet.label_alphabet.vocab_size
+    config.paddingId = create_alphabet.word_paddingId
+    config.label_paddingId = create_alphabet.label_paddingId
+    config.create_alphabet = create_alphabet
+    print("embed_num : {}, class_num : {}".format(config.embed_num, config.class_num))
+    print("PaddingID {}".format(config.paddingId))
+
+
+def load_model(config):
+    model = None
+    if config.model_bilstm is True:
+        print("loading BiLSTM model......")
+        model = BiLSTM(config)
+    if config.model_bilstm_context is True:
+        print("loading BiLSTM_Context model.....")
+        model = BiLSTM_Context(config)
+    print(model)
+    if config.use_cuda is True:
+        model = model.cuda()
+    print(model)
+    return model
+
+
+def start_train(train_iter, dev_iter, test_iter, model, config):
+    print("\nTraining Start......")
+    train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
+
+
 def main():
     # save file
     config.mulu = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
@@ -71,32 +171,19 @@ def main():
     create_alphabet = None
     train_iter, dev_iter, test_iter, create_alphabet = load_Data(config)
 
-    config.embed_num = create_alphabet.word_alphabet.vocab_size
-    config.class_num = create_alphabet.label_alphabet.vocab_size
-    config.paddingId = create_alphabet.word_paddingId
-    config.label_paddingId = create_alphabet.label_paddingId
-    config.create_alphabet = create_alphabet
-    print("embed_num : {}, class_num : {}".format(config.embed_num, config.class_num))
-    print("PaddingID {}".format(config.paddingId))
+    # get params
+    get_params(config=config, create_alphabet=create_alphabet)
 
-    if config.pretrained_embed:
-        print("Using Pre_Trained Embedding.")
-        pretrain_embed = load_pretrained_emb_zeros(path=config.pretrained_embed_file,
-                                                   text_field_words_dict=create_alphabet.word_alphabet.id2words,
-                                                   pad=paddingkey)
-        config.pretrained_weight = pretrain_embed
+    # load Pre_Trained Embedding
+    config.pretrained_weight = pre_embed(config=config, create_alphabet=create_alphabet)
 
-    model = None
-    if config.model_BiLstm is True:
-        print("loading model.....")
-        model = BiLSTM(config)
-        print(model)
-        if config.use_cuda is True:
-            model = model.cuda()
-        print("Training Start......")
+    # save dictionary
+    save_dictionary(config=config)
 
-    train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
-    # train.train(train_iter=train_iter, dev_iter=train_iter, test_iter=train_iter, model=model, config=config)
+    model = load_model(config)
+
+    # print("Training Start......")
+    start_train(train_iter, dev_iter, test_iter, model, config)
 
 
 if __name__ == "__main__":
@@ -114,7 +201,6 @@ if __name__ == "__main__":
         torch.cuda.manual_seed(seed_num)
         torch.cuda.manual_seed_all(seed_num)
         print("torch.cuda.initial_seed", torch.cuda.initial_seed())
-
 
     main()
 

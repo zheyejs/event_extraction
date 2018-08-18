@@ -8,11 +8,10 @@
     FILE :
     FUNCTION :
 """
-import sys
 import re
 import random
 import torch
-from DataUtils.Instance import Instance
+from Dataloader.Instance import Instance
 
 from DataUtils.Common import *
 torch.manual_seed(seed_num)

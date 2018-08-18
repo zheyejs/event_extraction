@@ -27,10 +27,10 @@ torch.manual_seed(seed_num)
 random.seed(seed_num)
 
 
-class BiLSTM(nn.Module):
+class BiLSTM_Context(nn.Module):
 
     def __init__(self, config):
-        super(BiLSTM, self).__init__()
+        super(BiLSTM_Context, self).__init__()
         self.config = config
         self.cat_size = 5
 
