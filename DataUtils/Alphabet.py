@@ -26,6 +26,7 @@ class CreateAlphabet:
         Notice:     The Class Need To Change So That Complete All Kinds Of Tasks
     """
     def __init__(self, min_freq=1, config=None):
+        # print("")
 
         # minimum vocab size
         self.min_freq = min_freq

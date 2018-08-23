@@ -309,3 +309,35 @@ def entity_evalPRF_exact(gold_labels, predict_labels):
     precision, recall, f1_score = evaluation.calc_f1_score(eval_type)
     return precision, recall, f1_score
 
+
+def entity_evalPRF_propor(gold_labels, predict_labels):
+    # prefix_array = [['b', 'B', 's', 'S'], ['m', 'M', 'e', 'E']]
+    prefix_array = [['b', 'B'], ['i', 'I']]
+    # prefix_array = [['i', 'I'], ['b', 'B']]
+
+    eval_type = 'propor'
+    label_list = createAlphabet_labeler(gold_labels)
+    category_set = Extract_category(label_list, prefix_array)
+    dataset_num = len(gold_labels)
+    evaluation = Eval(category_set, dataset_num)
+    evaluation.set_eval_var()
+    evaluation.eval(gold_labels, predict_labels, eval_type, prefix_array)
+    precision, recall, f1_score = evaluation.calc_f1_score(eval_type)
+    return precision, recall, f1_score
+
+
+def entity_evalPRF_binary(gold_labels, predict_labels):
+    # prefix_array = [['b', 'B', 's', 'S'], ['m', 'M', 'e', 'E']]
+    prefix_array = [['b', 'B'], ['i', 'I']]
+    # prefix_array = [['i', 'I'], ['b', 'B']]
+
+    eval_type = 'binary'
+    label_list = createAlphabet_labeler(gold_labels)
+    category_set = Extract_category(label_list, prefix_array)
+    dataset_num = len(gold_labels)
+    evaluation = Eval(category_set, dataset_num)
+    evaluation.set_eval_var()
+    evaluation.eval(gold_labels, predict_labels, eval_type, prefix_array)
+    precision, recall, f1_score = evaluation.calc_f1_score(eval_type)
+    return precision, recall, f1_score
+

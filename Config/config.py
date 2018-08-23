@@ -3,11 +3,26 @@ from configparser import ConfigParser
 import os
 
 
-class Configurable(object):
+class myconf(ConfigParser):
+    def __init__(self, defaults=None):
+        ConfigParser.__init__(self, defaults=defaults)
+        self.add_sec = "Additional"
+
+    def optionxform(self, optionstr):
+        return optionstr
+
+
+class Configurable(myconf):
     def __init__(self, config_file):
-        config = ConfigParser()
+        # config = ConfigParser()
+        super().__init__()
+
+        config = myconf()
         config.read(config_file)
+        # if config.has_section(self.add_sec) is False:
+        #     config.add_section(self.add_sec)
         self._config = config
+        self.config_file = config_file
 
         print('Loaded config file sucessfully.')
         for section in config.sections():
@@ -17,31 +32,36 @@ class Configurable(object):
             os.mkdir(self.save_direction)
         config.write(open(config_file, 'w'))
 
-    # Data
+    def add_args(self, key, value):
+        self._config.set(self.add_sec, key, value)
+        self._config.write(open(self.config_file, 'w'))
+
+    # Embed
     @property
     def pretrained_embed(self):
-        return self._config.getboolean('Data', 'pretrained_embed')
+        return self._config.getboolean('Embed', 'pretrained_embed')
 
     @property
     def zeros(self):
-        return self._config.getboolean('Data', 'zeros')
+        return self._config.getboolean('Embed', 'zeros')
 
     @property
     def avg(self):
-        return self._config.getboolean('Data', 'avg')
+        return self._config.getboolean('Embed', 'avg')
 
     @property
     def uniform(self):
-        return self._config.getboolean('Data', 'uniform')
+        return self._config.getboolean('Embed', 'uniform')
 
     @property
     def nnembed(self):
-        return self._config.getboolean('Data', 'nnembed')
+        return self._config.getboolean('Embed', 'nnembed')
 
     @property
     def pretrained_embed_file(self):
         return self._config.get('Data', 'pretrained_embed_file')
 
+    # Data
     @property
     def train_file(self):
         return self._config.get('Data', 'train_file')
@@ -71,6 +91,26 @@ class Configurable(object):
         return self._config.getboolean('Data', 'epochs_shuffle')
 
     # Save
+    @property
+    def pkl_directory(self):
+        return self._config.get('Save', 'pkl_directory')
+
+    @property
+    def pkl_data(self):
+        return self._config.get('Save', 'pkl_data')
+
+    @property
+    def pkl_alphabet(self):
+        return self._config.get('Save', 'pkl_alphabet')
+
+    @property
+    def pkl_iter(self):
+        return self._config.get('Save', 'pkl_iter')
+
+    @property
+    def pkl_embed(self):
+        return self._config.get('Save', 'pkl_embed')
+
     @property
     def save_dict(self):
         return self._config.getboolean('Save', 'save_dict')

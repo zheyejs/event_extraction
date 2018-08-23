@@ -11,9 +11,11 @@
 
 import argparse
 import datetime
+from optparse import OptionParser
 import Config.config as configurable
 from DataUtils.Alphabet import *
 from DataUtils.Batch_Iterator import *
+from DataUtils.Pickle import pcl
 from Dataloader import DataLoader_NER
 from DataUtils.Load_Pretrained_Embed import *
 from DataUtils.Common import seed_num, paddingkey
@@ -36,29 +38,35 @@ random.seed(seed_num)
 
 
 # load data / create alphabet / create iterator
-def load_Data(config):
-    print("Loading Data......")
+def preprocessing(config):
+    print("Processing Data......")
     # read file
-    data_loader = DataLoader_NER.DataLoader()
+    data_loader = DataLoader_NER.DataLoader(config)
     train_data, dev_data, test_data = data_loader.dataLoader(path=[config.train_file, config.dev_file, config.test_file],
                                                              shuffle=config.shuffle)
     print("train sentence {}, dev sentence {}, test sentence {}.".format(len(train_data), len(dev_data), len(test_data)))
+    data_dict = {"train_data": train_data, "dev_data": dev_data, "test_data": test_data}
+    pcl.save(obj=data_dict, path=os.path.join(config.pkl_directory, config.pkl_data))
 
     # create the alphabet
-    create_alphabet = CreateAlphabet(min_freq=config.min_freq)
+    alphabet = CreateAlphabet(min_freq=config.min_freq)
     if config.embed_finetune is False:
-        create_alphabet.build_vocab(train_data=train_data, dev_data=dev_data, test_data=test_data)
+        alphabet.build_vocab(train_data=train_data, dev_data=dev_data, test_data=test_data)
     if config.embed_finetune is True:
-        create_alphabet.build_vocab(train_data=train_data)
+        alphabet.build_vocab(train_data=train_data)
+    alphabet_dict = {"alphabet": alphabet}
+    pcl.save(obj=alphabet_dict, path=os.path.join(config.pkl_directory, config.pkl_alphabet))
 
     # create iterator
     create_iter = Iterators()
     train_iter, dev_iter, test_iter = create_iter.createIterator(
         # batch_size=[config.batch_size, len(dev_data), len(test_data)],
         batch_size=[config.batch_size, config.dev_batch_size, config.test_batch_size],
-        data=[train_data, dev_data, test_data], operator=create_alphabet,
+        data=[train_data, dev_data, test_data], operator=alphabet,
         config=config)
-    return train_iter, dev_iter, test_iter, create_alphabet
+    iter_dict = {"train_iter": train_iter, "dev_iter": dev_iter, "test_iter": test_iter}
+    pcl.save(obj=iter_dict, path=os.path.join(config.pkl_directory, config.pkl_iter))
+    return train_iter, dev_iter, test_iter, alphabet
 
 
 def save_dict2file(dict, path):
@@ -91,28 +99,31 @@ def save_dictionary(config):
         shutil.copytree(config.dict_directory, "/".join([config.save_dir, config.dict_directory]))
 
 
-def pre_embed(config, create_alphabet):
+def pre_embed(config, alphabet):
+    print("***************************************")
     pretrain_embed = None
     if config.pretrained_embed and config.zeros:
         print("Using Pre_Trained Embedding.")
         pretrain_embed = load_pretrained_emb_zeros(path=config.pretrained_embed_file,
-                                                   text_field_words_dict=create_alphabet.word_alphabet.id2words,
+                                                   text_field_words_dict=alphabet.word_alphabet.id2words,
                                                    pad=paddingkey)
     elif config.pretrained_embed and config.avg:
         print("Using Pre_Trained Embedding.")
         pretrain_embed = load_pretrained_emb_avg(path=config.pretrained_embed_file,
-                                                 text_field_words_dict=create_alphabet.word_alphabet.id2words,
+                                                 text_field_words_dict=alphabet.word_alphabet.id2words,
                                                  pad=paddingkey)
     elif config.pretrained_embed and config.uniform:
         print("Using Pre_Trained Embedding.")
         pretrain_embed = load_pretrained_emb_uniform(path=config.pretrained_embed_file,
-                                                     text_field_words_dict=create_alphabet.word_alphabet.id2words,
+                                                     text_field_words_dict=alphabet.word_alphabet.id2words,
                                                      pad=paddingkey)
     elif config.pretrained_embed and config.nnembed:
         print("Using Pre_Trained Embedding.")
         pretrain_embed = load_pretrained_emb_Embedding(path=config.pretrained_embed_file,
-                                                       text_field_words_dict=create_alphabet.word_alphabet.id2words,
+                                                       text_field_words_dict=alphabet.word_alphabet.id2words,
                                                        pad=paddingkey)
+    embed_dict = {"pretrain_embed": pretrain_embed}
+    pcl.save(obj=embed_dict, path=os.path.join(config.pkl_directory, config.pkl_embed))
     return pretrain_embed
 
 
@@ -126,21 +137,22 @@ def get_learning_algorithm(config):
     return algorithm
 
 
-def get_params(config, create_alphabet):
+def get_params(config, alphabet):
     # get algorithm
-    # config.learning_algorithm = get_learning_algorithm(config)
+    config.learning_algorithm = get_learning_algorithm(config)
 
     # get params
-    config.embed_num = create_alphabet.word_alphabet.vocab_size
-    config.class_num = create_alphabet.label_alphabet.vocab_size
-    config.paddingId = create_alphabet.word_paddingId
-    config.label_paddingId = create_alphabet.label_paddingId
-    config.create_alphabet = create_alphabet
+    config.embed_num = alphabet.word_alphabet.vocab_size
+    config.class_num = alphabet.label_alphabet.vocab_size
+    config.paddingId = alphabet.word_paddingId
+    config.label_paddingId = alphabet.label_paddingId
+    config.create_alphabet = alphabet
     print("embed_num : {}, class_num : {}".format(config.embed_num, config.class_num))
     print("PaddingID {}".format(config.paddingId))
 
 
 def load_model(config):
+    print("***************************************")
     model = None
     if config.model_bilstm is True:
         print("loading BiLSTM model......")
@@ -148,11 +160,31 @@ def load_model(config):
     if config.model_bilstm_context is True:
         print("loading BiLSTM_Context model.....")
         model = BiLSTM_Context(config)
-    print(model)
     if config.use_cuda is True:
         model = model.cuda()
     print(model)
     return model
+
+
+def load_data(config):
+    print("load data for process or pkl data.")
+    train_iter, dev_iter, test_iter = None, None, None
+    alphabet = None
+    if (config.train is True) and (config.process is True):
+        print("process data")
+        if os.path.exists(config.pkl_directory): shutil.rmtree(config.pkl_directory)
+        if not os.path.isdir(config.pkl_directory): os.makedirs(config.pkl_directory)
+        train_iter, dev_iter, test_iter, alphabet = preprocessing(config)
+    elif (config.train is True) and (config.process is False):
+        print("load data from pkl file")
+        alphabet_dict = pcl.load(path=os.path.join(config.pkl_directory, config.pkl_alphabet))
+        print(alphabet_dict.keys())
+        alphabet = alphabet_dict["alphabet"]
+        iter_dict = pcl.load(path=os.path.join(config.pkl_directory, config.pkl_iter))
+        print(iter_dict.keys())
+        train_iter, dev_iter, test_iter = iter_dict.values()
+        # train_iter, dev_iter, test_iter = iter_dict["train_iter"], iter_dict["dev_iter"], iter_dict["test_iter"]
+    return train_iter, dev_iter, test_iter, alphabet
 
 
 def start_train(train_iter, dev_iter, test_iter, model, config):
@@ -163,19 +195,18 @@ def start_train(train_iter, dev_iter, test_iter, model, config):
 def main():
     # save file
     config.mulu = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    # config.add_args(key="mulu", value=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
     config.save_dir = os.path.join(config.save_direction, config.mulu)
-    if not os.path.isdir(config.save_dir):
-        os.makedirs(config.save_dir)
+    if not os.path.isdir(config.save_dir): os.makedirs(config.save_dir)
 
-    # get iter
-    create_alphabet = None
-    train_iter, dev_iter, test_iter, create_alphabet = load_Data(config)
+    # get data, iter, alphabet
+    train_iter, dev_iter, test_iter, alphabet = load_data(config=config)
 
     # get params
-    get_params(config=config, create_alphabet=create_alphabet)
+    get_params(config=config, alphabet=alphabet)
 
     # load Pre_Trained Embedding
-    config.pretrained_weight = pre_embed(config=config, create_alphabet=create_alphabet)
+    config.pretrained_weight = pre_embed(config=config, alphabet=alphabet)
 
     # save dictionary
     save_dictionary(config=config)
@@ -186,14 +217,34 @@ def main():
     start_train(train_iter, dev_iter, test_iter, model, config)
 
 
+def parse_argument():
+    parser = argparse.ArgumentParser(description="NER & POS")
+    parser.add_argument("-c", "--config", dest="config_file", type=str, default="./Config/config.cfg",
+                        help="config path")
+    parser.add_argument("--train", dest="train", action="store_true", default=True, help="train model")
+    parser.add_argument("--test", dest="test", action="store_true", default=False, help="test model")
+    parser.add_argument("--predict", dest="predict", action="store_true", default=False, help="predict model")
+    parser.add_argument("-p", "--process", dest="process", action="store_true", default=False, help="data process")
+    args = parser.parse_args()
+    config = configurable.Configurable(config_file=args.config_file)
+    config.train = args.train
+    config.test = args.test
+    config.process = args.process
+    if config.test is True:
+        config.train = False
+    print("***************************************")
+    print("Data Process {}".format(config.process))
+    print("Train model {}".format(config.train))
+    print("Test model {}".format(config.test))
+    print("***************************************")
+
+    return config
+
+
 if __name__ == "__main__":
 
     print("Process ID {}, Process Parent ID {}".format(os.getpid(), os.getppid()))
-    parser = argparse.ArgumentParser(description="Chinese NER & POS")
-    parser.add_argument('--config_file', default="./Config/config.cfg")
-    args = parser.parse_args()
-
-    config = configurable.Configurable(config_file=args.config_file)
+    config = parse_argument()
     if config.use_cuda is True:
         print("Using GPU To Train......")
         # torch.backends.cudnn.enabled = True

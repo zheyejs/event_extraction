@@ -16,6 +16,7 @@ import torch.nn.utils as utils
 import random
 import numpy as np
 import time
+from DataUtils.eval_bio import entity_evalPRF_exact, entity_evalPRF_propor, entity_evalPRF_binary
 from DataUtils.eval import Eval, EvalPRF
 from DataUtils.Common import *
 torch.manual_seed(seed_num)
@@ -161,10 +162,16 @@ def eval_batch(data_iter, model, eval_instance, best_fscore, epoch, config, test
             gold_labels.append(inst.labels)
             predict_labels.append(predict_label)
     for p_label, g_label in zip(predict_labels, gold_labels):
+    #     # print("***************************************")
+    #     # print(g_label)
+    #     # print(p_label)
         eval_PRF.evalPRF(predict_labels=p_label, gold_labels=g_label, eval=eval_instance)
     if eval_acc.gold_num == 0:
         eval_acc.gold_num = 1
     p, r, f = eval_instance.getFscore()
+    # p, r, f = entity_evalPRF_exact(gold_labels=gold_labels, predict_labels=predict_labels)
+    # p, r, f = entity_evalPRF_propor(gold_labels=gold_labels, predict_labels=predict_labels)
+    # p, r, f = entity_evalPRF_binary(gold_labels=gold_labels, predict_labels=predict_labels)
     test_flag = "Test"
     if test is False:
         print()
@@ -177,7 +184,8 @@ def eval_batch(data_iter, model, eval_instance, best_fscore, epoch, config, test
         best_fscore.p = p
         best_fscore.r = r
         best_fscore.f = f
-    print("{} eval: precision = {:.6f}%  recall = {:.6f}% , f-score = {:.6f}%,  [TAG-ACC = {:.6f}%]".format(test_flag, p, r, f, eval_acc.acc()))
+    # print("{} eval: precision = {:.6f}%  recall = {:.6f}% , f-score = {:.6f}%,  [TAG-ACC = {:.6f}%]".format(test_flag, p, r, f, eval_acc.acc()))
+    print("{} eval: precision = {:.6f}%  recall = {:.6f}% , f-score = {:.6f}%,  [TAG-ACC = {:.6f}%]".format(test_flag, p, r, f, 0.0000))
     if test is True:
         print("The Current Best Dev F-score: {:.6f}, Locate on {} Epoch.".format(best_fscore.best_dev_fscore,
                                                                                  best_fscore.best_epoch))

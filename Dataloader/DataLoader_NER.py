@@ -18,10 +18,11 @@ torch.manual_seed(seed_num)
 random.seed(seed_num)
 
 
-class DataLoader():
-    def __init__(self):
+class DataLoader(object):
+    def __init__(self, config):
         print("Loading Data......")
         self.data_list = []
+        self.max_count = config.max_count
 
     def clean_str(self, string):
         """
@@ -43,7 +44,7 @@ class DataLoader():
         string = re.sub(r"\s{2,}", " ", string)
         return string.strip().lower()
 
-    def dataLoader(self, path=None, shuffle=False):
+    def dataLoader(self, path=None, shuffle=True):
         assert isinstance(path, list), "Path Must Be In List"
         print("Data Path {}".format(path))
         for id_data in range(len(path)):
@@ -53,8 +54,9 @@ class DataLoader():
                 print("shuffle data......")
                 random.shuffle(insts)
             # sorted(inst)
-            sorted_insts = self.sort(insts)
-            self.data_list.append(sorted_insts)
+            # sorted_insts = self.sort(insts)
+            # sorted_insts = self.sort(insts)
+            self.data_list.append(insts)
         # return train/dev/test data
         if len(self.data_list) == 3:
             return self.data_list[0], self.data_list[1], self.data_list[2]
@@ -76,15 +78,27 @@ class DataLoader():
                     line = line.strip().split(" ")
                     # print(line)
                     word = line[0]
+                    # print(word)
+                    # word = self.normalize_word(word)
+                    # print(word)
                     inst.words.append(word.lower())
                     inst.labels.append(line[-1])
-                # if len(insts) == 32:
-                #     break
+                if len(insts) == self.max_count:
+                    break
             if len(inst.words) != 0:
                 inst.words_size = len(inst.words)
                 insts.append(inst)
             # print("\n")
         return insts
+
+    def normalize_word(self, word):
+        new_word = ""
+        for char in word:
+            if char.isdigit():
+                new_word += '0'
+            else:
+                new_word += char
+        return new_word
 
     def sort(self, insts):
         sorted_insts  = []
