@@ -21,6 +21,7 @@ from DataUtils.Load_Pretrained_Embed import *
 from DataUtils.Common import seed_num, paddingkey
 from models.BiLSTM_Context import *
 from models.BiLSTM import BiLSTM
+from test import load_test_model, load_test_data
 import train
 import random
 import shutil
@@ -141,6 +142,12 @@ def get_params(config, alphabet):
     # get algorithm
     config.learning_algorithm = get_learning_algorithm(config)
 
+    # save best model path
+    config.save_best_model_path = config.save_best_model_dir
+    if config.test is False:
+        if os.path.exists(config.save_best_model_path):
+            shutil.rmtree(config.save_best_model_path)
+
     # get params
     config.embed_num = alphabet.word_alphabet.vocab_size
     config.class_num = alphabet.label_alphabet.vocab_size
@@ -162,6 +169,8 @@ def load_model(config):
         model = BiLSTM_Context(config)
     if config.use_cuda is True:
         model = model.cuda()
+    if config.test is True:
+        model = load_test_model(model, config)
     print(model)
     return model
 
@@ -202,6 +211,13 @@ def start_train(train_iter, dev_iter, test_iter, model, config):
     train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
 
 
+def start_test(train_iter, dev_iter, test_iter, model, config):
+    print("\nTesting Start......")
+    data = load_test_data(train_iter, dev_iter, test_iter, config)
+    print(data)
+    # train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
+
+
 def main():
     # save file
     config.mulu = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
@@ -215,16 +231,18 @@ def main():
     # get params
     get_params(config=config, alphabet=alphabet)
 
-    # load Pre_Trained Embedding
-    # config.pretrained_weight = pre_embed(config=config, alphabet=alphabet)
-
     # save dictionary
     save_dictionary(config=config)
 
     model = load_model(config)
 
     # print("Training Start......")
-    start_train(train_iter, dev_iter, test_iter, model, config)
+    if config.train is True:
+        start_train(train_iter, dev_iter, test_iter, model, config)
+        exit()
+    elif config.test is True:
+        start_test(train_iter, dev_iter, test_iter, model, config)
+        exit()
 
 
 def parse_argument():
@@ -233,7 +251,7 @@ def parse_argument():
                         help="config path")
     parser.add_argument("--train", dest="train", action="store_true", default=True, help="train model")
     parser.add_argument("-p", "--process", dest="process", action="store_true", default=False, help="data process")
-    parser.add_argument("-t", "--test", dest="test", action="store_true", default=False, help="test model")
+    parser.add_argument("-t", "--test", dest="test", action="store_true", default=True, help="test model")
     parser.add_argument("--t_model", dest="t_model", type=str, default=None, help="model for test")
     parser.add_argument("--t_data", dest="t_data", type=str, default=None,
                         help="data[train dev test None] for test model")

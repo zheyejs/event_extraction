@@ -17,6 +17,8 @@ class Configurable(myconf):
         # config = ConfigParser()
         super().__init__()
 
+        self.test = None
+        self.train = None
         config = myconf()
         config.read(config_file)
         # if config.has_section(self.add_sec) is False:
@@ -134,6 +136,10 @@ class Configurable(myconf):
     @property
     def model_name(self):
         return self._config.get('Save', 'model_name')
+
+    @property
+    def save_best_model_dir(self):
+        return self._config.get('Save', 'save_best_model_dir')
 
     @property
     def save_model(self):

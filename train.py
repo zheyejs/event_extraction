@@ -17,6 +17,7 @@ import torch.nn.utils as utils
 import random
 import numpy as np
 import time
+import shutil
 from DataUtils.eval_bio import entity_evalPRF_exact, entity_evalPRF_propor, entity_evalPRF_binary
 from DataUtils.eval import Eval, EvalPRF
 from DataUtils.Common import *
@@ -93,7 +94,7 @@ def train(train_iter, dev_iter, test_iter, model, config):
         if config.save_model and config.save_all_model:
             save_model_all(model, config.save_dir, config.model_name, epoch)
         elif config.save_model and config.save_best_model:
-            save_best_model(model, config.save_dir, config.model_name, best_fscore)
+            save_best_model(model, config.save_best_model_path, config.model_name, best_fscore)
         else:
             print()
 
