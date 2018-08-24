@@ -211,10 +211,10 @@ def start_train(train_iter, dev_iter, test_iter, model, config):
     train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
 
 
-def start_test(train_iter, dev_iter, test_iter, model, config):
+def start_test(train_iter, dev_iter, test_iter, model, alphabet, config):
     print("\nTesting Start......")
-    data = load_test_data(train_iter, dev_iter, test_iter, config)
-    print(data)
+    data, path_source, path_result = load_test_data(train_iter, dev_iter, test_iter, config)
+    print(data, path_source, path_result)
     # train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
 
 
@@ -241,7 +241,7 @@ def main():
         start_train(train_iter, dev_iter, test_iter, model, config)
         exit()
     elif config.test is True:
-        start_test(train_iter, dev_iter, test_iter, model, config)
+        start_test(train_iter, dev_iter, test_iter, model, alphabet, config)
         exit()
 
 

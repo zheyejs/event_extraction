@@ -39,21 +39,40 @@ def load_test_data(train_iter=None, dev_iter=None, test_iter=None, config=None):
     :param config:  config
     :return:  data for test
     """
+    data, path_source, path_result = None, None, None
     if config.t_data is None:
         print("default[test] for model test.")
-        return test_iter
+        data = test_iter
+        path_source = config.test_file
+        path_result = "{}.out".format(config.test_file)
     elif config.t_data == "train":
         print("train data for model test.")
-        return train_iter
+        data = train_iter
+        path_source = config.train_file
+        path_result = "{}.out".format(config.train_file)
     elif config.t_data == "dev":
         print("dev data for model test.")
-        return dev_iter
+        data = dev_iter
+        path_source = config.dev_file
+        path_result = "{}.out".format(config.dev_file)
     elif config.t_data == "test":
         print("test data for model test.")
-        return test_iter
+        data = test_iter
+        path_source = config.test_file
+        path_result = "{}.out".format(config.test_file)
     else:
         print("Error value --- t_data = {}, must in [None, 'train', 'dev', 'test'].".format(config.t_data))
         exit()
+    return data, path_source, path_result
+
+
+class T_Inference(object):
+    """
+        Test Inference
+    """
+    def __init__(self):
+        print("test T_Inference")
+
 
 
 
