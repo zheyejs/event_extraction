@@ -10,6 +10,7 @@
 """
 
 import sys
+import os
 import torch
 import torch.nn.functional as F
 import torch.nn.utils as utils
@@ -19,35 +20,28 @@ import time
 from DataUtils.eval_bio import entity_evalPRF_exact, entity_evalPRF_propor, entity_evalPRF_binary
 from DataUtils.eval import Eval, EvalPRF
 from DataUtils.Common import *
+from DataUtils.utils import *
+from DataUtils.Optim import Optimizer
 torch.manual_seed(seed_num)
 random.seed(seed_num)
 
 
 def train(train_iter, dev_iter, test_iter, model, config):
-    if config.use_cuda:
-        model.cuda()
+    """
+    :param train_iter:  train batch iterator
+    :param dev_iter:  dev batch iterator
+    :param test_iter: test batch iterator
+    :param model: nn model
+    :param config: config
+    :return: None
+    """
 
-    optimizer = None
-    if config.adam is True:
-        print("Adam Training......")
-        if config.embed_finetune is True:
-            optimizer = torch.optim.Adam(model.parameters(), lr=config.learning_rate, weight_decay=config.weight_decay)
-        else:
-            optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=config.learning_rate,
-                                         weight_decay=config.weight_decay)
-
-    if config.sgd is True:
-        print("SGD Training......")
-        if config.embed_finetune is True:
-            optimizer = torch.optim.SGD(model.parameters(), lr=config.learning_rate, weight_decay=config.weight_decay)
-        else:
-            optimizer = torch.optim.SGD(filter(lambda p: p.requires_grad, model.parameters()), lr=config.learning_rate,
-                                        weight_decay=config.weight_decay)
+    # optimizer = None
+    optimizer = Optimizer(name=config.learning_algorithm, model=model, lr=config.learning_rate,
+                          weight_decay=config.weight_decay, grad_clip=config.clip_max_norm)
 
     best_fscore = Best_Result()
 
-    steps = 0
-    model_count = 0
     model.train()
     max_dev_acc = -1
     train_eval = Eval()
@@ -63,15 +57,14 @@ def train(train_iter, dev_iter, test_iter, model, config):
         for batch_count, batch_features in enumerate(train_iter):
             model.zero_grad()
             optimizer.zero_grad()
-            # if config.use_cuda is True:
-            #     batch_features.label_features = batch_features.label_features.cuda()
             logit = model(batch_features)
-            # loss_logit = logit.view(logit.size(0) * logit.size(1), logit.size(2))
             loss = F.cross_entropy(logit.view(logit.size(0) * logit.size(1), -1), batch_features.label_features,
                                    ignore_index=config.label_paddingId)
             loss.backward()
-            # if config.clip_max_norm is not None:
-            #     utils.clip_grad_norm(model.parameters(), max_norm=config.clip_max_norm)
+            if config.clip_max_norm_use is True:
+                gclip = None if config.clip_max_norm == "None" else float(config.clip_max_norm)
+                assert isinstance(gclip, float)
+                utils.clip_grad_norm(model.parameters(), max_norm=gclip)
             optimizer.step()
             steps += 1
             if steps % config.log_interval == 0:
@@ -97,54 +90,25 @@ def train(train_iter, dev_iter, test_iter, model, config):
             eval_end_time = time.time()
             print("Test Time {:.3f}".format(eval_end_time - eval_start_time))
             # model.train()
-
-
-def eval(data_iter, model, eval_instance, best_fscore, epoch, config, test=False):
-    model.eval()
-    # eval time
-    eval_acc = Eval()
-    eval_PRF = EvalPRF()
-    gold_labels = []
-    predict_labels = []
-    for batch_features in data_iter:
-        logit = model(batch_features)
-        for id_batch in range(batch_features.batch_length):
-            inst = batch_features.inst[id_batch]
-            predict_label = []
-            for id_word in range(inst.words_size):
-                maxId = getMaxindex_np(logit[id_batch][id_word])
-                predict_label.append(config.create_alphabet.label_alphabet.from_id(maxId))
-            gold_labels.append(inst.labels)
-            predict_labels.append(predict_label)
-            # eval_PRF.evalPRF(predict_labels=predict_label, gold_labels=inst.labels, eval=eval_instance)
-    for p_label, g_label in zip(predict_labels, gold_labels):
-        eval_PRF.evalPRF(predict_labels=p_label, gold_labels=g_label, eval=eval_instance)
-    if eval_acc.gold_num == 0:
-        eval_acc.gold_num = 1
-    p, r, f = eval_instance.getFscore()
-    test_flag = "Test"
-    if test is False:
-        print()
-        test_flag = "Dev"
-        if f >= best_fscore.best_dev_fscore:
-            best_fscore.best_dev_fscore = f
-            best_fscore.best_epoch = epoch
-            best_fscore.best_test = True
-    if test is True and best_fscore.best_test is True:
-        best_fscore.p = p
-        best_fscore.r = r
-        best_fscore.f = f
-    print("{} eval: precision = {:.6f}%  recall = {:.6f}% , f-score = {:.6f}%,  [TAG-ACC = {:.6f}%]".format(test_flag, p, r, f, eval_acc.acc()))
-    if test is True:
-        print("The Current Best Dev F-score: {:.6f}, Locate on {} Epoch.".format(best_fscore.best_dev_fscore,
-                                                                                 best_fscore.best_epoch))
-        print("The Current Best Test Result: precision = {:.6f}%  recall = {:.6f}% , f-score = {:.6f}%".format(
-            best_fscore.p, best_fscore.r, best_fscore.f))
-    if test is True:
-        best_fscore.best_test = False
+        if config.save_model and config.save_all_model:
+            save_model_all(model, config.save_dir, config.model_name, epoch)
+        elif config.save_model and config.save_best_model:
+            save_best_model(model, config.save_dir, config.model_name, best_fscore)
+        else:
+            print()
 
 
 def eval_batch(data_iter, model, eval_instance, best_fscore, epoch, config, test=False):
+    """
+    :param data_iter:  eval batch data iterator
+    :param model: eval model
+    :param eval_instance:
+    :param best_fscore:
+    :param epoch:
+    :param config: config
+    :param test:  whether to test
+    :return: None
+    """
     model.eval()
     # eval time
     eval_acc = Eval()
@@ -162,9 +126,6 @@ def eval_batch(data_iter, model, eval_instance, best_fscore, epoch, config, test
             gold_labels.append(inst.labels)
             predict_labels.append(predict_label)
     for p_label, g_label in zip(predict_labels, gold_labels):
-    #     # print("***************************************")
-    #     # print(g_label)
-    #     # print(p_label)
         eval_PRF.evalPRF(predict_labels=p_label, gold_labels=g_label, eval=eval_instance)
     if eval_acc.gold_num == 0:
         eval_acc.gold_num = 1
@@ -176,6 +137,7 @@ def eval_batch(data_iter, model, eval_instance, best_fscore, epoch, config, test
     if test is False:
         print()
         test_flag = "Dev"
+        best_fscore.current_dev_fscore = f
         if f >= best_fscore.best_dev_fscore:
             best_fscore.best_dev_fscore = f
             best_fscore.best_epoch = epoch
@@ -193,30 +155,6 @@ def eval_batch(data_iter, model, eval_instance, best_fscore, epoch, config, test
             best_fscore.p, best_fscore.r, best_fscore.f))
     if test is True:
         best_fscore.best_test = False
-
-
-def getMaxindex(model_out, label_size, args):
-    max = model_out.data[0]
-    maxIndex = 0
-    for idx in range(1, label_size):
-        if model_out.data[idx] > max:
-            max = model_out.data[idx]
-            maxIndex = idx
-    return maxIndex
-
-
-def getMaxindex_np(model_out):
-    model_out_list = model_out.data.tolist()
-    maxIndex = model_out_list.index(np.max(model_out_list))
-    return maxIndex
-
-
-def getMaxindex_batch(model_out):
-    model_out_list = model_out.data.tolist()
-    maxIndex_batch = []
-    for list in model_out_list:
-        maxIndex_batch.append(list.index(np.max(list)))
-    return maxIndex_batch
 
 
 def getAcc(eval_acc, batch_features, logit, args):
@@ -238,14 +176,9 @@ def getAcc(eval_acc, batch_features, logit, args):
         eval_acc.gold_num += len(gold_lable)
 
 
-class Best_Result:
-    def __init__(self):
-        self.best_dev_fscore = -1
-        self.best_fscore = -1
-        self.best_epoch = 1
-        self.best_test = False
-        self.p = -1
-        self.r = -1
-        self.f = -1
+
+
+
+
 
 

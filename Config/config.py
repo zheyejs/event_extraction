@@ -59,7 +59,7 @@ class Configurable(myconf):
 
     @property
     def pretrained_embed_file(self):
-        return self._config.get('Data', 'pretrained_embed_file')
+        return self._config.get('Embed', 'pretrained_embed_file')
 
     # Data
     @property
@@ -140,6 +140,14 @@ class Configurable(myconf):
         return self._config.getboolean('Save', 'save_model')
 
     @property
+    def save_all_model(self):
+        return self._config.getboolean('Save', 'save_all_model')
+
+    @property
+    def save_best_model(self):
+        return self._config.getboolean('Save', 'save_best_model')
+
+    @property
     def rm_model(self):
         return self._config.getboolean('Save', 'rm_model')
 
@@ -200,6 +208,10 @@ class Configurable(myconf):
     @property
     def weight_decay(self):
         return self._config.getfloat("Optimizer", "weight_decay")
+
+    @property
+    def clip_max_norm_use(self):
+        return self._config.getboolean("Optimizer", "clip_max_norm_use")
 
     @property
     def clip_max_norm(self):

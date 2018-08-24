@@ -175,15 +175,25 @@ def load_data(config):
         if os.path.exists(config.pkl_directory): shutil.rmtree(config.pkl_directory)
         if not os.path.isdir(config.pkl_directory): os.makedirs(config.pkl_directory)
         train_iter, dev_iter, test_iter, alphabet = preprocessing(config)
-    elif (config.train is True) and (config.process is False):
+        # load Pre_Trained Embedding
+        config.pretrained_weight = pre_embed(config=config, alphabet=alphabet)
+    elif ((config.train is True) and (config.process is False)) or (config.test is True):
         print("load data from pkl file")
+        # load alphabet from pkl
         alphabet_dict = pcl.load(path=os.path.join(config.pkl_directory, config.pkl_alphabet))
         print(alphabet_dict.keys())
         alphabet = alphabet_dict["alphabet"]
+        # load iter from pkl
         iter_dict = pcl.load(path=os.path.join(config.pkl_directory, config.pkl_iter))
         print(iter_dict.keys())
         train_iter, dev_iter, test_iter = iter_dict.values()
         # train_iter, dev_iter, test_iter = iter_dict["train_iter"], iter_dict["dev_iter"], iter_dict["test_iter"]
+        # load embed from pkl
+        embed_dict = pcl.load(os.path.join(config.pkl_directory, config.pkl_embed))
+        print(embed_dict.keys())
+        embed = embed_dict["pretrain_embed"]
+        config.pretrained_weight = embed
+
     return train_iter, dev_iter, test_iter, alphabet
 
 
@@ -206,7 +216,7 @@ def main():
     get_params(config=config, alphabet=alphabet)
 
     # load Pre_Trained Embedding
-    config.pretrained_weight = pre_embed(config=config, alphabet=alphabet)
+    # config.pretrained_weight = pre_embed(config=config, alphabet=alphabet)
 
     # save dictionary
     save_dictionary(config=config)
@@ -222,20 +232,36 @@ def parse_argument():
     parser.add_argument("-c", "--config", dest="config_file", type=str, default="./Config/config.cfg",
                         help="config path")
     parser.add_argument("--train", dest="train", action="store_true", default=True, help="train model")
-    parser.add_argument("--test", dest="test", action="store_true", default=False, help="test model")
-    parser.add_argument("--predict", dest="predict", action="store_true", default=False, help="predict model")
     parser.add_argument("-p", "--process", dest="process", action="store_true", default=False, help="data process")
+    parser.add_argument("-t", "--test", dest="test", action="store_true", default=False, help="test model")
+    parser.add_argument("--t_model", dest="t_model", type=str, default=None, help="model for test")
+    parser.add_argument("--t_data", dest="t_data", type=str, default=None,
+                        help="data[train dev test None] for test model")
+    parser.add_argument("--predict", dest="predict", action="store_true", default=False, help="predict model")
     args = parser.parse_args()
+    # print(vars(args))
     config = configurable.Configurable(config_file=args.config_file)
     config.train = args.train
-    config.test = args.test
     config.process = args.process
+    config.test = args.test
+    config.t_model = args.t_model
+    config.t_data = args.t_data
+    config.predict = args.predict
+    # config
     if config.test is True:
         config.train = False
+    if config.t_data not in [None, "train", "dev", "test"]:
+        print("\nUsage")
+        parser.print_help()
+        print("t_data : {}, not in [None, 'train', 'dev', 'test']".format(config.t_data))
+        exit()
     print("***************************************")
-    print("Data Process {}".format(config.process))
-    print("Train model {}".format(config.train))
-    print("Test model {}".format(config.test))
+    print("Data Process : {}".format(config.process))
+    print("Train model : {}".format(config.train))
+    print("Test model : {}".format(config.test))
+    print("t_model : {}".format(config.t_model))
+    print("t_data : {}".format(config.t_data))
+    print("predict : {}".format(config.predict))
     print("***************************************")
 
     return config

@@ -24,7 +24,7 @@ class P(object):
 
 w = P()
 l = P()
-d = [1, 2, 3, 4]
+d = [w, l, 1, 2, 3, 4]
 
 path = "../alphabet.pkl"
 # obj_dict = {"w": w, "l": l, "d": d}
