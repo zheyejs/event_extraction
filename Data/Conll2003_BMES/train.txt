@@ -1,37 +1,37 @@
 -DOCSTART- O
 
-EU B-ORG
+EU S-ORG
 rejects O
-German B-MISC
+German S-MISC
 call O
 to O
 boycott O
-British B-MISC
+British S-MISC
 lamb O
 . O
 
 Peter B-PER
-Blackburn I-PER
+Blackburn E-PER
 
-BRUSSELS B-LOC
+BRUSSELS S-LOC
 1996-08-22 O
 
 The O
 European B-ORG
-Commission I-ORG
+Commission E-ORG
 said O
 on O
 Thursday O
 it O
 disagreed O
 with O
-German B-MISC
+German S-MISC
 advice O
 to O
 consumers O
 to O
 shun O
-British B-MISC
+British S-MISC
 lamb O
 until O
 scientists O
@@ -47,18 +47,18 @@ to O
 sheep O
 . O
 
-Germany B-LOC
+Germany S-LOC
 's O
 representative O
 to O
 the O
 European B-ORG
-Union I-ORG
+Union E-ORG
 's O
 veterinary O
 committee O
 Werner B-PER
-Zwingmann I-PER
+Zwingmann E-PER
 said O
 on O
 Wednesday O
@@ -70,7 +70,7 @@ from O
 countries O
 other O
 than O
-Britain B-LOC
+Britain S-LOC
 until O
 the O
 scientific O
@@ -99,14 +99,14 @@ it O
 , O
 " O
 the O
-Commission B-ORG
+Commission S-ORG
 's O
 chief O
 spokesman O
 Nikolaus B-PER
 van I-PER
 der I-PER
-Pas I-PER
+Pas E-PER
 told O
 a O
 news O
@@ -136,7 +136,7 @@ taken O
 by O
 the O
 European B-ORG
-Union I-ORG
+Union E-ORG
 . O
 
 He O
@@ -146,11 +146,11 @@ proposal O
 last O
 month O
 by O
-EU B-ORG
+EU S-ORG
 Farm O
 Commissioner O
 Franz B-PER
-Fischler I-PER
+Fischler E-PER
 to O
 ban O
 sheep O
@@ -180,16 +180,16 @@ human O
 health O
 . O
 
-Fischler B-PER
+Fischler S-PER
 proposed O
-EU-wide B-MISC
+EU-wide S-MISC
 measures O
 after O
 reports O
 from O
-Britain B-LOC
+Britain S-LOC
 and O
-France B-LOC
+France S-LOC
 that O
 under O
 laboratory O
@@ -199,9 +199,9 @@ could O
 contract O
 Bovine B-MISC
 Spongiform I-MISC
-Encephalopathy I-MISC
+Encephalopathy E-MISC
 ( O
-BSE B-MISC
+BSE S-MISC
 ) O
 -- O
 mad O
@@ -210,7 +210,7 @@ disease O
 . O
 
 But O
-Fischler B-PER
+Fischler S-PER
 agreed O
 to O
 review O
@@ -218,7 +218,7 @@ his O
 proposal O
 after O
 the O
-EU B-ORG
+EU S-ORG
 's O
 standing O
 veterinary O
@@ -247,19 +247,19 @@ human O
 health O
 . O
 
-Spanish B-MISC
+Spanish S-MISC
 Farm O
 Minister O
 Loyola B-PER
 de I-PER
-Palacio I-PER
+Palacio E-PER
 had O
 earlier O
 accused O
-Fischler B-PER
+Fischler S-PER
 at O
 an O
-EU B-ORG
+EU S-ORG
 farm O
 ministers O
 ' O
@@ -278,17 +278,17 @@ generalisation O
 . O
 
 Only O
-France B-LOC
+France S-LOC
 and O
-Britain B-LOC
+Britain S-LOC
 backed O
-Fischler B-PER
+Fischler S-PER
 's O
 proposal O
 . O
 
 The O
-EU B-ORG
+EU S-ORG
 's O
 scientific O
 veterinary O
@@ -328,7 +328,7 @@ brain-wasting O
 disease O
 similar O
 to O
-BSE B-MISC
+BSE S-MISC
 which O
 is O
 believed O
@@ -345,7 +345,7 @@ animal O
 waste O
 . O
 
-British B-MISC
+British S-MISC
 farmers O
 denied O
 on O
@@ -365,20 +365,20 @@ but O
 expressed O
 concern O
 that O
-German B-MISC
+German S-MISC
 government O
 advice O
 to O
 consumers O
 to O
 avoid O
-British B-MISC
+British S-MISC
 lamb O
 might O
 influence O
 consumers O
 across O
-Europe B-LOC
+Europe S-LOC
 . O
 
 " O
@@ -398,7 +398,7 @@ are O
 going O
 to O
 take O
-Germany B-LOC
+Germany S-LOC
 's O
 lead O
 , O
@@ -407,21 +407,21 @@ Welsh B-ORG
 National I-ORG
 Farmers I-ORG
 ' I-ORG
-Union I-ORG
+Union E-ORG
 ( O
-NFU B-ORG
+NFU S-ORG
 ) O
 chairman O
 John B-PER
 Lloyd I-PER
-Jones I-PER
+Jones E-PER
 said O
 on O
 BBC B-ORG
-radio I-ORG
+radio E-ORG
 . O
 
-Bonn B-LOC
+Bonn S-LOC
 has O
 led O
 efforts O
@@ -437,7 +437,7 @@ in O
 March O
 after O
 a O
-British B-MISC
+British S-MISC
 report O
 suggested O
 humans O
@@ -456,12 +456,12 @@ contaminated O
 beef O
 . O
 
-Germany B-LOC
+Germany S-LOC
 imported O
 47,600 O
 sheep O
 from O
-Britain B-LOC
+Britain S-LOC
 last O
 year O
 , O
@@ -478,7 +478,7 @@ in O
 4,275 O
 tonnes O
 of O
-British B-MISC
+British S-MISC
 mutton O
 , O
 some O
@@ -492,7 +492,7 @@ imports O
 -DOCSTART- O
 
 Rare O
-Hendrix B-PER
+Hendrix S-PER
 song O
 draft O
 sells O
@@ -502,7 +502,7 @@ $ O
 17,000 O
 . O
 
-LONDON B-LOC
+LONDON S-LOC
 1996-08-22 O
 
 A O
@@ -514,11 +514,11 @@ of O
 a O
 song O
 by O
-U.S. B-LOC
+U.S. S-LOC
 guitar O
 legend O
 Jimi B-PER
-Hendrix I-PER
+Hendrix E-PER
 was O
 sold O
 for O
@@ -542,7 +542,7 @@ possessions O
 . O
 
 A O
-Florida B-LOC
+Florida S-LOC
 restaurant O
 paid O
 10,925 O
@@ -559,17 +559,17 @@ of O
 Ai B-MISC
 n't I-MISC
 no I-MISC
-telling I-MISC
+telling E-MISC
 " O
 , O
 which O
-Hendrix B-PER
+Hendrix S-PER
 penned O
 on O
 a O
 piece O
 of O
-London B-LOC
+London S-LOC
 hotel O
 stationery O
 in O
@@ -587,10 +587,10 @@ January O
 concert O
 in O
 the O
-English B-MISC
+English S-MISC
 city O
 of O
-Nottingham B-LOC
+Nottingham S-LOC
 he O
 threw O
 the O
@@ -624,12 +624,12 @@ up O
 for O
 auction O
 by O
-Hendrix B-PER
+Hendrix S-PER
 's O
 former O
 girlfriend O
 Kathy B-PER
-Etchingham I-PER
+Etchingham E-PER
 , O
 who O
 lived O
@@ -654,7 +654,7 @@ inlaid O
 box O
 used O
 by O
-Hendrix B-PER
+Hendrix S-PER
 to O
 store O
 his O
@@ -663,7 +663,7 @@ drugs O
 which O
 an O
 anonymous O
-Australian B-MISC
+Australian S-MISC
 purchaser O
 bought O
 for O
@@ -690,23 +690,23 @@ aged O
 
 -DOCSTART- O
 
-China B-LOC
+China S-LOC
 says O
-Taiwan B-LOC
+Taiwan S-LOC
 spoils O
 atmosphere O
 for O
 talks O
 . O
 
-BEIJING B-LOC
+BEIJING S-LOC
 1996-08-22 O
 
-China B-LOC
+China S-LOC
 on O
 Thursday O
 accused O
-Taipei B-LOC
+Taipei S-LOC
 of O
 spoiling O
 the O
@@ -719,30 +719,30 @@ talks O
 across O
 the O
 Taiwan B-LOC
-Strait I-LOC
+Strait E-LOC
 with O
 a O
 visit O
 to O
-Ukraine B-LOC
+Ukraine S-LOC
 by O
-Taiwanese B-MISC
+Taiwanese S-MISC
 Vice O
 President O
 Lien B-PER
-Chan I-PER
+Chan E-PER
 this O
 week O
 that O
 infuriated O
-Beijing B-LOC
+Beijing S-LOC
 . O
 
 Speaking O
 only O
 hours O
 after O
-Chinese B-MISC
+Chinese S-MISC
 state O
 media O
 said O
@@ -756,15 +756,15 @@ in O
 political O
 talks O
 with O
-Taiwan B-LOC
+Taiwan S-LOC
 , O
 Foreign B-ORG
-Ministry I-ORG
+Ministry E-ORG
 spokesman O
 Shen B-PER
-Guofang I-PER
+Guofang E-PER
 told O
-Reuters B-ORG
+Reuters S-ORG
 : O
 " O
 The O
@@ -781,7 +781,7 @@ been O
 disrupted O
 by O
 the O
-Taiwan B-LOC
+Taiwan S-LOC
 authorities O
 . O
 " O
@@ -789,15 +789,15 @@ authorities O
 State O
 media O
 quoted O
-China B-LOC
+China S-LOC
 's O
 top O
 negotiator O
 with O
-Taipei B-LOC
+Taipei S-LOC
 , O
 Tang B-PER
-Shubei I-PER
+Shubei E-PER
 , O
 as O
 telling O
@@ -805,7 +805,7 @@ a O
 visiting O
 group O
 from O
-Taiwan B-LOC
+Taiwan S-LOC
 on O
 Wednesday O
 that O
@@ -855,9 +855,9 @@ of O
 the O
 People B-ORG
 's I-ORG
-Daily I-ORG
+Daily E-ORG
 quoted O
-Tang B-PER
+Tang S-PER
 as O
 saying O
 . O
@@ -866,10 +866,10 @@ The O
 foreign O
 ministry O
 's O
-Shen B-ORG
+Shen S-ORG
 told O
 Reuters B-ORG
-Television I-ORG
+Television E-ORG
 in O
 an O
 interview O
@@ -878,7 +878,7 @@ had O
 read O
 reports O
 of O
-Tang B-PER
+Tang S-PER
 's O
 comments O
 but O
@@ -897,24 +897,24 @@ right O
 for O
 talks O
 with O
-Taiwan B-LOC
+Taiwan S-LOC
 , O
 which O
-Beijing B-LOC
+Beijing S-LOC
 considers O
 a O
 renegade O
 province O
 . O
 
-China B-LOC
+China S-LOC
 , O
 which O
 has O
 long O
 opposed O
 all O
-Taipei B-LOC
+Taipei S-LOC
 efforts O
 to O
 gain O
@@ -928,31 +928,31 @@ by O
 a O
 visit O
 to O
-Ukraine B-LOC
+Ukraine S-LOC
 this O
 week O
 by O
-Taiwanese B-MISC
+Taiwanese S-MISC
 Vice O
 President O
-Lien B-PER
+Lien S-PER
 . O
 
 -DOCSTART- O
 
-China B-LOC
+China S-LOC
 says O
 time O
 right O
 for O
-Taiwan B-LOC
+Taiwan S-LOC
 talks O
 . O
 
-BEIJING B-LOC
+BEIJING S-LOC
 1996-08-22 O
 
-China B-LOC
+China S-LOC
 has O
 said O
 it O
@@ -962,7 +962,7 @@ for O
 political O
 talks O
 with O
-Taiwan B-LOC
+Taiwan S-LOC
 and O
 that O
 the O
@@ -993,12 +993,12 @@ talks O
 , O
 the O
 official O
-Xinhua B-ORG
+Xinhua S-ORG
 news O
 agency O
 quoted O
 Tang B-PER
-Shubei I-PER
+Shubei E-PER
 , O
 executive O
 vice O
@@ -1011,7 +1011,7 @@ Relations I-ORG
 Across I-ORG
 the I-ORG
 Taiwan I-ORG
-Straits I-ORG
+Straits E-ORG
 , O
 as O
 saying O
@@ -1022,7 +1022,7 @@ Wednesday O
 
 -DOCSTART- O
 
-German B-MISC
+German S-MISC
 July O
 car O
 registrations O
@@ -1034,10 +1034,10 @@ yr O
 yr O
 . O
 
-FRANKFURT B-LOC
+FRANKFURT S-LOC
 1996-08-22 O
 
-German B-MISC
+German S-MISC
 first-time O
 registrations O
 of O
@@ -1060,7 +1060,7 @@ Federal B-ORG
 office I-ORG
 for I-ORG
 motor I-ORG
-vehicles I-ORG
+vehicles E-ORG
 said O
 on O
 Thursday O
@@ -1128,9 +1128,9 @@ an O
 increased O
 number O
 of O
-Germans B-MISC
+Germans S-MISC
 buying O
-German B-MISC
+German S-MISC
 cars O
 abroad O
 , O
@@ -1151,7 +1151,7 @@ said O
 
 Almost O
 all O
-German B-MISC
+German S-MISC
 car O
 manufacturers O
 posted O
@@ -1165,7 +1165,7 @@ period O
 . O
 
 Volkswagen B-ORG
-AG I-ORG
+AG E-ORG
 won O
 77,719 O
 registrations O
@@ -1181,11 +1181,11 @@ total O
 . O
 
 Opel B-ORG
-AG I-ORG
+AG E-ORG
 together O
 with O
 General B-ORG
-Motors I-ORG
+Motors E-ORG
 came O
 in O
 second O
@@ -1204,7 +1204,7 @@ figure O
 
 Third O
 was O
-Ford B-ORG
+Ford S-ORG
 with O
 35,563 O
 registrations O
@@ -1215,9 +1215,9 @@ percent O
 . O
 
 Only O
-Seat B-ORG
+Seat S-ORG
 and O
-Porsche B-ORG
+Porsche S-ORG
 had O
 fewer O
 registrations O
@@ -1232,7 +1232,7 @@ year O
 July O
 . O
 
-Seat B-ORG
+Seat S-ORG
 posted O
 3,420 O
 registrations O
@@ -1247,7 +1247,7 @@ year O
 earlier O
 . O
 
-Porsche B-ORG
+Porsche S-ORG
 's O
 registrations O
 fell O
@@ -1259,7 +1259,7 @@ from O
 
 -DOCSTART- O
 
-GREEK B-MISC
+GREEK S-MISC
 SOCIALISTS O
 GIVE O
 GREEN O
@@ -1270,11 +1270,11 @@ FOR O
 ELECTIONS O
 . O
 
-ATHENS B-LOC
+ATHENS S-LOC
 1996-08-22 O
 
 The O
-Greek B-MISC
+Greek S-MISC
 socialist O
 party O
 's O
@@ -1288,7 +1288,7 @@ to O
 Prime O
 Minister O
 Costas B-PER
-Simitis I-PER
+Simitis E-PER
 to O
 call O
 snap O
@@ -1298,7 +1298,7 @@ its O
 general O
 secretary O
 Costas B-PER
-Skandalidis I-PER
+Skandalidis E-PER
 told O
 reporters O
 . O
@@ -1306,7 +1306,7 @@ reporters O
 Prime O
 Minister O
 Costas B-PER
-Simitis I-PER
+Simitis E-PER
 is O
 going O
 to O
@@ -1323,30 +1323,30 @@ on O
 Thursday O
 , O
 said O
-Skandalidis B-PER
+Skandalidis S-PER
 . O
 
 -- O
 Dimitris B-PER
-Kontogiannis I-PER
+Kontogiannis E-PER
 , O
 Athens B-ORG
-Newsroom I-ORG
+Newsroom E-ORG
 +301 O
 3311812-4 O
 
 -DOCSTART- O
 
-BayerVB B-ORG
+BayerVB S-ORG
 sets O
-C$ B-MISC
+C$ S-MISC
 100 O
 million O
 six-year O
 bond O
 . O
 
-LONDON B-LOC
+LONDON S-LOC
 1996-08-22 O
 
 The O
@@ -1358,15 +1358,15 @@ by O
 lead O
 manager O
 Toronto B-PER
-Dominion I-PER
+Dominion E-PER
 . O
 
 BORROWER O
 BAYERISCHE B-ORG
-VEREINSBANK I-ORG
+VEREINSBANK E-ORG
 
 AMT O
-C$ B-MISC
+C$ S-MISC
 100 O
 MLN O
 COUPON O
@@ -1400,7 +1400,7 @@ PAY O
 FREQ O
 = O
 
-S&P B-ORG
+S&P S-ORG
 = O
 DENOMS O
 ( O
@@ -1409,11 +1409,11 @@ K O
 1-10-100 O
 SALE O
 LIMITS O
-US B-LOC
+US S-LOC
 / O
-UK B-LOC
+UK S-LOC
 / O
-CA B-LOC
+CA S-LOC
 
 NEG O
 PLG O
@@ -1427,7 +1427,7 @@ MAJ O
 
 GOV O
 LAW O
-GERMAN B-MISC
+GERMAN S-MISC
 HOME O
 CTRY O
 = O
@@ -1455,7 +1455,7 @@ SEPT O
 
 NOTES O
 BAYERISCHE B-ORG
-VEREINSBANK I-ORG
+VEREINSBANK E-ORG
 IS O
 JOINT O
 LEAD O
@@ -1463,7 +1463,7 @@ MANAGER O
 
 -- O
 London B-ORG
-Newsroom I-ORG
+Newsroom E-ORG
 +44 O
 171 O
 542 O
@@ -1471,7 +1471,7 @@ Newsroom I-ORG
 
 -DOCSTART- O
 
-Venantius B-ORG
+Venantius S-ORG
 sets O
 $ O
 300 O
@@ -1481,7 +1481,7 @@ January O
 FRN O
 . O
 
-LONDON B-LOC
+LONDON S-LOC
 1996-08-22 O
 
 The O
@@ -1495,14 +1495,14 @@ lead O
 manager O
 Lehman B-ORG
 Brothers I-ORG
-International I-ORG
+International E-ORG
 . O
 
 BORROWER O
 VENANTIUS B-ORG
-AB I-ORG
+AB E-ORG
 ( O
-SWEDISH B-MISC
+SWEDISH S-MISC
 NATIONAL O
 MORTGAGE O
 AGENCY O
@@ -1522,7 +1522,7 @@ MATURITY O
 TYPE O
 FRN O
 BASE O
-3M B-ORG
+3M S-ORG
 LIBOR O
 PAY O
 DATE O
@@ -1540,7 +1540,7 @@ FEES O
 BP O
 
 LAST O
-S&P B-ORG
+S&P S-ORG
 AA+ O
 REOFFER O
 = O
@@ -1552,7 +1552,7 @@ FIRST O
 COUPON O
 
 LISTING O
-LONDON B-LOC
+LONDON S-LOC
 DENOMS O
 ( O
 K O
@@ -1560,13 +1560,13 @@ K O
 1-10-100 O
 SALE O
 LIMITS O
-US B-LOC
+US S-LOC
 / O
-UK B-LOC
+UK S-LOC
 / O
-JP B-LOC
+JP S-LOC
 / O
-FR B-LOC
+FR S-LOC
 
 NEG O
 PLG O
@@ -1581,10 +1581,10 @@ IPMA O
 
 GOV O
 LAW O
-ENGLISH B-MISC
+ENGLISH S-MISC
 HOME O
 CTRY O
-SWEDEN B-LOC
+SWEDEN S-LOC
 TAX O
 PROVS O
 STANDARD O
@@ -1609,7 +1609,7 @@ PROGRAMME O
 
 -- O
 London B-ORG
-Newsroom I-ORG
+Newsroom E-ORG
 +44 O
 171 O
 542 O
@@ -1621,10 +1621,10 @@ Port O
 conditions O
 update O
 - O
-Syria B-LOC
+Syria S-LOC
 - O
 Lloyds B-ORG
-Shipping I-ORG
+Shipping E-ORG
 . O
 
 Port O
@@ -1633,10 +1633,10 @@ from O
 Lloyds B-ORG
 Shipping I-ORG
 Intelligence I-ORG
-Service I-ORG
+Service E-ORG
 -- O
 
-LATTAKIA B-LOC
+LATTAKIA S-LOC
 , O
 Aug O
 10 O
@@ -1644,9 +1644,9 @@ Aug O
 waiting O
 time O
 at O
-Lattakia B-LOC
+Lattakia S-LOC
 and O
-Tartous B-LOC
+Tartous S-LOC
 presently O
 24 O
 hours O
@@ -1654,29 +1654,29 @@ hours O
 
 -DOCSTART- O
 
-Israel B-LOC
+Israel S-LOC
 plays O
 down O
 fears O
 of O
 war O
 with O
-Syria B-LOC
+Syria S-LOC
 . O
 
 Colleen B-PER
-Siegel I-PER
+Siegel E-PER
 
-JERUSALEM B-LOC
+JERUSALEM S-LOC
 1996-08-22 O
 
-Israel B-LOC
+Israel S-LOC
 's O
 outgoing O
 peace O
 negotiator O
 with O
-Syria B-LOC
+Syria S-LOC
 said O
 on O
 Thursday O
@@ -1697,28 +1697,28 @@ teacup O
 . O
 
 Itamar B-PER
-Rabinovich I-PER
+Rabinovich E-PER
 , O
 who O
 as O
-Israel B-LOC
+Israel S-LOC
 's O
 ambassador O
 to O
-Washington B-LOC
+Washington S-LOC
 conducted O
 unfruitful O
 negotiations O
 with O
-Syria B-LOC
+Syria S-LOC
 , O
 told O
 Israel B-ORG
-Radio I-ORG
+Radio E-ORG
 it O
 looked O
 like O
-Damascus B-LOC
+Damascus S-LOC
 wanted O
 to O
 talk O
@@ -1733,7 +1733,7 @@ appears O
 to O
 me O
 the O
-Syrian B-MISC
+Syrian S-MISC
 priority O
 is O
 still O
@@ -1742,7 +1742,7 @@ negotiate O
 . O
 
 The O
-Syrians B-MISC
+Syrians S-MISC
 are O
 confused O
 , O
@@ -1757,7 +1757,7 @@ general O
 assessment O
 here O
 in O
-Washington B-LOC
+Washington S-LOC
 is O
 that O
 this O
@@ -1774,7 +1774,7 @@ he O
 said O
 . O
 
-Rabinovich B-PER
+Rabinovich S-PER
 is O
 winding O
 up O
@@ -1790,31 +1790,31 @@ be O
 replaced O
 by O
 Eliahu B-PER
-Ben-Elissar I-PER
+Ben-Elissar E-PER
 , O
 a O
 former O
-Israeli B-MISC
+Israeli S-MISC
 envoy O
 to O
-Egypt B-LOC
+Egypt S-LOC
 and O
 right-wing O
-Likud B-ORG
+Likud S-ORG
 party O
 politician O
 . O
 
-Israel B-LOC
+Israel S-LOC
 on O
 Wednesday O
 sent O
-Syria B-LOC
+Syria S-LOC
 a O
 message O
 , O
 via O
-Washington B-LOC
+Washington S-LOC
 , O
 saying O
 it O
@@ -1834,7 +1834,7 @@ preconditions O
 But O
 it O
 slammed O
-Damascus B-LOC
+Damascus S-LOC
 for O
 creating O
 what O
@@ -1845,9 +1845,9 @@ dangerous O
 atmosphere O
 . O
 
-Syria B-LOC
+Syria S-LOC
 accused O
-Israel B-LOC
+Israel S-LOC
 on O
 Wednesday O
 of O
@@ -1858,11 +1858,11 @@ campaign O
 against O
 it O
 after O
-Israeli B-MISC
+Israeli S-MISC
 television O
 reported O
 that O
-Damascus B-LOC
+Damascus S-LOC
 had O
 recently O
 test O
@@ -1890,15 +1890,15 @@ we O
 sent O
 to O
 ( O
-Syrian B-MISC
+Syrian S-MISC
 President O
 Hafez B-PER
-al- I-PER
+al- E-PER
 ) O
-Assad B-PER
+Assad S-PER
 is O
 that O
-Israel B-LOC
+Israel S-LOC
 is O
 ready O
 at O
@@ -1912,14 +1912,14 @@ peace O
 negotiations O
 , O
 " O
-Israeli B-MISC
+Israeli S-MISC
 Foreign O
 Minister O
 David B-PER
-Levy I-PER
+Levy E-PER
 told O
 Israel B-ORG
-Radio I-ORG
+Radio E-ORG
 in O
 an O
 interview O
@@ -1929,11 +1929,11 @@ Tension O
 has O
 mounted O
 since O
-Israeli B-MISC
+Israeli S-MISC
 Prime O
 Minister O
 Benjamin B-PER
-Netanyahu I-PER
+Netanyahu E-PER
 took O
 office O
 in O
@@ -1943,20 +1943,20 @@ to O
 retain O
 the O
 Golan B-LOC
-Heights I-LOC
-Israel B-LOC
+Heights E-LOC
+Israel S-LOC
 captured O
 from O
-Syria B-LOC
+Syria S-LOC
 in O
 the O
 1967 O
 Middle B-LOC
-East I-LOC
+East E-LOC
 war O
 . O
 
-Israeli-Syrian B-MISC
+Israeli-Syrian S-MISC
 peace O
 talks O
 have O
@@ -1964,7 +1964,7 @@ been O
 deadlocked O
 over O
 the O
-Golan B-LOC
+Golan S-LOC
 since O
 1991 O
 despite O
@@ -1975,7 +1975,7 @@ government O
 willingness O
 to O
 make O
-Golan B-LOC
+Golan S-LOC
 concessions O
 . O
 
@@ -1998,7 +1998,7 @@ voices O
 coming O
 out O
 of O
-Damascus B-LOC
+Damascus S-LOC
 are O
 bad O
 , O
@@ -2039,7 +2039,7 @@ its O
 prisoners O
 , O
 " O
-Levy B-PER
+Levy S-PER
 said O
 . O
 
@@ -2047,7 +2047,7 @@ said O
 We O
 expect O
 from O
-Syria B-LOC
+Syria S-LOC
 , O
 if O
 its O
@@ -2060,7 +2060,7 @@ that O
 it O
 will O
 answer O
-Israel B-LOC
+Israel S-LOC
 's O
 message O
 to O

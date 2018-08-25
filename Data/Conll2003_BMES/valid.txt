@@ -2,7 +2,7 @@
 
 CRICKET O
 - O
-LEICESTERSHIRE B-ORG
+LEICESTERSHIRE S-ORG
 TAKE O
 OVER O
 AT O
@@ -12,14 +12,14 @@ INNINGS O
 VICTORY O
 . O
 
-LONDON B-LOC
+LONDON S-LOC
 1996-08-30 O
 
 West B-MISC
-Indian I-MISC
+Indian E-MISC
 all-rounder O
 Phil B-PER
-Simmons I-PER
+Simmons E-PER
 took O
 four O
 for O
@@ -27,9 +27,9 @@ for O
 on O
 Friday O
 as O
-Leicestershire B-ORG
+Leicestershire S-ORG
 beat O
-Somerset B-ORG
+Somerset S-ORG
 by O
 an O
 innings O
@@ -64,18 +64,18 @@ short-lived O
 as O
 title O
 rivals O
-Essex B-ORG
+Essex S-ORG
 , O
-Derbyshire B-ORG
+Derbyshire S-ORG
 and O
-Surrey B-ORG
+Surrey S-ORG
 all O
 closed O
 in O
 on O
 victory O
 while O
-Kent B-ORG
+Kent S-ORG
 made O
 up O
 for O
@@ -86,12 +86,12 @@ their O
 rain-affected O
 match O
 against O
-Nottinghamshire B-ORG
+Nottinghamshire S-ORG
 . O
 
 After O
 bowling O
-Somerset B-ORG
+Somerset S-ORG
 out O
 for O
 83 O
@@ -101,9 +101,9 @@ opening O
 morning O
 at O
 Grace B-LOC
-Road I-LOC
+Road E-LOC
 , O
-Leicestershire B-ORG
+Leicestershire S-ORG
 extended O
 their O
 first O
@@ -118,10 +118,10 @@ out O
 for O
 296 O
 with O
-England B-LOC
+England S-LOC
 discard O
 Andy B-PER
-Caddick I-PER
+Caddick E-PER
 taking O
 three O
 for O
@@ -132,7 +132,7 @@ Trailing O
 by O
 213 O
 , O
-Somerset B-ORG
+Somerset S-ORG
 got O
 a O
 solid O
@@ -142,7 +142,7 @@ their O
 second O
 innings O
 before O
-Simmons B-PER
+Simmons S-PER
 stepped O
 in O
 to O
@@ -153,7 +153,7 @@ for O
 174 O
 . O
 
-Essex B-ORG
+Essex S-ORG
 , O
 however O
 , O
@@ -166,10 +166,10 @@ top O
 spot O
 after O
 Nasser B-PER
-Hussain I-PER
+Hussain E-PER
 and O
 Peter B-PER
-Such I-PER
+Such E-PER
 gave O
 them O
 a O
@@ -179,17 +179,17 @@ on O
 their O
 match O
 against O
-Yorkshire B-ORG
+Yorkshire S-ORG
 at O
-Headingley B-LOC
+Headingley S-LOC
 . O
 
-Hussain B-PER
+Hussain S-PER
 , O
 considered O
 surplus O
 to O
-England B-LOC
+England S-LOC
 's O
 one-day O
 requirements O
@@ -206,7 +206,7 @@ the O
 season O
 , O
 as O
-Essex B-ORG
+Essex S-ORG
 reached O
 372 O
 and O
@@ -222,7 +222,7 @@ of O
 By O
 the O
 close O
-Yorkshire B-ORG
+Yorkshire S-ORG
 had O
 turned O
 that O
@@ -232,7 +232,7 @@ a O
 advantage O
 but O
 off-spinner O
-Such B-PER
+Such S-PER
 had O
 scuttled O
 their O
@@ -261,18 +261,18 @@ rain O
 
 At O
 the O
-Oval B-LOC
+Oval S-LOC
 , O
-Surrey B-ORG
+Surrey S-ORG
 captain O
 Chris B-PER
-Lewis I-PER
+Lewis E-PER
 , O
 another O
 man O
 dumped O
 by O
-England B-LOC
+England S-LOC
 , O
 continued O
 to O
@@ -298,7 +298,7 @@ in O
 the O
 match O
 against O
-Warwickshire B-ORG
+Warwickshire S-ORG
 . O
 
 He O
@@ -306,15 +306,15 @@ was O
 well O
 backed O
 by O
-England B-LOC
+England S-LOC
 hopeful O
 Mark B-PER
-Butcher I-PER
+Butcher E-PER
 who O
 made O
 70 O
 as O
-Surrey B-ORG
+Surrey S-ORG
 closed O
 on O
 429 O
@@ -327,7 +327,7 @@ of O
 234 O
 . O
 
-Derbyshire B-ORG
+Derbyshire S-ORG
 kept O
 up O
 the O
@@ -341,7 +341,7 @@ since O
 1936 O
 by O
 reducing O
-Worcestershire B-ORG
+Worcestershire S-ORG
 to O
 133 O
 for O
@@ -362,27 +362,27 @@ innings O
 defeat O
 . O
 
-Australian B-MISC
+Australian S-MISC
 Tom B-PER
-Moody I-PER
+Moody E-PER
 took O
 six O
 for O
 82 O
 but O
 Chris B-PER
-Adams I-PER
+Adams E-PER
 , O
 123 O
 , O
 and O
 Tim B-PER
-O'Gorman I-PER
+O'Gorman E-PER
 , O
 109 O
 , O
 took O
-Derbyshire B-ORG
+Derbyshire S-ORG
 to O
 471 O
 and O
@@ -411,14 +411,14 @@ by O
 the O
 weather O
 , O
-Kent B-ORG
+Kent S-ORG
 stepped O
 up O
 a O
 gear O
 to O
 dismiss O
-Nottinghamshire B-ORG
+Nottinghamshire S-ORG
 for O
 214 O
 . O
@@ -433,13 +433,13 @@ gritty O
 84 O
 from O
 Paul B-PER
-Johnson I-PER
+Johnson E-PER
 but O
-ex-England B-MISC
+ex-England S-MISC
 fast O
 bowler O
 Martin B-PER
-McCague I-PER
+McCague E-PER
 took O
 four O
 for O
@@ -448,7 +448,7 @@ for O
 
 By O
 stumps O
-Kent B-ORG
+Kent S-ORG
 had O
 reached O
 108 O
@@ -462,11 +462,11 @@ CRICKET O
 - O
 ENGLISH B-MISC
 COUNTY I-MISC
-CHAMPIONSHIP I-MISC
+CHAMPIONSHIP E-MISC
 SCORES O
 . O
 
-LONDON B-LOC
+LONDON S-LOC
 1996-08-30 O
 
 Result O
@@ -476,7 +476,7 @@ of O
 play O
 scores O
 in O
-English B-MISC
+English S-MISC
 county O
 championship O
 matches O
@@ -484,11 +484,11 @@ on O
 Friday O
 : O
 
-Leicester B-LOC
+Leicester S-LOC
 : O
-Leicestershire B-ORG
+Leicestershire S-ORG
 beat O
-Somerset B-ORG
+Somerset S-ORG
 by O
 an O
 innings O
@@ -497,53 +497,53 @@ and O
 runs O
 . O
 
-Somerset B-ORG
+Somerset S-ORG
 83 O
 and O
 174 O
 ( O
 P. B-PER
-Simmons I-PER
+Simmons E-PER
 4-38 O
 ) O
 , O
-Leicestershire B-ORG
+Leicestershire S-ORG
 296 O
 . O
 
-Leicestershire B-ORG
+Leicestershire S-ORG
 22 O
 points O
 , O
-Somerset B-ORG
+Somerset S-ORG
 4 O
 . O
 
-Chester-le-Street B-LOC
+Chester-le-Street S-LOC
 : O
-Glamorgan B-ORG
+Glamorgan S-ORG
 259 O
 and O
 207 O
 ( O
 A. B-PER
-Dale I-PER
+Dale E-PER
 69 O
 , O
 H. B-PER
-Morris I-PER
+Morris E-PER
 69 O
 ; O
 D. B-PER
-Blenkiron I-PER
+Blenkiron E-PER
 4-43 O
 ) O
 , O
-Durham B-ORG
+Durham S-ORG
 114 O
 ( O
 S. B-PER
-Watkin I-PER
+Watkin E-PER
 4-28 O
 ) O
 and O
@@ -551,163 +551,163 @@ and O
 . O
 
 Tunbridge B-LOC
-Wells I-LOC
+Wells E-LOC
 : O
-Nottinghamshire B-ORG
+Nottinghamshire S-ORG
 214 O
 ( O
 P. B-PER
-Johnson I-PER
+Johnson E-PER
 84 O
 ; O
 M. B-PER
-McCague I-PER
+McCague E-PER
 4-55 O
 ) O
 , O
-Kent B-ORG
+Kent S-ORG
 108-3 O
 . O
 
-London B-LOC
+London S-LOC
 ( O
 The B-LOC
-Oval I-LOC
+Oval E-LOC
 ) O
 : O
-Warwickshire B-ORG
+Warwickshire S-ORG
 195 O
 , O
-Surrey B-ORG
+Surrey S-ORG
 429-7 O
 ( O
 C. B-PER
-Lewis I-PER
+Lewis E-PER
 80 O
 not O
 out O
 , O
 M. B-PER
-Butcher I-PER
+Butcher E-PER
 70 O
 , O
 G. B-PER
-Kersey I-PER
+Kersey E-PER
 63 O
 , O
 J. B-PER
-Ratcliffe I-PER
+Ratcliffe E-PER
 63 O
 , O
 D. B-PER
-Bicknell I-PER
+Bicknell E-PER
 55 O
 ) O
 . O
 
-Hove B-LOC
+Hove S-LOC
 : O
-Sussex B-ORG
+Sussex S-ORG
 363 O
 ( O
 W. B-PER
-Athey I-PER
+Athey E-PER
 111 O
 , O
 V. B-PER
-Drakes I-PER
+Drakes E-PER
 52 O
 ; O
 I. B-PER
-Austin I-PER
+Austin E-PER
 4-37 O
 ) O
 , O
-Lancashire B-ORG
+Lancashire S-ORG
 197-8 O
 ( O
 W. B-PER
-Hegg I-PER
+Hegg E-PER
 54 O
 ) O
 
-Portsmouth B-LOC
+Portsmouth S-LOC
 : O
-Middlesex B-ORG
+Middlesex S-ORG
 199 O
 and O
 426 O
 ( O
 J. B-PER
-Pooley I-PER
+Pooley E-PER
 111 O
 , O
 M. B-PER
-Ramprakash I-PER
+Ramprakash E-PER
 108 O
 , O
 M. B-PER
-Gatting I-PER
+Gatting E-PER
 83 O
 ) O
 , O
-Hampshire B-ORG
+Hampshire S-ORG
 232 O
 and O
 109-5 O
 . O
 
-Chesterfield B-LOC
+Chesterfield S-LOC
 : O
-Worcestershire B-ORG
+Worcestershire S-ORG
 238 O
 and O
 133-5 O
 , O
-Derbyshire B-ORG
+Derbyshire S-ORG
 471 O
 ( O
 J. B-PER
-Adams I-PER
+Adams E-PER
 123 O
 , O
-T.O'Gorman B-PER
+T.O'Gorman S-PER
 109 O
 not O
 out O
 , O
 K. B-PER
-Barnett I-PER
+Barnett E-PER
 87 O
 ; O
 T. B-PER
-Moody I-PER
+Moody E-PER
 6-82 O
 ) O
 
-Bristol B-LOC
+Bristol S-LOC
 : O
-Gloucestershire B-ORG
+Gloucestershire S-ORG
 183 O
 and O
 185-6 O
 ( O
 J. B-PER
-Russell I-PER
+Russell E-PER
 56 O
 not O
 out O
 ) O
 , O
-Northamptonshire B-ORG
+Northamptonshire S-ORG
 190 O
 ( O
 K. B-PER
-Curran I-PER
+Curran E-PER
 52 O
 ; O
 A. B-PER
-Smith I-PER
+Smith E-PER
 5-68 O
 ) O
 . O
@@ -717,25 +717,25 @@ Smith I-PER
 CRICKET O
 - O
 1997 O
-ASHES B-MISC
+ASHES S-MISC
 INTINERARY O
 . O
 
-LONDON B-LOC
+LONDON S-LOC
 1996-08-30 O
 
-Australia B-LOC
+Australia S-LOC
 will O
 defend O
 the O
-Ashes B-MISC
+Ashes S-MISC
 in O
 
 a O
 six-test O
 series O
 against O
-England B-LOC
+England S-LOC
 during O
 a O
 four-month O
@@ -753,14 +753,14 @@ Test B-ORG
 and I-ORG
 County I-ORG
 Cricket I-ORG
-Board I-ORG
+Board E-ORG
 
 said O
 on O
 Friday O
 . O
 
-Australia B-LOC
+Australia S-LOC
 will O
 also O
 play O
@@ -790,14 +790,14 @@ first-class O
 matches O
 against O
 
-English B-MISC
+English S-MISC
 county O
 sides O
 and O
 another O
 against O
 British B-ORG
-Universities I-ORG
+Universities E-ORG
 , O
 
 as O
@@ -808,10 +808,10 @@ matches O
 against O
 the O
 Minor B-ORG
-Counties I-ORG
+Counties E-ORG
 and O
 
-Scotland B-LOC
+Scotland S-LOC
 . O
 
 Tour O
@@ -824,14 +824,14 @@ May O
 13 O
 Arrive O
 in O
-London B-LOC
+London S-LOC
 
 May O
 14 O
 Practice O
 at O
 Lord B-LOC
-'s I-LOC
+'s E-LOC
 
 May O
 15 O
@@ -840,26 +840,26 @@ Duke B-ORG
 of I-ORG
 Norfolk I-ORG
 's I-ORG
-XI I-ORG
+XI E-ORG
 ( O
 at O
-Arundel B-LOC
+Arundel S-LOC
 ) O
 
 May O
 17 O
 v O
-Northampton B-ORG
+Northampton S-ORG
 
 May O
 18 O
 v O
-Worcestershire B-ORG
+Worcestershire S-ORG
 
 May O
 20 O
 v O
-Durham B-ORG
+Durham S-ORG
 
 May O
 22 O
@@ -868,10 +868,10 @@ one-day O
 international O
 ( O
 at O
-Headingley B-LOC
+Headingley S-LOC
 , O
 
-Leeds B-ORG
+Leeds S-ORG
 ) O
 
 May O
@@ -882,10 +882,10 @@ international O
 ( O
 at O
 The B-LOC
-Oval I-LOC
+Oval E-LOC
 , O
 
-London B-LOC
+London S-LOC
 ) O
 
 May O
@@ -896,19 +896,19 @@ international O
 ( O
 at O
 Lord B-LOC
-'s I-LOC
+'s E-LOC
 , O
-London B-LOC
+London S-LOC
 ) O
 
 May O
 27-29 O
 v O
-Gloucestershire B-ORG
+Gloucestershire S-ORG
 or O
-Sussex B-ORG
+Sussex S-ORG
 or O
-Surrey B-ORG
+Surrey S-ORG
 ( O
 three O
 
@@ -921,7 +921,7 @@ May O
 June O
 2 O
 v O
-Derbyshire B-ORG
+Derbyshire S-ORG
 ( O
 three O
 days O
@@ -936,9 +936,9 @@ test O
 match O
 ( O
 at O
-Edgbaston B-LOC
+Edgbaston S-LOC
 , O
-Birmingham B-LOC
+Birmingham S-LOC
 ) O
 
 June O
@@ -957,7 +957,7 @@ confirmed O
 June O
 14-16 O
 v O
-Leicestershire B-ORG
+Leicestershire S-ORG
 ( O
 three O
 days O
@@ -970,17 +970,17 @@ test O
 ( O
 at O
 Lord B-LOC
-'s I-LOC
+'s E-LOC
 ) O
 
 June O
 25-27 O
 v O
 British B-ORG
-Universities I-ORG
+Universities E-ORG
 ( O
 at O
-Oxford B-LOC
+Oxford S-LOC
 , O
 three O
 days O
@@ -989,7 +989,7 @@ days O
 June O
 28-30 O
 v O
-Hampshire B-ORG
+Hampshire S-ORG
 ( O
 three O
 days O
@@ -1004,9 +1004,9 @@ test O
 ( O
 at O
 Old B-LOC
-Trafford I-LOC
+Trafford E-LOC
 , O
-Manchester B-LOC
+Manchester S-LOC
 ) O
 
 July O
@@ -1014,17 +1014,17 @@ July O
 v O
 Minor B-ORG
 Counties I-ORG
-XI I-ORG
+XI E-ORG
 
 July O
 12 O
 v O
-Scotland B-LOC
+Scotland S-LOC
 
 July O
 16-18 O
 v O
-Glamorgan B-ORG
+Glamorgan S-ORG
 ( O
 three O
 days O
@@ -1033,7 +1033,7 @@ days O
 July O
 19-21 O
 v O
-Middlesex B-ORG
+Middlesex S-ORG
 ( O
 three O
 days O
@@ -1045,7 +1045,7 @@ Fourth O
 test O
 ( O
 at O
-Headingley B-LOC
+Headingley S-LOC
 ) O
 
 August O
@@ -1053,7 +1053,7 @@ August O
 August O
 1-4 O
 v O
-Somerset B-ORG
+Somerset S-ORG
 ( O
 four O
 days O
@@ -1066,15 +1066,15 @@ test O
 ( O
 at O
 Trent B-LOC
-Bridge I-LOC
+Bridge E-LOC
 , O
-Nottingham B-LOC
+Nottingham S-LOC
 ) O
 
 August O
 16-18 O
 v O
-Kent B-ORG
+Kent S-ORG
 ( O
 three O
 days O
@@ -1087,9 +1087,9 @@ test O
 ( O
 at O
 The B-LOC
-Oval I-LOC
+Oval E-LOC
 , O
-London B-LOC
+London S-LOC
 ) O
 . O
 
@@ -1097,14 +1097,14 @@ London B-LOC
 
 SOCCER O
 - O
-SHEARER B-PER
+SHEARER S-PER
 NAMED O
 AS O
-ENGLAND B-LOC
+ENGLAND S-LOC
 CAPTAIN O
 . O
 
-LONDON B-LOC
+LONDON S-LOC
 1996-08-30 O
 
 The O
@@ -1113,13 +1113,13 @@ world O
 costliest O
 footballer O
 Alan B-PER
-Shearer I-PER
+Shearer E-PER
 was O
 named O
 as O
 the O
 new O
-England B-LOC
+England S-LOC
 captain O
 on O
 Friday O
@@ -1130,7 +1130,7 @@ The O
 , O
 who O
 joined O
-Newcastle B-ORG
+Newcastle S-ORG
 for O
 15 O
 million O
@@ -1146,7 +1146,7 @@ takes O
 over O
 from O
 Tony B-PER
-Adams I-PER
+Adams E-PER
 , O
 who O
 led O
@@ -1154,7 +1154,7 @@ the O
 side O
 during O
 the O
-European B-MISC
+European S-MISC
 championship O
 in O
 June O
@@ -1163,31 +1163,31 @@ and O
 former O
 captain O
 David B-PER
-Platt I-PER
+Platt E-PER
 . O
 
-Adams B-PER
+Adams S-PER
 and O
-Platt B-PER
+Platt S-PER
 are O
 both O
 injured O
 and O
 will O
 miss O
-England B-LOC
+England S-LOC
 's O
 opening O
 World B-MISC
-Cup I-MISC
+Cup E-MISC
 qualifier O
 against O
-Moldova B-LOC
+Moldova S-LOC
 on O
 Sunday O
 . O
 
-Shearer B-PER
+Shearer S-PER
 takes O
 the O
 captaincy O
@@ -1200,7 +1200,7 @@ but O
 new O
 coach O
 Glenn B-PER
-Hoddle I-PER
+Hoddle E-PER
 said O
 he O
 saw O
@@ -1209,9 +1209,9 @@ reason O
 why O
 the O
 former O
-Blackburn B-ORG
+Blackburn S-ORG
 and O
-Southampton B-ORG
+Southampton S-ORG
 skipper O
 should O
 not O
@@ -1236,7 +1236,7 @@ problem O
 I O
 'm O
 sure O
-Alan B-PER
+Alan S-PER
 is O
 the O
 man O
@@ -1245,7 +1245,7 @@ the O
 job O
 , O
 " O
-Hoddle B-PER
+Hoddle S-PER
 said O
 . O
 
@@ -1266,7 +1266,7 @@ when O
 I O
 spoke O
 to O
-Alan B-PER
+Alan S-PER
 he O
 was O
 up O
@@ -1328,14 +1328,14 @@ front O
 . O
 " O
 
-Shearer B-PER
+Shearer S-PER
 's O
 Euro B-MISC
-96 I-MISC
+96 E-MISC
 striking O
 partner O
 Teddy B-PER
-Sheringham I-PER
+Sheringham E-PER
 withdrew O
 from O
 the O
@@ -1353,13 +1353,13 @@ probably O
 be O
 replaced O
 by O
-Shearer B-PER
+Shearer S-PER
 's O
-Newcastle B-ORG
+Newcastle S-ORG
 team O
 mate O
 Les B-PER
-Ferdinand I-PER
+Ferdinand E-PER
 . O
 
 -DOCSTART- O
@@ -1371,7 +1371,7 @@ TOURNAMENT O
 RESULT O
 . O
 
-BELGRADE B-LOC
+BELGRADE S-LOC
 1996-08-30 O
 
 Result O
@@ -1386,14 +1386,14 @@ Friday O
 : O
 
 Red B-ORG
-Star I-ORG
+Star E-ORG
 ( O
-Yugoslavia B-LOC
+Yugoslavia S-LOC
 ) O
 beat O
-Dinamo B-ORG
+Dinamo S-ORG
 ( O
-Russia B-LOC
+Russia S-LOC
 ) O
 92-90 O
 ( O
@@ -1406,20 +1406,20 @@ halftime O
 
 SOCCER O
 - O
-ROMANIA B-LOC
+ROMANIA S-LOC
 BEAT O
-LITHUANIA B-LOC
+LITHUANIA S-LOC
 IN O
 UNDER-21 O
 MATCH O
 . O
 
-BUCHAREST B-LOC
+BUCHAREST S-LOC
 1996-08-30 O
 
-Romania B-LOC
+Romania S-LOC
 beat O
-Lithuania B-LOC
+Lithuania S-LOC
 2-1 O
 ( O
 halftime O
@@ -1427,7 +1427,7 @@ halftime O
 ) O
 in O
 their O
-European B-MISC
+European S-MISC
 under-21 O
 soccer O
 match O
@@ -1438,24 +1438,24 @@ Friday O
 Scorers O
 : O
 
-Romania B-LOC
+Romania S-LOC
 - O
 Cosmin B-PER
-Contra I-PER
+Contra E-PER
 ( O
 31st O
 ) O
 , O
 Mihai B-PER
-Tararache I-PER
+Tararache E-PER
 ( O
 75th O
 ) O
 
-Lithuania B-LOC
+Lithuania S-LOC
 - O
 Danius B-PER
-Gleveckas I-PER
+Gleveckas E-PER
 ( O
 13rd O
 ) O
@@ -1468,20 +1468,20 @@ Attendance O
 
 SOCCER O
 - O
-ROTOR B-ORG
+ROTOR S-ORG
 FANS O
 LOCKED O
 OUT O
 AFTER O
-VOLGOGRAD B-LOC
+VOLGOGRAD S-LOC
 VIOLENCE O
 . O
 
-MOSCOW B-LOC
+MOSCOW S-LOC
 1996-08-30 O
 
 Rotor B-ORG
-Volgograd I-ORG
+Volgograd E-ORG
 must O
 play O
 their O
@@ -1499,7 +1499,7 @@ and O
 stones O
 at O
 Dynamo B-ORG
-Moscow I-ORG
+Moscow E-ORG
 players O
 during O
 a O
@@ -1510,7 +1510,7 @@ on O
 Saturday O
 that O
 ended O
-Rotor B-ORG
+Rotor S-ORG
 's O
 brief O
 spell O
@@ -1523,24 +1523,24 @@ The O
 head O
 of O
 the O
-Russian B-MISC
+Russian S-MISC
 league O
 's O
 disciplinary O
 committee O
 , O
 Anatoly B-PER
-Gorokhovsky I-PER
+Gorokhovsky E-PER
 , O
 said O
 on O
 Friday O
 that O
-Rotor B-ORG
+Rotor S-ORG
 would O
 play O
 Lada B-ORG
-Togliatti I-ORG
+Togliatti E-ORG
 to O
 empty O
 stands O
@@ -1555,14 +1555,14 @@ club O
 who O
 put O
 Manchester B-ORG
-United I-ORG
+United E-ORG
 out O
 of O
 last O
 year O
 's O
 UEFA B-MISC
-Cup I-MISC
+Cup E-MISC
 , O
 were O
 fined O
@@ -1574,7 +1574,7 @@ Despite O
 the O
 defeat O
 , O
-Rotor B-ORG
+Rotor S-ORG
 are O
 well O
 placed O
@@ -1592,15 +1592,15 @@ Lying O
 three O
 points O
 behind O
-Alania B-ORG
+Alania S-ORG
 and O
 two O
 behind O
 Dynamo B-ORG
-Moscow I-ORG
+Moscow E-ORG
 , O
 the O
-Volgograd B-LOC
+Volgograd S-LOC
 side O
 have O
 a O
@@ -1614,7 +1614,7 @@ and O
 two O
 over O
 the O
-Moscow B-LOC
+Moscow S-LOC
 club O
 . O
 
@@ -1622,10 +1622,10 @@ club O
 
 BOXING O
 - O
-PANAMA B-LOC
+PANAMA S-LOC
 'S O
 ROBERTO B-PER
-DURAN I-PER
+DURAN E-PER
 FIGHTS O
 THE O
 SANDS O
@@ -1634,10 +1634,10 @@ TIME O
 . O
 
 PANAMA B-LOC
-CITY I-LOC
+CITY E-LOC
 1996-08-30 O
 
-Panamanian B-MISC
+Panamanian S-MISC
 boxing O
 legend O
 Roberto B-PER
@@ -1646,7 +1646,7 @@ Hands I-PER
 of I-PER
 Stone I-PER
 " I-PER
-Duran I-PER
+Duran E-PER
 climbs O
 into O
 the O
@@ -1664,16 +1664,16 @@ long O
 career O
 . O
 
-Duran B-PER
+Duran S-PER
 , O
 45 O
 , O
 takes O
 on O
 little-known O
-Mexican B-MISC
+Mexican S-MISC
 Ariel B-PER
-Cruz I-PER
+Cruz E-PER
 , O
 30 O
 , O
@@ -1685,13 +1685,13 @@ non-title O
 bout O
 in O
 Panama B-LOC
-City I-LOC
+City E-LOC
 . O
 
 The O
 fight O
 , O
-Duran B-PER
+Duran S-PER
 's O
 first O
 on O
@@ -1711,10 +1711,10 @@ the O
 Return B-MISC
 of I-MISC
 the I-MISC
-Legend I-MISC
+Legend E-MISC
 " O
 and O
-Duran B-PER
+Duran S-PER
 still O
 talks O
 as O
@@ -1753,9 +1753,9 @@ not O
 retiring O
 , O
 " O
-Duran B-PER
+Duran S-PER
 told O
-Reuters B-ORG
+Reuters S-ORG
 . O
 
 But O
@@ -1835,16 +1835,16 @@ great O
 boxers O
 , O
 " O
-Panamanian B-MISC
+Panamanian S-MISC
 Boxing B-ORG
-Association I-ORG
+Association E-ORG
 President O
 Ramon B-PER
-Manzanares I-PER
+Manzanares E-PER
 said O
 . O
 
-Duran B-PER
+Duran S-PER
 , O
 whose O
 97-12 O
@@ -1867,16 +1867,16 @@ a O
 rematch O
 against O
 Puerto B-LOC
-Rico I-LOC
+Rico E-LOC
 's O
 Hector B-PER
 " I-PER
 Macho I-PER
 " I-PER
-Camacho I-PER
+Camacho E-PER
 . O
 
-Camacho B-PER
+Camacho S-PER
 took O
 a O
 controversial O
@@ -1884,10 +1884,10 @@ points O
 decision O
 against O
 the O
-Panamanian B-MISC
+Panamanian S-MISC
 in O
 Atlantic B-LOC
-City I-LOC
+City E-LOC
 in O
 June O
 in O
@@ -1902,13 +1902,13 @@ SQUASH O
 - O
 HONG B-MISC
 KONG I-MISC
-OPEN I-MISC
+OPEN E-MISC
 QUARTER-FINAL O
 RESULTS O
 . O
 
 HONG B-LOC
-KONG I-LOC
+KONG E-LOC
 1996-08-30 O
 
 Quarter-final O
@@ -1917,7 +1917,7 @@ in O
 the O
 Hong B-MISC
 Kong I-MISC
-Open I-MISC
+Open E-MISC
 on O
 Friday O
 ( O
@@ -1930,30 +1930,30 @@ seeding O
 1 O
 - O
 Jansher B-PER
-Khan I-PER
+Khan E-PER
 ( O
-Pakistan B-LOC
+Pakistan S-LOC
 ) O
 beat O
 Mark B-PER
-Cairns I-PER
+Cairns E-PER
 ( O
-England B-LOC
+England S-LOC
 ) O
 15-10 O
 15-6 O
 15-7 O
 
 Anthony B-PER
-Hill I-PER
+Hill E-PER
 ( O
-Australia B-LOC
+Australia S-LOC
 ) O
 beat O
 Dan B-PER
-Jenson I-PER
+Jenson E-PER
 ( O
-Australia B-LOC
+Australia S-LOC
 ) O
 15-9 O
 15-8 O
@@ -1963,17 +1963,17 @@ Australia B-LOC
 4 O
 - O
 Peter B-PER
-Nicol I-PER
+Nicol E-PER
 ( O
-Scotland B-LOC
+Scotland S-LOC
 ) O
 beat O
 7 O
 - O
 Chris B-PER
-Walker I-PER
+Walker E-PER
 ( O
-England B-LOC
+England S-LOC
 ) O
 15-8 O
 15-13 O
@@ -1983,15 +1983,15 @@ England B-LOC
 2 O
 - O
 Rodney B-PER
-Eyles I-PER
+Eyles E-PER
 ( O
-Australia B-LOC
+Australia S-LOC
 ) O
 beat O
 Derek B-PER
-Ryan I-PER
+Ryan E-PER
 ( O
-Ireland B-LOC
+Ireland S-LOC
 ) O
 15-6 O
 15-9 O
@@ -2006,18 +2006,18 @@ SOCCER O
 RESULTS O
 OF O
 SOUTH B-MISC
-KOREAN I-MISC
+KOREAN E-MISC
 PRO-SOCCER O
 GAMES O
 . O
 
-SEOUL B-LOC
+SEOUL S-LOC
 1996-08-30 O
 
 Results O
 of O
 South B-MISC
-Korean I-MISC
+Korean E-MISC
 pro-soccer O
 
 games O
@@ -2026,18 +2026,18 @@ on O
 Thursday O
 . O
 
-Pohang B-ORG
+Pohang S-ORG
 3 O
-Ulsan B-ORG
+Ulsan S-ORG
 2 O
 ( O
 halftime O
 1-0 O
 ) O
 
-Puchon B-ORG
+Puchon S-ORG
 2 O
-Chonbuk B-ORG
+Chonbuk S-ORG
 1 O
 ( O
 halftime O

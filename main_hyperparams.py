@@ -22,6 +22,7 @@ from DataUtils.Common import seed_num, paddingkey
 from models.BiLSTM_Context import *
 from models.BiLSTM import BiLSTM
 from test import load_test_model, load_test_data
+from test import T_Inference
 import train
 import random
 import shutil
@@ -40,6 +41,10 @@ random.seed(seed_num)
 
 # load data / create alphabet / create iterator
 def preprocessing(config):
+    """
+    :param config: config
+    :return:
+    """
     print("Processing Data......")
     # read file
     data_loader = DataLoader_NER.DataLoader(config)
@@ -71,6 +76,11 @@ def preprocessing(config):
 
 
 def save_dict2file(dict, path):
+    """
+    :param dict:  dict
+    :param path:  path to save dict
+    :return:
+    """
     print("Saving dictionary")
     if os.path.exists(path):
         print("path {} is exist, deleted.".format(path))
@@ -83,6 +93,10 @@ def save_dict2file(dict, path):
 
 
 def save_dictionary(config):
+    """
+    :param config: config
+    :return:
+    """
     if config.save_dict is True:
         if os.path.exists(config.dict_directory):
             shutil.rmtree(config.dict_directory)
@@ -101,6 +115,11 @@ def save_dictionary(config):
 
 
 def pre_embed(config, alphabet):
+    """
+    :param config: config
+    :param alphabet:  alphabet dict
+    :return:  pre-train embed
+    """
     print("***************************************")
     pretrain_embed = None
     if config.pretrained_embed and config.zeros:
@@ -129,6 +148,10 @@ def pre_embed(config, alphabet):
 
 
 def get_learning_algorithm(config):
+    """
+    :param config:  config
+    :return:  optimizer algorithm
+    """
     algorithm = None
     if config.adam is True:
         algorithm = "Adam"
@@ -139,6 +162,11 @@ def get_learning_algorithm(config):
 
 
 def get_params(config, alphabet):
+    """
+    :param config: config
+    :param alphabet:  alphabet dict
+    :return:
+    """
     # get algorithm
     config.learning_algorithm = get_learning_algorithm(config)
 
@@ -159,6 +187,10 @@ def get_params(config, alphabet):
 
 
 def load_model(config):
+    """
+    :param config:  config
+    :return:  nn model
+    """
     print("***************************************")
     model = None
     if config.model_bilstm is True:
@@ -176,6 +208,10 @@ def load_model(config):
 
 
 def load_data(config):
+    """
+    :param config:  config
+    :return: batch data iterator and alphabet
+    """
     print("load data for process or pkl data.")
     train_iter, dev_iter, test_iter = None, None, None
     alphabet = None
@@ -207,18 +243,40 @@ def load_data(config):
 
 
 def start_train(train_iter, dev_iter, test_iter, model, config):
+    """
+    :param train_iter:  train batch data iterator
+    :param dev_iter:  dev batch data iterator
+    :param test_iter:  test batch data iterator
+    :param model:  nn model
+    :param config:  config
+    :return:  None
+    """
     print("\nTraining Start......")
     train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
 
 
 def start_test(train_iter, dev_iter, test_iter, model, alphabet, config):
+    """
+    :param train_iter:  train batch data iterator
+    :param dev_iter:  dev batch data iterator
+    :param test_iter:  test batch data iterator
+    :param model:  nn model
+    :param alphabet:  alphabet dict
+    :param config:  config
+    :return:  None
+    """
     print("\nTesting Start......")
     data, path_source, path_result = load_test_data(train_iter, dev_iter, test_iter, config)
-    print(data, path_source, path_result)
-    # train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
+    infer = T_Inference(model=model, data=data, path_source=path_source, path_result=path_result, alphabet=alphabet,
+                        config=config)
+    infer.infer2file()
 
 
 def main():
+    """
+    main()
+    :return:
+    """
     # save file
     config.mulu = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     # config.add_args(key="mulu", value=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
@@ -246,6 +304,10 @@ def main():
 
 
 def parse_argument():
+    """
+    :argument
+    :return:
+    """
     parser = argparse.ArgumentParser(description="NER & POS")
     parser.add_argument("-c", "--config", dest="config_file", type=str, default="./Config/config.cfg",
                         help="config path")

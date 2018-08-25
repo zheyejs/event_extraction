@@ -25,15 +25,15 @@ class P(object):
 w = P()
 l = P()
 d = [w, l, 1, 2, 3, 4]
-
+print(w, l)
 path = "../alphabet.pkl"
 # obj_dict = {"w": w, "l": l, "d": d}
-# pcl.save(obj=obj_dict, path=path)
+# pcl.save(obj=w, path=path)
 data = pcl.load(path)
 print(data)
-print(data["w"].word2id)
-print(data["l"].id2word)
-print(data["d"])
+# print(data["w"].word2id)
+# print(data["l"].id2word)
+# print(data["d"])
 
 # output = open('alphabet.pkl', 'wb')
 # # output = open('alphabet.txt', 'w')

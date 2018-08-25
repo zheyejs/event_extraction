@@ -50,8 +50,8 @@ class DataLoader(object):
         for id_data in range(len(path)):
             print("Loading Data Form {}".format(path[id_data]))
             insts = self.Load_Each_Data(path=path[id_data], shuffle=shuffle)
-            if shuffle is True:
-                print("shuffle data......")
+            if shuffle is True and id_data == 0:
+                print("shuffle train data......")
                 random.shuffle(insts)
             # sorted(inst)
             # sorted_insts = self.sort(insts)
@@ -79,7 +79,7 @@ class DataLoader(object):
                     # print(line)
                     word = line[0]
                     # print(word)
-                    # word = self.normalize_word(word)
+                    word = self.normalize_word(word)
                     # print(word)
                     inst.words.append(word.lower())
                     inst.labels.append(line[-1])

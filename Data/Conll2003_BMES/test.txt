@@ -2,35 +2,35 @@
 
 SOCCER O
 - O
-JAPAN B-LOC
+JAPAN S-LOC
 GET O
 LUCKY O
 WIN O
 , O
-CHINA B-PER
+CHINA S-PER
 IN O
 SURPRISE O
 DEFEAT O
 . O
 
 Nadim B-PER
-Ladki I-PER
+Ladki E-PER
 
-AL-AIN B-LOC
+AL-AIN S-LOC
 , O
 United B-LOC
 Arab I-LOC
-Emirates I-LOC
+Emirates E-LOC
 1996-12-06 O
 
-Japan B-LOC
+Japan S-LOC
 began O
 the O
 defence O
 of O
 their O
 Asian B-MISC
-Cup I-MISC
+Cup E-MISC
 title O
 with O
 a O
@@ -38,7 +38,7 @@ lucky O
 2-1 O
 win O
 against O
-Syria B-LOC
+Syria S-LOC
 in O
 a O
 Group O
@@ -50,7 +50,7 @@ Friday O
 . O
 
 But O
-China B-LOC
+China S-LOC
 saw O
 their O
 luck O
@@ -72,10 +72,10 @@ surprise O
 defeat O
 to O
 newcomers O
-Uzbekistan B-LOC
+Uzbekistan S-LOC
 . O
 
-China B-LOC
+China S-LOC
 controlled O
 most O
 of O
@@ -91,10 +91,10 @@ the O
 78th O
 minute O
 when O
-Uzbek B-MISC
+Uzbek S-MISC
 striker O
 Igor B-PER
-Shkvyrin I-PER
+Shkvyrin E-PER
 took O
 advantage O
 of O
@@ -109,7 +109,7 @@ ball O
 over O
 the O
 advancing O
-Chinese B-MISC
+Chinese S-MISC
 keeper O
 and O
 into O
@@ -119,7 +119,7 @@ net O
 . O
 
 Oleg B-PER
-Shatskiku I-PER
+Shatskiku E-PER
 made O
 sure O
 of O
@@ -144,14 +144,14 @@ area O
 
 The O
 former O
-Soviet B-MISC
+Soviet S-MISC
 republic O
 was O
 playing O
 in O
 an O
 Asian B-MISC
-Cup I-MISC
+Cup E-MISC
 finals O
 tie O
 for O
@@ -164,13 +164,13 @@ Despite O
 winning O
 the O
 Asian B-MISC
-Games I-MISC
+Games E-MISC
 title O
 two O
 years O
 ago O
 , O
-Uzbekistan B-LOC
+Uzbekistan S-LOC
 are O
 in O
 the O
@@ -190,7 +190,7 @@ last O
 six O
 minutes O
 allowed O
-Japan B-LOC
+Japan S-LOC
 to O
 come O
 from O
@@ -205,11 +205,11 @@ their O
 opening O
 meeting O
 against O
-Syria B-LOC
+Syria S-LOC
 . O
 
 Takuya B-PER
-Takagi I-PER
+Takagi E-PER
 scored O
 the O
 winner O
@@ -223,16 +223,16 @@ to O
 head O
 a O
 Hiroshige B-PER
-Yanagimoto I-PER
+Yanagimoto E-PER
 cross O
 towards O
 the O
-Syrian B-MISC
+Syrian S-MISC
 goal O
 which O
 goalkeeper O
 Salem B-PER
-Bitar I-PER
+Bitar E-PER
 appeared O
 to O
 have O
@@ -254,7 +254,7 @@ second O
 costly O
 blunder O
 by O
-Syria B-LOC
+Syria S-LOC
 in O
 four O
 minutes O
@@ -262,7 +262,7 @@ minutes O
 
 Defender O
 Hassan B-PER
-Abbas I-PER
+Abbas E-PER
 rose O
 to O
 intercept O
@@ -287,16 +287,16 @@ the O
 top O
 corner O
 of O
-Bitar B-PER
+Bitar S-PER
 's O
 goal O
 . O
 
 Nader B-PER
-Jokhadar I-PER
+Jokhadar E-PER
 had O
 given O
-Syria B-LOC
+Syria S-LOC
 the O
 lead O
 with O
@@ -309,13 +309,13 @@ seventh O
 minute O
 . O
 
-Japan B-LOC
+Japan S-LOC
 then O
 laid O
 siege O
 to O
 the O
-Syrian B-MISC
+Syrian S-MISC
 penalty O
 area O
 for O
@@ -327,11 +327,11 @@ but O
 rarely O
 breached O
 the O
-Syrian B-MISC
+Syrian S-MISC
 defence O
 . O
 
-Bitar B-PER
+Bitar S-PER
 pulled O
 off O
 fine O
@@ -341,16 +341,16 @@ they O
 did O
 . O
 
-Japan B-LOC
+Japan S-LOC
 coach O
 Shu B-PER
-Kamo I-PER
+Kamo E-PER
 said O
 : O
 ' O
 ' O
 The O
-Syrian B-MISC
+Syrian S-MISC
 own O
 goal O
 proved O
@@ -360,7 +360,7 @@ us O
 . O
 
 The O
-Syrians B-MISC
+Syrians S-MISC
 scored O
 early O
 and O
@@ -382,13 +382,13 @@ us O
 
 ' O
 
-Japan B-LOC
+Japan S-LOC
 , O
 co-hosts O
 of O
 the O
 World B-MISC
-Cup I-MISC
+Cup E-MISC
 in O
 2002 O
 and O
@@ -398,7 +398,7 @@ in O
 the O
 world O
 by O
-FIFA B-ORG
+FIFA S-ORG
 , O
 are O
 favourites O
@@ -410,15 +410,15 @@ here O
 . O
 
 Hosts O
-UAE B-LOC
+UAE S-LOC
 play O
-Kuwait B-LOC
+Kuwait S-LOC
 and O
 South B-LOC
-Korea I-LOC
+Korea E-LOC
 take O
 on O
-Indonesia B-LOC
+Indonesia S-LOC
 on O
 Saturday O
 in O
@@ -444,24 +444,24 @@ game O
 -DOCSTART- O
 
 RUGBY B-ORG
-UNION I-ORG
+UNION E-ORG
 - O
-CUTTITTA B-PER
+CUTTITTA S-PER
 BACK O
 FOR O
-ITALY B-LOC
+ITALY S-LOC
 AFTER O
 A O
 YEAR O
 . O
 
-ROME B-LOC
+ROME S-LOC
 1996-12-06 O
 
-Italy B-LOC
+Italy S-LOC
 recalled O
 Marcello B-PER
-Cuttitta I-PER
+Cuttitta E-PER
 
 on O
 Friday O
@@ -469,9 +469,9 @@ for O
 their O
 friendly O
 against O
-Scotland B-LOC
+Scotland S-LOC
 at O
-Murrayfield B-LOC
+Murrayfield S-LOC
 more O
 than O
 a O
@@ -490,12 +490,12 @@ over O
 selection O
 . O
 
-Cuttitta B-PER
+Cuttitta S-PER
 , O
 who O
 trainer O
 George B-PER
-Coste I-PER
+Coste E-PER
 said O
 was O
 certain O
@@ -520,21 +520,21 @@ team O
 beaten O
 54-21 O
 by O
-England B-LOC
+England S-LOC
 at O
-Twickenham B-LOC
+Twickenham S-LOC
 last O
 month O
 . O
 
 Stefano B-PER
-Bordon I-PER
+Bordon E-PER
 is O
 out O
 through O
 illness O
 and O
-Coste B-PER
+Coste S-PER
 said O
 he O
 had O
@@ -542,7 +542,7 @@ dropped O
 back O
 row O
 Corrado B-PER
-Covi I-PER
+Covi E-PER
 , O
 who O
 had O
@@ -550,7 +550,7 @@ been O
 recalled O
 for O
 the O
-England B-LOC
+England S-LOC
 game O
 after O
 five O
@@ -562,7 +562,7 @@ national O
 team O
 . O
 
-Cuttitta B-PER
+Cuttitta S-PER
 announced O
 his O
 retirement O
@@ -570,7 +570,7 @@ after O
 the O
 1995 B-MISC
 World I-MISC
-Cup I-MISC
+Cup E-MISC
 , O
 where O
 he O
@@ -581,18 +581,18 @@ being O
 dropped O
 from O
 the O
-Italy B-LOC
+Italy S-LOC
 side O
 that O
 faced O
-England B-LOC
+England S-LOC
 in O
 the O
 pool O
 stages O
 . O
 
-Coste B-PER
+Coste S-PER
 said O
 he O
 had O
@@ -612,14 +612,14 @@ He O
 ended O
 the O
 World B-MISC
-Cup I-MISC
+Cup E-MISC
 on O
 the O
 wrong O
 note O
 , O
 " O
-Coste B-PER
+Coste S-PER
 said O
 . O
 
@@ -660,68 +660,68 @@ return O
 Squad O
 : O
 Javier B-PER
-Pertile I-PER
+Pertile E-PER
 , O
 Paolo B-PER
-Vaccari I-PER
+Vaccari E-PER
 , O
 Marcello B-PER
-Cuttitta I-PER
+Cuttitta E-PER
 , O
 Ivan B-PER
-Francescato I-PER
+Francescato E-PER
 , O
 Leandro B-PER
-Manteri I-PER
+Manteri E-PER
 , O
 Diego B-PER
-Dominguez I-PER
+Dominguez E-PER
 , O
 Francesco B-PER
-Mazzariol I-PER
+Mazzariol E-PER
 , O
 Alessandro B-PER
-Troncon I-PER
+Troncon E-PER
 , O
 Orazio B-PER
-Arancio I-PER
+Arancio E-PER
 , O
 Andrea B-PER
-Sgorlon I-PER
+Sgorlon E-PER
 , O
 Massimo B-PER
-Giovanelli I-PER
+Giovanelli E-PER
 , O
 Carlo B-PER
-Checchinato I-PER
+Checchinato E-PER
 , O
 Walter B-PER
-Cristofoletto I-PER
+Cristofoletto E-PER
 , O
 Franco B-PER
 Properzi I-PER
-Curti I-PER
+Curti E-PER
 , O
 Carlo B-PER
-Orlandi I-PER
+Orlandi E-PER
 , O
 Massimo B-PER
-Cuttitta I-PER
+Cuttitta E-PER
 , O
 Giambatista B-PER
-Croci I-PER
+Croci E-PER
 , O
 Gianluca B-PER
-Guidi I-PER
+Guidi E-PER
 , O
 Nicola B-PER
-Mazzucato I-PER
+Mazzucato E-PER
 , O
 Alessandro B-PER
-Moscardi I-PER
+Moscardi E-PER
 , O
 Andrea B-PER
-Castellani I-PER
+Castellani E-PER
 . O
 
 -DOCSTART- O
@@ -731,17 +731,17 @@ SOCCER O
 LATE O
 GOALS O
 GIVE O
-JAPAN B-LOC
+JAPAN S-LOC
 WIN O
 OVER O
-SYRIA B-LOC
+SYRIA S-LOC
 . O
 
-AL-AIN B-LOC
+AL-AIN S-LOC
 , O
 United B-LOC
 Arab I-LOC
-Emirates I-LOC
+Emirates E-LOC
 1996-12-06 O
 
 Two O
@@ -753,21 +753,21 @@ six O
 minutes O
 gave O
 holders O
-Japan B-LOC
+Japan S-LOC
 an O
 uninspiring O
 2-1 O
 Asian B-MISC
-Cup I-MISC
+Cup E-MISC
 victory O
 over O
-Syria B-LOC
+Syria S-LOC
 on O
 Friday O
 . O
 
 Takuya B-PER
-Takagi I-PER
+Takagi E-PER
 headed O
 the O
 winner O
@@ -783,7 +783,7 @@ game O
 after O
 goalkeeper O
 Salem B-PER
-Bitar I-PER
+Bitar E-PER
 spoiled O
 a O
 mistake-free O
@@ -803,7 +803,7 @@ It O
 was O
 the O
 second O
-Syrian B-MISC
+Syrian S-MISC
 defensive O
 blunder O
 in O
@@ -813,7 +813,7 @@ minutes O
 
 Defender O
 Hassan B-PER
-Abbas I-PER
+Abbas E-PER
 rose O
 to O
 intercept O
@@ -838,12 +838,12 @@ the O
 top O
 corner O
 of O
-Bitar B-PER
+Bitar S-PER
 's O
 goal O
 . O
 
-Syria B-LOC
+Syria S-LOC
 had O
 taken O
 the O
@@ -860,7 +860,7 @@ minute O
 . O
 
 Nader B-PER
-Jokhadar I-PER
+Jokhadar E-PER
 headed O
 a O
 cross O
@@ -869,7 +869,7 @@ the O
 right O
 by O
 Ammar B-PER
-Awad I-PER
+Awad E-PER
 into O
 the O
 top O
@@ -877,18 +877,18 @@ right O
 corner O
 of O
 Kenichi B-PER
-Shimokawa I-PER
+Shimokawa E-PER
 's O
 goal O
 . O
 
-Japan B-LOC
+Japan S-LOC
 then O
 laid O
 siege O
 to O
 the O
-Syrian B-MISC
+Syrian S-MISC
 penalty O
 area O
 and O
@@ -908,7 +908,7 @@ A O
 minute O
 later O
 , O
-Bitar B-PER
+Bitar S-PER
 produced O
 a O
 good O
@@ -918,24 +918,24 @@ save O
 first O
 from O
 Kazuyoshi B-PER
-Miura I-PER
+Miura E-PER
 's O
 header O
 and O
 then O
 blocked O
 a O
-Takagi B-PER
+Takagi S-PER
 follow-up O
 shot O
 . O
 
-Bitar B-PER
+Bitar S-PER
 saved O
 well O
 again O
 from O
-Miura B-PER
+Miura S-PER
 in O
 the O
 37th O
@@ -950,14 +950,14 @@ a O
 corner O
 . O
 
-Japan B-LOC
+Japan S-LOC
 started O
 the O
 second O
 half O
 brightly O
 but O
-Bitar B-PER
+Bitar S-PER
 denied O
 them O
 an O
@@ -971,7 +971,7 @@ right O
 to O
 save O
 Naoki B-PER
-Soma I-PER
+Soma E-PER
 's O
 low O
 drive O
@@ -981,170 +981,170 @@ the O
 minute O
 . O
 
-Japan B-LOC
+Japan S-LOC
 : O
 19 O
 - O
 Kenichi B-PER
-Shimokawa I-PER
+Shimokawa E-PER
 , O
 2 O
 - O
 Hiroshige B-PER
-Yanagimoto I-PER
+Yanagimoto E-PER
 , O
 3 O
 - O
 Naoki B-PER
-Soma I-PER
+Soma E-PER
 , O
 4 O
 - O
 Masami B-PER
-Ihara I-PER
+Ihara E-PER
 , O
 5 O
 - O
 Norio B-PER
-Omura I-PER
+Omura E-PER
 , O
 6 O
 - O
 Motohiro B-PER
-Yamaguchi I-PER
+Yamaguchi E-PER
 , O
 8 O
 - O
 Masakiyo B-PER
-Maezono I-PER
+Maezono E-PER
 ( O
 7 O
 - O
 Yasuto B-PER
-Honda I-PER
+Honda E-PER
 71 O
 ) O
 , O
 9 O
 - O
 Takuya B-PER
-Takagi I-PER
+Takagi E-PER
 , O
 10 O
 - O
 Hiroshi B-PER
-Nanami I-PER
+Nanami E-PER
 , O
 11 O
 - O
 Kazuyoshi B-PER
-Miura I-PER
+Miura E-PER
 , O
 15 O
 - O
 Hiroaki B-PER
-Morishima I-PER
+Morishima E-PER
 ( O
 14 O
 - O
 Masayuki B-PER
-Okano I-PER
+Okano E-PER
 75 O
 ) O
 . O
 
-Syria B-LOC
+Syria S-LOC
 : O
 24 O
 - O
 Salem B-PER
-Bitar I-PER
+Bitar E-PER
 , O
 3 O
 - O
 Bachar B-PER
-Srour I-PER
+Srour E-PER
 ; O
 4 O
 - O
 Hassan B-PER
-Abbas I-PER
+Abbas E-PER
 , O
 5 O
 - O
 Tarek B-PER
-Jabban I-PER
+Jabban E-PER
 , O
 6 O
 - O
 Ammar B-PER
-Awad I-PER
+Awad E-PER
 ( O
 9 O
 - O
 Louay B-PER
-Taleb I-PER
+Taleb E-PER
 69 O
 ) O
 , O
 8 O
 - O
 Nihad B-PER
-al-Boushi I-PER
+al-Boushi E-PER
 , O
 10 O
 - O
 Mohammed B-PER
-Afash I-PER
+Afash E-PER
 , O
 12 O
 - O
 Ali B-PER
-Dib I-PER
+Dib E-PER
 , O
 13 O
 - O
 Abdul B-PER
 Latif I-PER
-Helou I-PER
+Helou E-PER
 ( O
 17 O
 - O
 Ammar B-PER
-Rihawiy I-PER
+Rihawiy E-PER
 46 O
 ) O
 , O
 14 O
 - O
 Khaled B-PER
-Zaher I-PER
+Zaher E-PER
 ; O
 16 O
 - O
 Nader B-PER
-Jokhadar I-PER
+Jokhadar E-PER
 . O
 
 -DOCSTART- O
 
 FREESTYLE O
 SKIING-WORLD B-MISC
-CUP I-MISC
+CUP E-MISC
 MOGUL O
 RESULTS O
 . O
 
-TIGNES B-LOC
+TIGNES S-LOC
 , O
-France B-LOC
+France S-LOC
 1996-12-06 O
 
 Results O
 of O
 the O
 World B-MISC
-Cup I-MISC
+Cup E-MISC
 
 freestyle O
 skiing O
@@ -1158,82 +1158,82 @@ Men O
 
 1. O
 Jesper B-PER
-Ronnback I-PER
+Ronnback E-PER
 ( O
-Sweden B-LOC
+Sweden S-LOC
 ) O
 25.76 O
 points O
 
 2. O
 Andrei B-PER
-Ivanov I-PER
+Ivanov E-PER
 ( O
-Russia B-LOC
+Russia S-LOC
 ) O
 24.88 O
 
 3. O
 Ryan B-PER
-Johnson I-PER
+Johnson E-PER
 ( O
-Canada B-LOC
+Canada S-LOC
 ) O
 24.57 O
 
 4. O
 Jean-Luc B-PER
-Brassard I-PER
+Brassard E-PER
 ( O
-Canada B-LOC
+Canada S-LOC
 ) O
 24.40 O
 
 5. O
 Korneilus B-PER
-Hole I-PER
+Hole E-PER
 ( O
-Norway B-LOC
+Norway S-LOC
 ) O
 23.92 O
 
 6. O
 Jeremie B-PER
-Collomb-Patton I-PER
+Collomb-Patton E-PER
 ( O
-France B-LOC
+France S-LOC
 ) O
 23.87 O
 
 7. O
 Jim B-PER
-Moran I-PER
+Moran E-PER
 ( O
-U.S. B-LOC
+U.S. S-LOC
 ) O
 23.25 O
 
 8. O
 Dominick B-PER
-Gauthier I-PER
+Gauthier E-PER
 ( O
-Canada B-LOC
+Canada S-LOC
 ) O
 22.73 O
 
 9. O
 Johann B-PER
-Gregoire I-PER
+Gregoire E-PER
 ( O
-France B-LOC
+France S-LOC
 ) O
 22.58 O
 
 10. O
 Troy B-PER
-Benson I-PER
+Benson E-PER
 ( O
-U.S. B-LOC
+U.S. S-LOC
 ) O
 22.56 O
 
@@ -1241,81 +1241,81 @@ Women O
 
 1. O
 Tatjana B-PER
-Mittermayer I-PER
+Mittermayer E-PER
 ( O
-Germany B-LOC
+Germany S-LOC
 ) O
 24.32 O
 
 2. O
 Candice B-PER
-Gilg I-PER
+Gilg E-PER
 ( O
-France B-LOC
+France S-LOC
 ) O
 24.31 O
 
 3. O
 Minna B-PER
-Karhu I-PER
+Karhu E-PER
 ( O
-Finland B-LOC
+Finland S-LOC
 ) O
 24.05 O
 
 4. O
 Tae B-PER
-Satoya I-PER
+Satoya E-PER
 ( O
-Japan B-LOC
+Japan S-LOC
 ) O
 23.75 O
 
 5. O
 Ann B-PER
-Battellle I-PER
+Battellle E-PER
 ( O
-U.S. B-LOC
+U.S. S-LOC
 ) O
 23.56 O
 
 6. O
 Donna B-PER
-Weinbrecht I-PER
+Weinbrecht E-PER
 ( O
-U.S. B-LOC
+U.S. S-LOC
 ) O
 22.48 O
 
 7. O
 Liz B-PER
-McIntyre I-PER
+McIntyre E-PER
 ( O
-U.S. B-LOC
+U.S. S-LOC
 ) O
 22.00 O
 
 8. O
 Elena B-PER
-Koroleva I-PER
+Koroleva E-PER
 ( O
-Russia B-LOC
+Russia S-LOC
 ) O
 21.77 O
 
 9. O
 Ljudmila B-PER
-Dymchenko I-PER
+Dymchenko E-PER
 ( O
-Russia B-LOC
+Russia S-LOC
 ) O
 21.59 O
 
 10. O
 Katleen B-PER
-Allais I-PER
+Allais E-PER
 ( O
-France B-LOC
+France S-LOC
 ) O
 21.58 O
 
@@ -1324,23 +1324,23 @@ France B-LOC
 SOCCER O
 - O
 ASIAN B-MISC
-CUP I-MISC
+CUP E-MISC
 GROUP O
 C O
 RESULTS O
 . O
 
-AL-AIN B-LOC
+AL-AIN S-LOC
 , O
 United B-LOC
 Arab I-LOC
-Emirates I-LOC
+Emirates E-LOC
 1996-12-06 O
 
 Results O
 of O
 Asian B-MISC
-Cup I-MISC
+Cup E-MISC
 group O
 C O
 matches O
@@ -1349,9 +1349,9 @@ on O
 Friday O
 : O
 
-Japan B-LOC
+Japan S-LOC
 2 O
-Syria B-LOC
+Syria S-LOC
 1 O
 ( O
 halftime O
@@ -1361,23 +1361,23 @@ halftime O
 Scorers O
 : O
 
-Japan B-LOC
+Japan S-LOC
 - O
 Hassan B-PER
-Abbas I-PER
+Abbas E-PER
 84 O
 own O
 goal O
 , O
 Takuya B-PER
-Takagi I-PER
+Takagi E-PER
 88 O
 . O
 
-Syria B-LOC
+Syria S-LOC
 - O
 Nader B-PER
-Jokhadar I-PER
+Jokhadar E-PER
 7 O
 
 Attendance O
@@ -1385,9 +1385,9 @@ Attendance O
 10,000 O
 . O
 
-China B-LOC
+China S-LOC
 0 O
-Uzbekistan B-LOC
+Uzbekistan S-LOC
 2 O
 ( O
 halftime O
@@ -1397,11 +1397,11 @@ halftime O
 Scorers O
 : O
 Shkvyrin B-PER
-Igor I-PER
+Igor E-PER
 78 O
 , O
 Shatskikh B-PER
-Oleg I-PER
+Oleg E-PER
 90 O
 
 Attendence O
@@ -1431,7 +1431,7 @@ points O
 ) O
 : O
 
-Uzbekistan B-LOC
+Uzbekistan S-LOC
 1 O
 1 O
 0 O
@@ -1440,7 +1440,7 @@ Uzbekistan B-LOC
 0 O
 3 O
 
-Japan B-LOC
+Japan S-LOC
 1 O
 1 O
 0 O
@@ -1449,7 +1449,7 @@ Japan B-LOC
 1 O
 3 O
 
-Syria B-LOC
+Syria S-LOC
 1 O
 0 O
 0 O
@@ -1458,7 +1458,7 @@ Syria B-LOC
 2 O
 0 O
 
-China B-LOC
+China S-LOC
 1 O
 0 O
 0 O
@@ -1471,10 +1471,10 @@ China B-LOC
 
 CRICKET O
 - O
-PAKISTAN B-LOC
+PAKISTAN S-LOC
 V O
 NEW B-LOC
-ZEALAND I-LOC
+ZEALAND E-LOC
 ONE-DAY O
 SCOREBOARD O
 . O
@@ -1482,12 +1482,12 @@ SCOREBOARD O
 [ O
 CORRECTED O
 14:06 O
-GMT B-MISC
+GMT S-MISC
 ] O
 
-SIALKOT B-LOC
+SIALKOT S-LOC
 , O
-Pakistan B-LOC
+Pakistan S-LOC
 1996-12-06 O
 
 Scoreboard O
@@ -1499,19 +1499,19 @@ one-day O
 cricket O
 international O
 between O
-Pakistan B-LOC
+Pakistan S-LOC
 and O
 New B-LOC
-Zealand I-LOC
+Zealand E-LOC
 
 on O
 Friday O
 : O
 
-Pakistan B-LOC
+Pakistan S-LOC
 
 Saeed B-PER
-Anwar I-PER
+Anwar E-PER
 run O
 out O
 91 O
@@ -1522,9 +1522,9 @@ from O
 ) O
 
 Zahoor B-PER
-Elahi I-PER
+Elahi E-PER
 b O
-Cairns B-PER
+Cairns S-PER
 86 O
 ( O
 corrects O
@@ -1533,63 +1533,63 @@ from O
 ) O
 
 Ijaz B-PER
-Ahmad I-PER
+Ahmad E-PER
 c O
-Spearman B-PER
+Spearman S-PER
 b O
-Vaughan B-PER
+Vaughan S-PER
 59 O
 
 Inzamamul B-PER
-Haq I-PER
+Haq E-PER
 st O
-Germon B-PER
+Germon S-PER
 b O
-Astle B-PER
+Astle S-PER
 2 O
 
 Wasim B-PER
-Akram I-PER
+Akram E-PER
 b O
-Harris B-PER
+Harris S-PER
 4 O
 
 Shahid B-PER
-Afridi I-PER
+Afridi E-PER
 b O
-Harris B-PER
+Harris S-PER
 2 O
 
 Moin B-PER
-Khan I-PER
+Khan E-PER
 c O
-Astle B-PER
+Astle S-PER
 b O
-Harris B-PER
+Harris S-PER
 1 O
 
 Waqar B-PER
-Younis I-PER
+Younis E-PER
 st O
-Germon B-PER
+Germon S-PER
 b O
-Harris B-PER
+Harris S-PER
 0 O
 
 Saqlain B-PER
-Mushtaq I-PER
+Mushtaq E-PER
 b O
-Harris B-PER
+Harris S-PER
 2 O
 
 Mushtaq B-PER
-Ahmad I-PER
+Ahmad E-PER
 not O
 out O
 5 O
 
 Salim B-PER
-Malik I-PER
+Malik E-PER
 not O
 out O
 1 O
@@ -1634,13 +1634,13 @@ from O
 
 Bowling O
 : O
-Doull B-PER
+Doull S-PER
 8-1-60-0 O
 ( O
 w-3 O
 ) O
 , O
-Kennedy B-PER
+Kennedy S-PER
 3-0-24-0 O
 ( O
 w-7 O
@@ -1648,23 +1648,23 @@ nb-1 O
 ) O
 , O
 
-Cairns B-PER
+Cairns S-PER
 8-1-35-1 O
 ( O
 w-2 O
 ) O
 , O
-Vaughan B-PER
+Vaughan S-PER
 9-1-55-1 O
 , O
-Harris B-PER
+Harris S-PER
 10-0-42-5 O
 ( O
 w-1 O
 ) O
 , O
 
-Astle B-PER
+Astle S-PER
 9-0-53-1 O
 ( O
 w-1 O
@@ -1672,97 +1672,97 @@ nb-1 O
 ) O
 
 New B-LOC
-Zealand I-LOC
+Zealand E-LOC
 innings O
 
 B. B-PER
-Young I-PER
+Young E-PER
 c O
 Moin B-PER
-Khan I-PER
+Khan E-PER
 b O
-Waqar B-PER
+Waqar S-PER
 5 O
 
 C. B-PER
-Spearman I-PER
+Spearman E-PER
 c O
 Moin B-PER
-Khan I-PER
+Khan E-PER
 b O
-Wasim B-PER
+Wasim S-PER
 0 O
 
 A. B-PER
-Parore I-PER
+Parore E-PER
 c O
 Ijaz B-PER
-Ahmad I-PER
+Ahmad E-PER
 b O
-Saqlain B-PER
+Saqlain S-PER
 37 O
 
 S. B-PER
-Fleming I-PER
+Fleming E-PER
 c O
 and O
 b O
-Afridi B-PER
+Afridi S-PER
 88 O
 
 C. B-PER
-Cairns I-PER
+Cairns E-PER
 b O
-Saqlain B-PER
+Saqlain S-PER
 10 O
 
 N. B-PER
-Astle I-PER
+Astle E-PER
 c O
 Ijaz B-PER
-Ahmad I-PER
+Ahmad E-PER
 b O
 Salim B-PER
-Malik I-PER
+Malik E-PER
 20 O
 
 C. B-PER
-Harris I-PER
+Harris E-PER
 lbw O
 b O
-Wasim B-PER
+Wasim S-PER
 22 O
 
 L. B-PER
-Germon I-PER
+Germon E-PER
 lbw O
 b O
-Afridi B-PER
+Afridi S-PER
 2 O
 
 J. B-PER
-Vaughan I-PER
+Vaughan E-PER
 c O
 Moin B-PER
-Khan I-PER
+Khan E-PER
 b O
-Wasim B-PER
+Wasim S-PER
 13 O
 
 S. B-PER
-Doull I-PER
+Doull E-PER
 c O
 subs O
 ( O
 M. B-PER
-Wasim I-PER
+Wasim E-PER
 ) O
 b O
-Waqar B-PER
+Waqar S-PER
 1 O
 
 R. B-PER
-Kennedy I-PER
+Kennedy E-PER
 not O
 out O
 7 O
@@ -1805,7 +1805,7 @@ wickets O
 Bowling O
 : O
 Wasim B-PER
-Akram I-PER
+Akram E-PER
 8.1-0-43-3 O
 ( O
 9w O
@@ -1814,7 +1814,7 @@ Akram I-PER
 ) O
 , O
 Waqar B-PER
-Younis I-PER
+Younis E-PER
 
 6-0-32-2 O
 ( O
@@ -1824,11 +1824,11 @@ Younis I-PER
 ) O
 , O
 Saqlain B-PER
-Mushtaq I-PER
+Mushtaq E-PER
 8-0-54-2 O
 , O
 Mushtaq B-PER
-Ahmad I-PER
+Ahmad E-PER
 
 10-0-42-0 O
 ( O
@@ -1836,22 +1836,22 @@ Ahmad I-PER
 ) O
 , O
 Shahid B-PER
-Afridi I-PER
+Afridi E-PER
 7-0-40-2 O
 , O
 Salim B-PER
-Malik I-PER
+Malik E-PER
 2.5-0-8-1 O
 , O
 
 Ijaz B-PER
-Ahmad I-PER
+Ahmad E-PER
 0.1-0-0-0 O
 . O
 
 Result O
 : O
-Pakistan B-LOC
+Pakistan S-LOC
 won O
 by O
 46 O
@@ -1866,7 +1866,7 @@ December O
 8 O
 , O
 in O
-Karachi B-LOC
+Karachi S-LOC
 . O
 
 -DOCSTART- O
@@ -1875,13 +1875,13 @@ SOCCER O
 - O
 ENGLISH B-MISC
 F.A. I-MISC
-CUP I-MISC
+CUP E-MISC
 SECOND O
 ROUND O
 RESULT O
 . O
 
-LONDON B-LOC
+LONDON S-LOC
 1996-12-06 O
 
 Result O
@@ -1889,9 +1889,9 @@ of O
 an O
 English B-MISC
 F.A. I-MISC
-Challenge I-MISC
+Challenge E-MISC
 
-Cup B-MISC
+Cup S-MISC
 second O
 round O
 match O
@@ -1899,34 +1899,34 @@ on O
 Friday O
 : O
 
-Plymouth B-ORG
+Plymouth S-ORG
 4 O
-Exeter B-ORG
+Exeter S-ORG
 1 O
 
 -DOCSTART- O
 
 SOCCER O
 - O
-BLINKER B-PER
+BLINKER S-PER
 BAN O
 LIFTED O
 . O
 
-LONDON B-LOC
+LONDON S-LOC
 1996-12-06 O
 
-Dutch B-MISC
+Dutch S-MISC
 forward O
 Reggie B-PER
-Blinker I-PER
+Blinker E-PER
 had O
 his O
 indefinite O
 suspension O
 lifted O
 by O
-FIFA B-ORG
+FIFA S-ORG
 on O
 Friday O
 and O
@@ -1936,15 +1936,15 @@ to O
 make O
 his O
 Sheffield B-ORG
-Wednesday I-ORG
+Wednesday E-ORG
 comeback O
 against O
-Liverpool B-ORG
+Liverpool S-ORG
 on O
 Saturday O
 . O
 
-Blinker B-PER
+Blinker S-PER
 missed O
 his O
 club O
@@ -1953,7 +1953,7 @@ last O
 two O
 games O
 after O
-FIFA B-ORG
+FIFA S-ORG
 slapped O
 a O
 worldwide O
@@ -1967,18 +1967,18 @@ sign O
 contracts O
 for O
 both O
-Wednesday B-ORG
+Wednesday S-ORG
 and O
-Udinese B-ORG
+Udinese S-ORG
 while O
 he O
 was O
 playing O
 for O
-Feyenoord B-ORG
+Feyenoord S-ORG
 . O
 
-FIFA B-ORG
+FIFA S-ORG
 's O
 players O
 ' O
@@ -1987,13 +1987,13 @@ committee O
 , O
 meeting O
 in O
-Barcelona B-LOC
+Barcelona S-LOC
 , O
 decided O
 that O
 although O
 the O
-Udinese B-ORG
+Udinese S-ORG
 document O
 was O
 basically O
@@ -2011,7 +2011,7 @@ The O
 committee O
 said O
 the O
-Italian B-MISC
+Italian S-MISC
 club O
 had O
 violated O
@@ -2020,7 +2020,7 @@ by O
 failing O
 to O
 inform O
-Feyenoord B-ORG
+Feyenoord S-ORG
 , O
 with O
 whom O
@@ -2031,11 +2031,11 @@ under O
 contract O
 . O
 
-Blinker B-PER
+Blinker S-PER
 was O
 fined O
 75,000 O
-Swiss B-MISC
+Swiss S-MISC
 francs O
 ( O
 $ O
@@ -2046,23 +2046,23 @@ failing O
 to O
 inform O
 the O
-Engllsh B-MISC
+Engllsh S-MISC
 club O
 of O
 his O
 previous O
 commitment O
 to O
-Udinese B-ORG
+Udinese S-ORG
 . O
 
 -DOCSTART- O
 
 SOCCER O
 - O
-LEEDS B-ORG
+LEEDS S-ORG
 ' O
-BOWYER B-PER
+BOWYER S-PER
 FINED O
 FOR O
 PART O
@@ -2071,6 +2071,6 @@ FAST-FOOD O
 FRACAS O
 . O
 
-LONDON B-LOC
+LONDON S-LOC
 1996-12-06 O
 
