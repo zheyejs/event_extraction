@@ -61,10 +61,12 @@ class BiLSTM(nn.Module):
         sentence_length = batch_features.sentence_length
         x = self.embed(word)  # (N,W,D)
         x = self.dropout_embed(x)
+        # x, _ = self.bilstm(x)
         packed_embed = pack_padded_sequence(x, sentence_length, batch_first=True)
         x, _ = self.bilstm(packed_embed)
         x, _ = pad_packed_sequence(x, batch_first=True)
         x = x[batch_features.desorted_indices]
-        x = F.tanh(x)
+        x = self.dropout_embed(x)
+        # x = F.tanh(x)
         logit = self.linear(x)
         return logit

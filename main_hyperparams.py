@@ -59,7 +59,8 @@ def preprocessing(config):
     if config.embed_finetune is False:
         alphabet.build_vocab(train_data=train_data, dev_data=dev_data, test_data=test_data)
     if config.embed_finetune is True:
-        alphabet.build_vocab(train_data=train_data)
+        # alphabet.build_vocab(train_data=train_data)
+        alphabet.build_vocab(train_data=train_data, dev_data=dev_data, test_data=test_data)
     alphabet_dict = {"alphabet": alphabet}
     pcl.save(obj=alphabet_dict, path=os.path.join(config.pkl_directory, config.pkl_alphabet))
 
@@ -313,7 +314,7 @@ def parse_argument():
                         help="config path")
     parser.add_argument("--train", dest="train", action="store_true", default=True, help="train model")
     parser.add_argument("-p", "--process", dest="process", action="store_true", default=False, help="data process")
-    parser.add_argument("-t", "--test", dest="test", action="store_true", default=True, help="test model")
+    parser.add_argument("-t", "--test", dest="test", action="store_true", default=False, help="test model")
     parser.add_argument("--t_model", dest="t_model", type=str, default=None, help="model for test")
     parser.add_argument("--t_data", dest="t_data", type=str, default=None,
                         help="data[train dev test None] for test model")

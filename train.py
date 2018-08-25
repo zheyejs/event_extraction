@@ -60,7 +60,7 @@ def train(train_iter, dev_iter, test_iter, model, config):
             optimizer.zero_grad()
             logit = model(batch_features)
             loss = F.cross_entropy(logit.view(logit.size(0) * logit.size(1), -1), batch_features.label_features,
-                                   ignore_index=config.label_paddingId)
+                                   ignore_index=config.label_paddingId, size_average=False)
             loss.backward()
             if config.clip_max_norm_use is True:
                 gclip = None if config.clip_max_norm == "None" else float(config.clip_max_norm)

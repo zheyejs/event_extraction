@@ -13,6 +13,7 @@ import sys
 import torch
 from DataUtils.utils import *
 
+
 def load_test_model(model, config):
     """
     :param model:  initial model

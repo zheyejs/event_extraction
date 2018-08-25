@@ -12,6 +12,20 @@ from torch.nn.utils.clip_grad import clip_grad_norm
     # ], lr=1e-2, momentum=0.9)
 
 
+def decay_learning_rate(optimizer, epoch, init_lr, lr_decay):
+    """衰减学习率
+
+    Args:
+        epoch: int, 迭代次数
+        init_lr: 初始学习率
+    """
+    lr = init_lr / (1 + lr_decay * epoch)
+    print('learning rate: {0}'.format(lr))
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+    return optimizer
+
+
 class Optimizer(object):
     # Class dict to map lowercase identifiers to actual classes
     methods = {
