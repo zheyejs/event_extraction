@@ -19,9 +19,9 @@ class Best_Result:
         Best_Result
     """
     def __init__(self):
-        self.current_dev_fscore = -1
-        self.best_dev_fscore = -1
-        self.best_fscore = -1
+        self.current_dev_score = -1
+        self.best_dev_score = -1
+        self.best_score = -1
         self.best_epoch = 1
         self.best_test = False
         self.p = -1
@@ -92,7 +92,7 @@ def save_best_model(model, save_dir, model_name, best_eval):
     :param best_eval:  eval best
     :return:  None
     """
-    if best_eval.current_dev_fscore >= best_eval.best_dev_fscore:
+    if best_eval.current_dev_score >= best_eval.best_dev_score:
         print("save best model to {}".format(save_dir))
         if not os.path.isdir(save_dir): os.makedirs(save_dir)
         model_name = "{}.pt".format(model_name)
@@ -101,4 +101,22 @@ def save_best_model(model, save_dir, model_name, best_eval):
         torch.save(model.state_dict(), save_path)
 
 
+# adjust lr
+def get_lrate(optim):
+    """
+    :param optim: optimizer
+    :return:
+    """
+    for group in optim.param_groups:
+        yield group['lr']
+
+
+def set_lrate(optim, lr):
+    """
+    :param optim:  optimizer
+    :param lr:  learning rate
+    :return:
+    """
+    for group in optim.param_groups:
+        group['lr'] = lr
 

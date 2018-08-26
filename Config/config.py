@@ -208,10 +208,6 @@ class Configurable(myconf):
         return self._config.getfloat("Optimizer", "learning_rate")
 
     @property
-    def learning_rate_decay(self):
-        return self._config.getfloat("Optimizer", "learning_rate_decay")
-
-    @property
     def weight_decay(self):
         return self._config.getfloat("Optimizer", "weight_decay")
 
@@ -222,6 +218,22 @@ class Configurable(myconf):
     @property
     def clip_max_norm(self):
         return self._config.getint("Optimizer", "clip_max_norm")
+
+    @property
+    def use_lr_decay(self):
+        return self._config.getboolean("Optimizer", "use_lr_decay")
+
+    @property
+    def lr_rate_decay(self):
+        return self._config.getfloat("Optimizer", "lr_rate_decay")
+
+    @property
+    def min_lrate(self):
+        return self._config.getfloat("Optimizer", "min_lrate")
+
+    @property
+    def max_patience(self):
+        return self._config.getint("Optimizer", "max_patience")
 
     # Train
     @property
@@ -239,6 +251,10 @@ class Configurable(myconf):
     @property
     def epochs(self):
         return self._config.getint("Train", "epochs")
+
+    @property
+    def backward_batch_size(self):
+        return self._config.getint("Train", "backward_batch_size")
 
     @property
     def batch_size(self):

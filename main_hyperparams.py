@@ -23,7 +23,7 @@ from models.BiLSTM_Context import *
 from models.BiLSTM import BiLSTM
 from test import load_test_model, load_test_data
 from test import T_Inference
-import train
+from trainer import Train
 import random
 import shutil
 
@@ -252,8 +252,10 @@ def start_train(train_iter, dev_iter, test_iter, model, config):
     :param config:  config
     :return:  None
     """
-    print("\nTraining Start......")
-    train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
+    # print("\nTraining Start......")
+    t = Train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
+    t.train()
+    # train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
 
 
 def start_test(train_iter, dev_iter, test_iter, model, alphabet, config):
