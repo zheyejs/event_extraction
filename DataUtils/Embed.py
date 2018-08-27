@@ -52,6 +52,12 @@ class Embed(object):
         embed = None
         if self.embed_type == "nn":
             embed = self._nn_embed(embed_dict=embed_dict, words_dict=self.words_dict)
+        elif self.embed_type == "zero":
+            embed = self._zeros_embed(embed_dict=embed_dict, words_dict=self.words_dict)
+        elif self.embed_type == "uniform":
+            embed = self._uniform_embed(embed_dict=embed_dict, words_dict=self.words_dict)
+        elif self.embed_type == "avg":
+            embed = self._avg_embed(embed_dict=embed_dict, words_dict=self.words_dict)
         # print(embed)
         self.info()
         return embed
@@ -61,15 +67,26 @@ class Embed(object):
         :param embed_dict:
         :param words_dict:
         """
-        print("loading pre_train embedding by zeros......")
-        print(self.words_count)
+        print("loading pre_train embedding by zeros for out of vocabulary.")
+        embeddings = np.zeros((int(self.words_count), int(self.dim)))
+        for word in words_dict:
+            if word in embed_dict:
+                embeddings[words_dict[word]] = np.array([float(i) for i in embed_dict[word]], dtype='float32')
+                self.exact_count += 1
+            elif word.lower() in embed_dict:
+                embeddings[words_dict[word]] = np.array([float(i) for i in embed_dict[word.lower()]], dtype='float32')
+                self.fuzzy_count += 1
+            else:
+                self.oov_count += 1
+        final_embed = torch.from_numpy(embeddings).float()
+        return final_embed
 
     def _nn_embed(self, embed_dict, words_dict):
         """
         :param embed_dict:
         :param words_dict:
         """
-        print("loading pre_train embedding by nn.Embedding......")
+        print("loading pre_train embedding by nn.Embedding for out of vocabulary.")
         embed = nn.Embedding(int(self.words_count), int(self.dim))
         init.xavier_uniform(embed.weight.data)
         embeddings = np.array(embed.weight.data)
@@ -82,6 +99,58 @@ class Embed(object):
                 self.fuzzy_count += 1
             else:
                 self.oov_count += 1
+        final_embed = torch.from_numpy(embeddings).float()
+        return final_embed
+
+    def _uniform_embed(self, embed_dict, words_dict):
+        """
+        :param embed_dict:
+        :param words_dict:
+        """
+        print("loading pre_train embedding by uniform for out of vocabulary.")
+        embeddings = np.zeros((int(self.words_count), int(self.dim)))
+        inword_list = {}
+        for word in words_dict:
+            if word in embed_dict:
+                embeddings[words_dict[word]] = np.array([float(i) for i in embed_dict[word]], dtype='float32')
+                inword_list[words_dict[word]] = 1
+                self.exact_count += 1
+            elif word.lower() in embed_dict:
+                embeddings[words_dict[word]] = np.array([float(i) for i in embed_dict[word.lower()]], dtype='float32')
+                inword_list[words_dict[word]] = 1
+                self.fuzzy_count += 1
+            else:
+                self.oov_count += 1
+        uniform_col = np.random.uniform(-0.25, 0.25, int(self.dim)).round(6)  # uniform
+        for i in range(len(words_dict)):
+            if i not in inword_list and i != self.padID:
+                embeddings[i] = uniform_col
+        final_embed = torch.from_numpy(embeddings).float()
+        return final_embed
+
+    def _avg_embed(self, embed_dict, words_dict):
+        """
+        :param embed_dict:
+        :param words_dict:
+        """
+        print("loading pre_train embedding by avg for out of vocabulary.")
+        embeddings = np.zeros((int(self.words_count), int(self.dim)))
+        inword_list = {}
+        for word in words_dict:
+            if word in embed_dict:
+                embeddings[words_dict[word]] = np.array([float(i) for i in embed_dict[word]], dtype='float32')
+                inword_list[words_dict[word]] = 1
+                self.exact_count += 1
+            elif word.lower() in embed_dict:
+                embeddings[words_dict[word]] = np.array([float(i) for i in embed_dict[word.lower()]], dtype='float32')
+                inword_list[words_dict[word]] = 1
+                self.fuzzy_count += 1
+            else:
+                self.oov_count += 1
+        sum_col = np.sum(embeddings, axis=0) / len(inword_list)  # avg
+        for i in range(len(words_dict)):
+            if i not in inword_list and i != self.padID:
+                embeddings[i] = sum_col
         final_embed = torch.from_numpy(embeddings).float()
         return final_embed
 

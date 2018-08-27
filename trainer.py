@@ -15,6 +15,7 @@ import time
 import numpy as np
 import random
 import torch
+import torch.optim as optim
 import torch.nn as nn
 import torch.nn.utils as utils
 from DataUtils.Optim import Optimizer
@@ -51,6 +52,7 @@ class Train(object):
         self.config = kwargs["config"]
         self.optimizer = Optimizer(name=self.config.learning_algorithm, model=self.model, lr=self.config.learning_rate,
                                    weight_decay=self.config.weight_decay, grad_clip=self.config.clip_max_norm)
+        print(self.optimizer)
         self.loss_function = nn.CrossEntropyLoss(ignore_index=self.config.label_paddingId, size_average=True)
         self.best_score = Best_Result()
         self.train_eval, self.dev_eval, self.test_eval = Eval(), Eval(), Eval()
@@ -81,7 +83,20 @@ class Train(object):
             set_lrate(self.optimizer, new_lr)
         return new_lr
 
-    def batch_step(self, config, backward_count):
+    def decay_learning_rate(self, epoch, init_lr):
+        """衰减学习率
+
+        Args:
+            epoch: int, 迭代次数
+            init_lr: 初始学习率
+        """
+        lr = init_lr / (1 + self.config.lr_rate_decay * epoch)
+        # print('learning rate: {0}'.format(lr))
+        for param_group in self.optimizer.param_groups:
+            param_group['lr'] = lr
+        return self.optimizer
+
+    def optimizer_batch_step(self, config, backward_count):
         """
         :return:
         """
@@ -101,6 +116,7 @@ class Train(object):
         for epoch in range(1, epochs + 1):
             print("\n## The {} Epoch, All {} Epochs ! ##".format(epoch, epochs))
             new_lr = self.dynamic_lr(config=self.config, epoch=epoch, new_lr=new_lr)
+            # self.optimizer = self.decay_learning_rate(epoch=epoch - 1, init_lr=self.config.learning_rate)
             print("now lr is {}".format(self.optimizer.param_groups[0].get("lr")), end="")
             start_time = time.time()
             random.shuffle(self.train_iter)
@@ -114,7 +130,7 @@ class Train(object):
                 loss = self.loss_function(logit.view(logit.size(0) * logit.size(1), -1), batch_features.label_features)
                 loss.backward()
                 self.clip_model_norm(clip_max_norm_use, clip_max_norm)
-                self.batch_step(config=self.config, backward_count=backward_count)
+                self.optimizer_batch_step(config=self.config, backward_count=backward_count)
                 # self.optimizer.step()
                 steps += 1
                 if (steps - 1) % self.config.log_interval == 0:
