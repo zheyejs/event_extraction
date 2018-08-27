@@ -76,12 +76,15 @@ def save_model_all(model, save_dir, model_name, epoch):
     :param epoch:  epoch
     :return:  None
     """
-    print("save all model to {}".format(save_dir))
     if not os.path.isdir(save_dir):
         os.makedirs(save_dir)
     save_prefix = os.path.join(save_dir, model_name)
     save_path = '{}_epoch_{}.pt'.format(save_prefix, epoch)
-    torch.save(model.state_dict(), save_path)
+    print("save all model to {}".format(save_path))
+    output = open(save_path, mode="wb")
+    torch.save(model.state_dict(), output)
+    # torch.save(model.state_dict(), save_path)
+    output.close()
 
 
 def save_best_model(model, save_dir, model_name, best_eval):
@@ -93,12 +96,15 @@ def save_best_model(model, save_dir, model_name, best_eval):
     :return:  None
     """
     if best_eval.current_dev_score >= best_eval.best_dev_score:
-        print("save best model to {}".format(save_dir))
         if not os.path.isdir(save_dir): os.makedirs(save_dir)
         model_name = "{}.pt".format(model_name)
         save_path = os.path.join(save_dir, model_name)
-        if os.path.exists(save_path):  os.remove(save_path)
-        torch.save(model.state_dict(), save_path)
+        print("save best model to {}".format(save_path))
+        # if os.path.exists(save_path):  os.remove(save_path)
+        output = open(save_path, mode="wb")
+        torch.save(model.state_dict(), output)
+        # torch.save(model.state_dict(), save_path)
+        output.close()
 
 
 # adjust lr
