@@ -16,6 +16,7 @@ import Config.config as configurable
 from DataUtils.Alphabet import *
 from DataUtils.Batch_Iterator import *
 from DataUtils.Pickle import pcl
+from DataUtils.Embed import Embed
 from Dataloader import DataLoader_NER
 from DataUtils.Load_Pretrained_Embed import *
 from DataUtils.Common import seed_num, paddingkey
@@ -123,28 +124,23 @@ def pre_embed(config, alphabet):
     """
     print("***************************************")
     pretrain_embed = None
+    embed_types = ""
     if config.pretrained_embed and config.zeros:
-        print("Using Pre_Trained Embedding.")
-        pretrain_embed = load_pretrained_emb_zeros(path=config.pretrained_embed_file,
-                                                   text_field_words_dict=alphabet.word_alphabet.id2words,
-                                                   pad=paddingkey)
+        embed_types = "zero"
     elif config.pretrained_embed and config.avg:
-        print("Using Pre_Trained Embedding.")
-        pretrain_embed = load_pretrained_emb_avg(path=config.pretrained_embed_file,
-                                                 text_field_words_dict=alphabet.word_alphabet.id2words,
-                                                 pad=paddingkey)
+        embed_types = "avg"
     elif config.pretrained_embed and config.uniform:
-        print("Using Pre_Trained Embedding.")
-        pretrain_embed = load_pretrained_emb_uniform(path=config.pretrained_embed_file,
-                                                     text_field_words_dict=alphabet.word_alphabet.id2words,
-                                                     pad=paddingkey)
+        embed_types = "uniform"
     elif config.pretrained_embed and config.nnembed:
-        print("Using Pre_Trained Embedding.")
-        pretrain_embed = load_pretrained_emb_Embedding(path=config.pretrained_embed_file,
-                                                       text_field_words_dict=alphabet.word_alphabet.id2words,
-                                                       pad=paddingkey)
-    embed_dict = {"pretrain_embed": pretrain_embed}
-    pcl.save(obj=embed_dict, path=os.path.join(config.pkl_directory, config.pkl_embed))
+        embed_types = "nn"
+    if config.pretrained_embed is True:
+        p = Embed(path=config.pretrained_embed_file, words_dict=alphabet.word_alphabet.id2words, embed_type=embed_types,
+                  pad=paddingkey)
+        pretrain_embed = p.get_embed()
+
+    # embed_dict = {"pretrain_embed": pretrain_embed}
+    # pcl.save(obj=embed_dict, path=os.path.join(config.pkl_directory, config.pkl_embed))
+
     return pretrain_embed
 
 
@@ -218,10 +214,16 @@ def load_data(config):
     alphabet = None
     if (config.train is True) and (config.process is True):
         print("process data")
-        if os.path.exists(config.pkl_directory): shutil.rmtree(config.pkl_directory)
-        if not os.path.isdir(config.pkl_directory): os.makedirs(config.pkl_directory)
+        # if os.path.exists(config.pkl_directory): shutil.rmtree(config.pkl_directory)
+        # if not os.path.isdir(config.pkl_directory): os.makedirs(config.pkl_directory)
         train_iter, dev_iter, test_iter, alphabet = preprocessing(config)
         # load Pre_Trained Embedding
+        # if os.path.exists(os.path.join(config.pkl_directory, config.pkl_embed)) is True:
+        #     embed_dict = pcl.load(os.path.join(config.pkl_directory, config.pkl_embed))
+        #     print(embed_dict.keys())
+        #     embed = embed_dict["pretrain_embed"]
+        #     config.pretrained_weight = embed
+        # else:
         config.pretrained_weight = pre_embed(config=config, alphabet=alphabet)
     elif ((config.train is True) and (config.process is False)) or (config.test is True):
         print("load data from pkl file")
@@ -254,6 +256,7 @@ def start_train(train_iter, dev_iter, test_iter, model, config):
     """
     # print("\nTraining Start......")
     t = Train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
+    # t = Train(train_iter=dev_iter, dev_iter=dev_iter, test_iter=dev_iter, model=model, config=config)
     t.train()
     # train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
 
@@ -315,7 +318,7 @@ def parse_argument():
     parser.add_argument("-c", "--config", dest="config_file", type=str, default="./Config/config.cfg",
                         help="config path")
     parser.add_argument("--train", dest="train", action="store_true", default=True, help="train model")
-    parser.add_argument("-p", "--process", dest="process", action="store_true", default=False, help="data process")
+    parser.add_argument("-p", "--process", dest="process", action="store_true", default=True, help="data process")
     parser.add_argument("-t", "--test", dest="test", action="store_true", default=False, help="test model")
     parser.add_argument("--t_model", dest="t_model", type=str, default=None, help="model for test")
     parser.add_argument("--t_data", dest="t_data", type=str, default=None,
