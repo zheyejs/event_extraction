@@ -50,7 +50,6 @@ class DataLoader(object):
         for id_data in range(len(path)):
             print("Loading Data Form {}".format(path[id_data]))
             insts = self.Load_Each_Data(path=path[id_data], shuffle=shuffle)
-            insts = self.de(insts)
             if shuffle is True and id_data == 0:
                 print("shuffle train data......")
                 random.shuffle(insts)
@@ -106,15 +105,6 @@ class DataLoader(object):
             else:
                 new_word += char
         return new_word
-
-    def de(self, insts):
-        de = []
-        for inst in insts:
-            # print(inst.words)
-            if inst.words[0] == "-DOCSTART-":
-                continue
-            de.append(inst)
-        return de
 
     def sort(self, insts):
         sorted_insts  = []
