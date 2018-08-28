@@ -1,7 +1,7 @@
 # @Author : bamtercelboo
-# @Datetime : 2018/07/10 16.03
-# @File : train.py
-# @Last Modify Time : 2018/07/10 16.03
+# @Datetime : 2018/08/27 09.59
+# @File : Load_Pretrained_Embed.py
+# @Last Modify Time : 2018/08/27 09.59
 # @Contact : bamtercelboo@{gmail.com, 163.com}
 
 """
@@ -66,11 +66,19 @@ def load_pretrained_emb_zeros(path, text_field_words_dict, pad=None, set_padding
 
 
 def load_pretrained_emb_Embedding(path, text_field_words_dict, pad=None, set_padding=False):
+    """
+    :param path:
+    :param text_field_words_dict:
+    :param pad:
+    :param set_padding:
+    :return:
+    """
     print("loading pre_train embedding by nn.Embedding......")
     if not isinstance(text_field_words_dict, dict):
-        text_field_words_dict = convert_list2dict(text_field_words_dict)
+        text_field_words_dict, text_field_words_list = convert_list2dict(text_field_words_dict)
     if pad is not None:
         padID = text_field_words_dict[pad]
+    # print(text_field_words_dict)
     embedding_dim = -1
     with open(path, encoding='utf-8') as f:
         for line in f:
@@ -92,6 +100,7 @@ def load_pretrained_emb_Embedding(path, text_field_words_dict, pad=None, set_pad
     init.xavier_uniform(embed.weight.data)
     embeddings = np.array(embed.weight.data)
     iv_num = 0
+    fuzzy_num = 0
     oov_num = 0
     with open(path, encoding='utf-8') as f:
         lines = f.readlines()
@@ -100,15 +109,23 @@ def load_pretrained_emb_Embedding(path, text_field_words_dict, pad=None, set_pad
             values = line.strip().split(' ')
             if len(values) == 1 or len(values) == 2:
                 continue
-            index = text_field_words_dict.get(values[0])  # digit or None
+            word = values[0]
+            # if word in
+            index = text_field_words_dict.get(word, None)  # digit or None
+            if index is None:
+                if word.lower() in text_field_words_list:
+                    fuzzy_num += 1
+                    index = text_field_words_list.index(word.lower())
             if index:
                 iv_num += 1
                 vector = np.array([float(i) for i in values[1:]], dtype='float32')
                 embeddings[index] = vector
+            # else:
+            #     print(word)
 
     f.close()
     oov_num = word_count - iv_num
-    print("iv_num {} oov_num {} oov_radio {:.4f}%".format(iv_num, oov_num, round((oov_num / word_count) * 100, 4)))
+    print("iv_num {}(fuzzy_num = {}) oov_num {} oov_radio {:.4f}%".format(iv_num, fuzzy_num, oov_num, round((oov_num / word_count) * 100, 4)))
     return torch.from_numpy(embeddings).float()
 
 
@@ -222,9 +239,16 @@ def load_pretrained_emb_uniform(path, text_field_words_dict, pad=None, set_paddi
 
 
 def convert_list2dict(convert_list):
+    """
+    :param convert_list:  list type
+    :return:  dict type
+    """
     list_dict = OrderedDict()
+    list_lower = []
     for index, word in enumerate(convert_list):
+        list_lower.append(word.lower())
         list_dict[word] = index
-    return list_dict
+    assert len(list_lower) == len(list_dict)
+    return list_dict, list_lower
 
 

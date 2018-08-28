@@ -253,6 +253,10 @@ class Configurable(myconf):
         return self._config.getint("Train", "epochs")
 
     @property
+    def early_max_patience(self):
+        return self._config.getint("Train", "early_max_patience")
+
+    @property
     def backward_batch_size(self):
         return self._config.getint("Train", "backward_batch_size")
 

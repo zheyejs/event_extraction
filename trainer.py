@@ -50,15 +50,19 @@ class Train(object):
         self.test_iter = kwargs["test_iter"]
         self.model = kwargs["model"]
         self.config = kwargs["config"]
+        self.early_max_patience = self.config.early_max_patience
         self.optimizer = Optimizer(name=self.config.learning_algorithm, model=self.model, lr=self.config.learning_rate,
                                    weight_decay=self.config.weight_decay, grad_clip=self.config.clip_max_norm)
+        if self.config.learning_algorithm == "SGD":
+            self.loss_function = nn.CrossEntropyLoss(ignore_index=self.config.label_paddingId, size_average=False)
+        else:
+            self.loss_function = nn.CrossEntropyLoss(ignore_index=self.config.label_paddingId, size_average=True)
         print(self.optimizer)
-        self.loss_function = nn.CrossEntropyLoss(ignore_index=self.config.label_paddingId, size_average=True)
         self.best_score = Best_Result()
         self.train_eval, self.dev_eval, self.test_eval = Eval(), Eval(), Eval()
         self.train_iter_len = len(self.train_iter)
 
-    def clip_model_norm(self, clip_max_norm_use, clip_max_norm):
+    def _clip_model_norm(self, clip_max_norm_use, clip_max_norm):
         """
         :param clip_max_norm_use:  whether to use clip max norm for nn model
         :param clip_max_norm: clip max norm max values [float or None]
@@ -69,7 +73,7 @@ class Train(object):
             assert isinstance(gclip, float)
             utils.clip_grad_norm(self.model.parameters(), max_norm=gclip)
 
-    def dynamic_lr(self, config, epoch, new_lr):
+    def _dynamic_lr(self, config, epoch, new_lr):
         """
         :param config:  config
         :param epoch:  epoch
@@ -83,7 +87,7 @@ class Train(object):
             set_lrate(self.optimizer, new_lr)
         return new_lr
 
-    def decay_learning_rate(self, epoch, init_lr):
+    def _decay_learning_rate(self, epoch, init_lr):
         """衰减学习率
 
         Args:
@@ -96,13 +100,26 @@ class Train(object):
             param_group['lr'] = lr
         return self.optimizer
 
-    def optimizer_batch_step(self, config, backward_count):
+    def _optimizer_batch_step(self, config, backward_count):
         """
         :return:
         """
         if backward_count % config.backward_batch_size == 0 or backward_count == self.train_iter_len:
             self.optimizer.step()
             self.optimizer.zero_grad()
+
+    def _early_stop(self, epoch):
+        """
+        :param epoch:
+        :return:
+        """
+        best_epoch = self.best_score.best_epoch
+        if epoch > best_epoch:
+            self.best_score.early_current_patience += 1
+            print("Dev Has Not Promote {} / {}".format(self.best_score.early_current_patience, 10))
+            if self.best_score.early_current_patience >= self.early_max_patience:
+                print("Early Stop Train. Best Score Locate on {} Epoch.".format(self.best_score.best_epoch))
+                exit()
 
     def train(self):
         """
@@ -115,22 +132,23 @@ class Train(object):
 
         for epoch in range(1, epochs + 1):
             print("\n## The {} Epoch, All {} Epochs ! ##".format(epoch, epochs))
-            new_lr = self.dynamic_lr(config=self.config, epoch=epoch, new_lr=new_lr)
-            # self.optimizer = self.decay_learning_rate(epoch=epoch - 1, init_lr=self.config.learning_rate)
+            # new_lr = self._dynamic_lr(config=self.config, epoch=epoch, new_lr=new_lr)
+            self.optimizer = self._decay_learning_rate(epoch=epoch - 1, init_lr=self.config.learning_rate)
             print("now lr is {}".format(self.optimizer.param_groups[0].get("lr")), end="")
             start_time = time.time()
             random.shuffle(self.train_iter)
             self.model.train()
             steps = 1
             backward_count = 0
+            self.optimizer.zero_grad()
             for batch_count, batch_features in enumerate(self.train_iter):
                 backward_count += 1
                 # self.optimizer.zero_grad()
                 logit = self.model(batch_features)
                 loss = self.loss_function(logit.view(logit.size(0) * logit.size(1), -1), batch_features.label_features)
                 loss.backward()
-                self.clip_model_norm(clip_max_norm_use, clip_max_norm)
-                self.optimizer_batch_step(config=self.config, backward_count=backward_count)
+                self._clip_model_norm(clip_max_norm_use, clip_max_norm)
+                self._optimizer_batch_step(config=self.config, backward_count=backward_count)
                 # self.optimizer.step()
                 steps += 1
                 if (steps - 1) % self.config.log_interval == 0:
@@ -140,7 +158,8 @@ class Train(object):
             end_time = time.time()
             print("\nTrain Time {:.3f}".format(end_time - start_time), end="")
             self.eval(model=self.model, epoch=epoch, config=self.config)
-            self.model2file(model=self.model, config=self.config, epoch=epoch)
+            self._model2file(model=self.model, config=self.config, epoch=epoch)
+            self._early_stop(epoch=epoch)
 
     def eval(self, model, epoch, config):
         """
@@ -161,7 +180,7 @@ class Train(object):
         eval_end_time = time.time()
         print("Test Time {:.3f}".format(eval_end_time - eval_start_time))
 
-    def model2file(self, model, config, epoch):
+    def _model2file(self, model, config, epoch):
         """
         :param model:  nn model
         :param config:  config

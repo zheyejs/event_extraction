@@ -93,6 +93,7 @@ class T_Inference(object):
         :return: None
         """
         print("infer.....")
+        self.model.eval()
         predict_labels = []
         predict_label = []
         all_count = len(self.data)
@@ -132,9 +133,14 @@ class T_Inference(object):
                     file_out.write("\n")
                     continue
                 line = line.strip().split()
+                # if line[0] == "-DOCSTART-":
+                #     line.append("O")
+                # else:
+                #     line.append(result[id])
+                #     id += 1
+                # print(line)
                 line.append(result[id])
                 id += 1
-                # print(line)
                 file_out.write(" ".join(line) + "\n")
                 if id >= len(result):
                     break

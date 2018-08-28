@@ -24,6 +24,7 @@ class Best_Result:
         self.best_score = -1
         self.best_epoch = 1
         self.best_test = False
+        self.early_current_patience = 0
         self.p = -1
         self.r = -1
         self.f = -1
@@ -105,6 +106,7 @@ def save_best_model(model, save_dir, model_name, best_eval):
         torch.save(model.state_dict(), output)
         # torch.save(model.state_dict(), save_path)
         output.close()
+        best_eval.early_current_patience = 0
 
 
 # adjust lr

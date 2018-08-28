@@ -18,6 +18,9 @@ import torch
 import torch.nn as nn
 import torch.nn.init as init
 from collections import OrderedDict
+from DataUtils.Common import *
+torch.manual_seed(seed_num)
+np.random.seed(seed_num)
 
 
 class Embed(object):

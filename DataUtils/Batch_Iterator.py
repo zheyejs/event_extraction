@@ -109,11 +109,14 @@ class Iterators:
         for inst in insts:
             sentence_length.append(inst.words_size)
             word_size = inst.words_size
+            # print(word_size)
+            # print(inst.words)
             if word_size > max_word_size:
                 max_word_size = word_size
 
             if len(inst.labels) > max_label_size:
                 max_label_size = len(inst.labels)
+        assert max_word_size == max_label_size
 
         # create with the Tensor/Variable
         # word features
@@ -142,12 +145,14 @@ class Iterators:
         # prepare for pack_padded_sequence
         sorted_inputs_words, sorted_seq_lengths, desorted_indices = self.prepare_pack_padded_sequence(
             batch_word_features, sentence_length)
+        # print(sorted_seq_lengths)
 
         # batch
         features = Batch_Features()
         features.batch_length = batch_length
         features.inst = insts
         features.word_features = sorted_inputs_words
+        # features.word_features = batch_word_features
         features.label_features = batch_label_features
         features.sentence_length = sorted_seq_lengths
         features.desorted_indices = desorted_indices
@@ -158,6 +163,12 @@ class Iterators:
         return features
 
     def prepare_pack_padded_sequence(self, inputs_words, seq_lengths, descending=True):
+        """
+        :param inputs_words:
+        :param seq_lengths:
+        :param descending:
+        :return:
+        """
         sorted_seq_lengths, indices = torch.sort(torch.LongTensor(seq_lengths), descending=descending)
         _, desorted_indices = torch.sort(indices, descending=False)
         sorted_inputs_words = inputs_words[indices]

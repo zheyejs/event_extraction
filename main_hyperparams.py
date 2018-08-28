@@ -138,8 +138,8 @@ def pre_embed(config, alphabet):
                   pad=paddingkey)
         pretrain_embed = p.get_embed()
 
-    # embed_dict = {"pretrain_embed": pretrain_embed}
-    # pcl.save(obj=embed_dict, path=os.path.join(config.pkl_directory, config.pkl_embed))
+        embed_dict = {"pretrain_embed": pretrain_embed}
+        pcl.save(obj=embed_dict, path=os.path.join(config.pkl_directory, config.pkl_embed))
 
     return pretrain_embed
 
@@ -214,8 +214,8 @@ def load_data(config):
     alphabet = None
     if (config.train is True) and (config.process is True):
         print("process data")
-        # if os.path.exists(config.pkl_directory): shutil.rmtree(config.pkl_directory)
-        # if not os.path.isdir(config.pkl_directory): os.makedirs(config.pkl_directory)
+        if os.path.exists(config.pkl_directory): shutil.rmtree(config.pkl_directory)
+        if not os.path.isdir(config.pkl_directory): os.makedirs(config.pkl_directory)
         train_iter, dev_iter, test_iter, alphabet = preprocessing(config)
         # load Pre_Trained Embedding
         # if os.path.exists(os.path.join(config.pkl_directory, config.pkl_embed)) is True:
@@ -254,11 +254,9 @@ def start_train(train_iter, dev_iter, test_iter, model, config):
     :param config:  config
     :return:  None
     """
-    # print("\nTraining Start......")
     t = Train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
-    # t = Train(train_iter=dev_iter, dev_iter=dev_iter, test_iter=dev_iter, model=model, config=config)
     t.train()
-    # train.train(train_iter=train_iter, dev_iter=dev_iter, test_iter=test_iter, model=model, config=config)
+    print("Finish Train.")
 
 
 def start_test(train_iter, dev_iter, test_iter, model, alphabet, config):
@@ -276,6 +274,7 @@ def start_test(train_iter, dev_iter, test_iter, model, alphabet, config):
     infer = T_Inference(model=model, data=data, path_source=path_source, path_result=path_result, alphabet=alphabet,
                         config=config)
     infer.infer2file()
+    print("Finished Test.")
 
 
 def main():

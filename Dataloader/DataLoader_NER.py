@@ -50,11 +50,13 @@ class DataLoader(object):
         for id_data in range(len(path)):
             print("Loading Data Form {}".format(path[id_data]))
             insts = self.Load_Each_Data(path=path[id_data], shuffle=shuffle)
+            insts = self.de(insts)
             if shuffle is True and id_data == 0:
                 print("shuffle train data......")
                 random.shuffle(insts)
             # sorted(inst)
-            # sorted_insts = self.sort(insts)
+            if id_data == 0:
+                insts = self.sort(insts)
             # sorted_insts = self.sort(insts)
             self.data_list.append(insts)
         # return train/dev/test data
@@ -81,7 +83,8 @@ class DataLoader(object):
                     # print(word)
                     word = self.normalize_word(word)
                     # print(word)
-                    inst.words.append(word.lower())
+                    # inst.words.append(word.lower())
+                    inst.words.append(word)
                     inst.labels.append(line[-1])
                 if len(insts) == self.max_count:
                     break
@@ -92,6 +95,10 @@ class DataLoader(object):
         return insts
 
     def normalize_word(self, word):
+        """
+        :param word:
+        :return:
+        """
         new_word = ""
         for char in word:
             if char.isdigit():
@@ -99,6 +106,15 @@ class DataLoader(object):
             else:
                 new_word += char
         return new_word
+
+    def de(self, insts):
+        de = []
+        for inst in insts:
+            # print(inst.words)
+            if inst.words[0] == "-DOCSTART-":
+                continue
+            de.append(inst)
+        return de
 
     def sort(self, insts):
         sorted_insts  = []
