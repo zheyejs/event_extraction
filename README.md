@@ -38,20 +38,22 @@ The number of sentences:
 - Pre-Trained Embedding can be downloaded from [glove.6B.zip](nlp.stanford.edu/data/glove.6B.zip)
 
 ## Time ##
-| Model | CPU | GPU |   
-- A simple test of the training speed and decoding time on the `CPU` and `GPU`.  
+
+**A simple test of the training speed and decoding time on ** `CPU` and `GPU`.  
 
 **CPU(i7-6800k)**  
 
 | Model | Train | Dev | Test |   
 | ------------ | ------------ | ------------ | ------------ |  
-| BiLSTM | 14987 | 3466 | 3684 |  
+| BiLSTM | 31.85s | 4.55s | 4.00s |  
+| BiLSTM-CRF | - | - | - |  
 
 **GPU(GTX1080-Ti)**  
 
 | Model | Train | Dev | Test |   
 | ------------ | ------------ | ------------ | ------------ |  
-| BiLSTM | 14987 | 3466 | 3684 |  
+| BiLSTM | 5.70s | 1.70s | 1.56s |    
+| BiLSTM-CRF | - | - | - |  
 
 ![](https://i.imgur.com/RjaG80A.jpg)
 
