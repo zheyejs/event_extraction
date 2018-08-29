@@ -26,14 +26,16 @@
 
 ## Data ##
 
-- The number of sentences in the two data is calculated as follows:  
-
+**The number of sentences in the two data is calculated as follows:  **  
 
 | Data | Train | Dev | Test |  
 | ------------ | ------------ | ------------ | ------------ |  
 | conll2003 | 14987 | 3466 | 3684 |
-- The data format of MSRA and Conll2003 is BIO.
-![](https://i.imgur.com/5BgPews.jpg)
+
+
+- The Data format is BIES label, data sample in Data directory.
+- Conll2003 dataset can be downloaded from [Conll2003](https://www.clips.uantwerpen.be/conll2003/ner/)
+- Pre-Trained Embedding can be downloaded from [glove.6B.zip](nlp.stanford.edu/data/glove.6B.zip)
 
 ## Time ##
 
