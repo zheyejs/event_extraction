@@ -1,6 +1,6 @@
 
-## Chinese NER  ##
-- In NER task, recently, BiLSTM-CRF Neural Networks are often used, and get the best performance. but I use a simple Neural Networks(`BiLSTM`) and context feature to train data, and get a good performance close to the `BiLSTM-CRF`.
+## NER-LSTM-CRF  ##
+- LSTM-CRF impolment in pytorch, and test in conll2003 dataset.
 
 ## Requirement ##
 
@@ -10,18 +10,26 @@
 
 ## Usage ##
 	modify the config file, detail see the Config directory
-	(1)	sh run.sh
-	(2)	python -u main_hyperparams.py --config_file ./Config/config.cfg 
+	Train:
+		(1)	sh run_train_p.sh
+		(2)	python -u main_hyperparams.py --config ./Config/config.cfg --train -p 
+	Test:
+		(1) sh run_test.sh
+		(2) python -u main_hyperparams.py --config ./Config/config.cfg --t_data test --test 
+
 
 ## Model ##
 
-- `BiLSTM + context feature`  
+- `BiLSTM`  
 - `BiLSTM-CRF`
-- Now, only support `BiLSTM + context feature`, BiLSTM-CRF will be support later.
+- Now, only support `BiLSTM `, BiLSTM-CRF will be support later.
 
 ## Data ##
 
-- The number of sentences in the two data is calculated as follows:
+- The number of sentences in the two data is calculated as follows:  
+| Data | Train | Dev | Test |  
+| ------------ | ------------ | ------------ | ------------ |  
+| conll2003 | 14987 | 3466 | 3684 |
 - The data format of MSRA and Conll2003 is BIO.
 ![](https://i.imgur.com/5BgPews.jpg)
 
