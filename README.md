@@ -11,12 +11,15 @@
 ## Usage ##
 	modify the config file, detail see the Config directory
 	Train:
+		The best nn model will be saved during training.
 		(1) sh run_train_p.sh
 		(2) python -u main_hyperparams.py --config ./Config/config.cfg --train -p 
 	Test:
+		Decoding test data, and write decode result to file.
 		(1) sh run_test.sh
 		(2) python -u main_hyperparams.py --config ./Config/config.cfg --t_data test --test 
-
+	Eval:
+		For the decode result file, use conlleval script in Tools directory to calculate F-score.
 
 ## Model ##
 
@@ -63,8 +66,7 @@ Performance on the `Conll2003`,  eval on the script `conlleval` in [Tools](https
 | Model | % P | % R | % F1 |  
 | ------------ | ------------ | ------------ | ------------ |  
 | BLSTM | 88.64 | 87.53 | 88.08 |  
-| BLSTM-CNN | - | - | - |  
-| BLSTM-CNN-CRF | - | - | - |  
+| BLSTM-CRF | - | - | - |  
 
 
 ## Updating ##
