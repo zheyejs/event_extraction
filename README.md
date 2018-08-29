@@ -39,7 +39,7 @@ The number of sentences:
 
 ## Time ##
 
-**A simple test of the training speed and decoding time on ** `CPU` and `GPU`.  
+A simple test of the training speed and decoding time on  `CPU` and `GPU`.  
 
 **CPU(i7-6800k)**  
 
@@ -55,16 +55,25 @@ The number of sentences:
 | BiLSTM | 5.70s | 1.70s | 1.56s |    
 | BiLSTM-CRF | - | - | - |  
 
-![](https://i.imgur.com/RjaG80A.jpg)
 
 ## Performance ##
 
-- The following results are based on the neural network model of `BiLSTM + context feature`.  
-![](https://i.imgur.com/mG3JyuC.jpg)
+Performance on the `Conll2003`,  eval on the script `conlleval` in [Tools](https://github.com/bamtercelboo/pytorch_NER_PosTag_BiLSTM_CRF/tree/master/Tools)
+
+| Model | % P | % R | % F1 |  
+| ------------ | ------------ | ------------ | ------------ |  
+| BLSTM | 88.64 | 87.53 | 88.08 |  
+| BLSTM-CNN | - | - | - |  
+| BLSTM-CNN-CRF | - | - | - |  
+
+
+## Updating ##
+- CRF
+
 
 ## Reference ##
-
-- updating......
+- Ma X, and Hovy E. End-to-end Sequence Labeling via Bi-directional LSTM-CNNs-CRF. ACL, 2016  
+- https://github.com/liu-nlper/SLTK
 
 ## Question ##
 
