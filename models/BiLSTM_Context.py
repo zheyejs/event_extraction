@@ -49,20 +49,13 @@ class BiLSTM_Context(nn.Module):
         self.dropout_embed = nn.Dropout(config.dropout_emb)
         self.dropout = nn.Dropout(config.dropout)
 
-        self.bilstm = nn.LSTM(input_size=D * config.windows_size, hidden_size=config.lstm_hiddens, dropout=config.dropout, num_layers=config.lstm_layers,
-                              bidirectional=True, bias=True)
+        self.bilstm = nn.LSTM(input_size=D * config.windows_size, hidden_size=config.lstm_hiddens, batch_first=True,
+                              dropout=0.0, num_layers=config.lstm_layers, bidirectional=True, bias=True)
         # self.init_lstm()
 
         self.linear = nn.Linear(in_features=config.lstm_hiddens * 2, out_features=C, bias=True)
-        # init.xavier_uniform(self.linear.weight)
-        # self.linear.bias.data.uniform_(-np.sqrt(6 / (config.lstm_hiddens + 1)), np.sqrt(6 / (config.lstm_hiddens + 1)))
-
-    def init_lstm(self):
-        if self.bilstm.bidirectional is True:   weight = 2
-        else:   weight = 1
-        for i in range(weight):
-            for j in range(2):
-                init.xavier_uniform(self.bilstm.all_weights[i][j])
+        init.xavier_uniform(self.linear.weight)
+        self.linear.bias.data.uniform_(-np.sqrt(6 / (config.lstm_hiddens + 1)), np.sqrt(6 / (config.lstm_hiddens + 1)))
 
     def context_embed(self, embed, batch_features):
         context_indices = batch_features.context_indices
@@ -106,7 +99,8 @@ class BiLSTM_Context(nn.Module):
         x, _ = self.bilstm(packed_embed)
         x, _ = pad_packed_sequence(x, batch_first=True)
         x = x[batch_features.desorted_indices]
-        x = F.tanh(x)
+        x = self.dropout(x)
+        # x = F.tanh(x)
         logit = self.linear(x)
         return logit
 

@@ -18,13 +18,13 @@ torch.manual_seed(seed_num)
 random.seed(seed_num)
 
 
-class DataLoader(object):
-    def __init__(self, config):
-        print("Loading Data......")
-        self.data_list = []
-        self.max_count = config.max_count
+class DataLoaderHelp(object):
+    """
+    DataLoaderHelp
+    """
 
-    def clean_str(self, string):
+    @staticmethod
+    def _clean_str(string):
         """
         Tokenization/string cleaning for all datasets except for SST.
         Original taken from https://github.com/yoonkim/CNN_sentence/blob/master/process_data.py
@@ -44,18 +44,71 @@ class DataLoader(object):
         string = re.sub(r"\s{2,}", " ", string)
         return string.strip().lower()
 
-    def dataLoader(self, path=None, shuffle=True):
+    @staticmethod
+    def _normalize_word(word):
+        """
+        :param word:
+        :return:
+        """
+        new_word = ""
+        for char in word:
+            if char.isdigit():
+                new_word += '0'
+            else:
+                new_word += char
+        return new_word
+
+    @staticmethod
+    def _sort(insts):
+        """
+        :param insts:
+        :return:
+        """
+        sorted_insts = []
+        sorted_dict = {}
+        for id_inst, inst in enumerate(insts):
+            sorted_dict[id_inst] = inst.words_size
+        dict = sorted(sorted_dict.items(), key=lambda d: d[1], reverse=True)
+        for key, value in dict:
+            sorted_insts.append(insts[key])
+        print("Sort Finished.")
+        return sorted_insts
+
+
+class DataLoader(DataLoaderHelp):
+    """
+    DataLoader
+    """
+    def __init__(self, path, shuffle, config):
+        """
+        :param path: data path list
+        :param shuffle:  shuffle bool
+        :param config:  config
+        """
+        #
+        print("Loading Data......")
+        self.data_list = []
+        self.max_count = config.max_count
+        self.path = path
+        self.shuffle = shuffle
+
+    def dataLoader(self):
+        """
+        :return:
+        """
+        path = self.path
+        shuffle = self.shuffle
         assert isinstance(path, list), "Path Must Be In List"
         print("Data Path {}".format(path))
         for id_data in range(len(path)):
             print("Loading Data Form {}".format(path[id_data]))
-            insts = self.Load_Each_Data(path=path[id_data], shuffle=shuffle)
+            insts = self._Load_Each_Data(path=path[id_data], shuffle=shuffle)
             if shuffle is True and id_data == 0:
                 print("shuffle train data......")
                 random.shuffle(insts)
             # sorted(inst)
             if id_data == 0:
-                insts = self.sort(insts)
+                insts = self._sort(insts)
             # sorted_insts = self.sort(insts)
             self.data_list.append(insts)
         # return train/dev/test data
@@ -64,7 +117,12 @@ class DataLoader(object):
         elif len(self.data_list) == 2:
             return self.data_list[0], self.data_list[1]
 
-    def Load_Each_Data(self, path=None, shuffle=False):
+    def _Load_Each_Data(self, path=None, shuffle=False):
+        """
+        :param path:
+        :param shuffle:
+        :return:
+        """
         assert path is not None, "The Data Path Is Not Allow Empty."
         insts = []
         with open(path, encoding="UTF-8") as f:
@@ -80,7 +138,7 @@ class DataLoader(object):
                     # print(line)
                     word = line[0]
                     # print(word)
-                    word = self.normalize_word(word)
+                    word = self._normalize_word(word)
                     # print(word)
                     # inst.words.append(word.lower())
                     inst.words.append(word)
@@ -93,32 +151,8 @@ class DataLoader(object):
             # print("\n")
         return insts
 
-    def normalize_word(self, word):
-        """
-        :param word:
-        :return:
-        """
-        new_word = ""
-        for char in word:
-            if char.isdigit():
-                new_word += '0'
-            else:
-                new_word += char
-        return new_word
-
-    def sort(self, insts):
-        sorted_insts  = []
-        sorted_dict = {}
-        for id_inst, inst in enumerate(insts):
-            sorted_dict[id_inst] = inst.words_size
-        dict = sorted(sorted_dict.items(), key=lambda d: d[1], reverse=True)
-        for key, value in dict:
-            sorted_insts.append(insts[key])
-        print("Sort Finished.")
-        return sorted_insts
-
 
 if __name__ == "__main__":
     path = ["../Data/test/test.txt", "../Data/test/test.txt", "../Data/test/test.txt"]
     conll2000data = DataLoader()
-    conll2000data.dataLoader(path=path, shuffle=True)
+    conll2000data.dataLoader

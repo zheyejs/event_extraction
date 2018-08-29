@@ -19,6 +19,9 @@ random.seed(seed_num)
 
 
 class Batch_Features:
+    """
+    Batch_Features
+    """
     def __init__(self):
 
         self.batch_length = 0
@@ -29,7 +32,12 @@ class Batch_Features:
         self.desorted_indices = None
         self.context_indices = None
 
-    def cuda(self, features):
+    @staticmethod
+    def cuda(features):
+        """
+        :param features:
+        :return:
+        """
         features.word_features = features.word_features.cuda()
         features.label_features = features.label_features.cuda()
         features.desorted_indices = features.desorted_indices.cuda()
@@ -37,29 +45,35 @@ class Batch_Features:
 
 
 class Iterators:
-    def __init__(self):
-        self.config = None
-        self.batch_size = None
-        self.data = None
-        self.operator = None
+    """
+    Iterators
+    """
+    def __init__(self, batch_size=None, data=None, operator=None, config=None):
+        self.config = config
+        self.batch_size = batch_size
+        self.data = data
+        self.operator = operator
         self.operator_static = None
         self.iterator = []
         self.batch = []
         self.features = []
         self.data_iter = []
 
-    def createIterator(self, batch_size=None, data=None, operator=None, config=None):
-        assert isinstance(data, list), "ERROR: data must be in list [train_data,dev_data]"
-        assert isinstance(batch_size, list), "ERROR: batch_size must be in list [16,1,1]"
-        self.config = config
-        self.batch_size = batch_size
-        self.data = data
-        self.operator = operator
-        for id_data in range(len(data)):
+    def createIterator(self):
+        """
+        :param batch_size:  batch size
+        :param data:  data
+        :param operator:
+        :param config:
+        :return:
+        """
+        assert isinstance(self.data, list), "ERROR: data must be in list [train_data,dev_data]"
+        assert isinstance(self.batch_size, list), "ERROR: batch_size must be in list [16,1,1]"
+        for id_data in range(len(self.data)):
             print("*****************    create {} iterator    **************".format(id_data + 1))
-            self.convert_word2id(self.data[id_data], self.operator)
-            self.features = self.Create_Each_Iterator(insts=self.data[id_data], batch_size=self.batch_size[id_data],
-                                                      operator=self.operator)
+            self._convert_word2id(self.data[id_data], self.operator)
+            self.features = self._Create_Each_Iterator(insts=self.data[id_data], batch_size=self.batch_size[id_data],
+                                                       operator=self.operator)
             self.data_iter.append(self.features)
             self.features = []
         if len(self.data_iter) == 2:
@@ -67,7 +81,13 @@ class Iterators:
         if len(self.data_iter) == 3:
             return self.data_iter[0], self.data_iter[1], self.data_iter[2]
 
-    def convert_word2id(self, insts, operator):
+    @staticmethod
+    def _convert_word2id(insts, operator):
+        """
+        :param insts:
+        :param operator:
+        :return:
+        """
         # print(len(insts))
         # for index_inst, inst in enumerate(insts):
         for inst in insts:
@@ -84,7 +104,13 @@ class Iterators:
                 labelId = operator.label_alphabet.loadWord2idAndId2Word(label)
                 inst.label_index.append(labelId)
 
-    def Create_Each_Iterator(self, insts, batch_size, operator):
+    def _Create_Each_Iterator(self, insts, batch_size, operator):
+        """
+        :param insts:
+        :param batch_size:
+        :param operator:
+        :return:
+        """
         batch = []
         count_inst = 0
         for index, inst in enumerate(insts):
@@ -92,14 +118,19 @@ class Iterators:
             count_inst += 1
             # print(batch)
             if len(batch) == batch_size or count_inst == len(insts):
-                # print("aaaa", len(batch))
-                one_batch = self.Create_Each_Batch(insts=batch, batch_size=batch_size, operator=operator)
+                one_batch = self._Create_Each_Batch(insts=batch, batch_size=batch_size, operator=operator)
                 self.features.append(one_batch)
                 batch = []
         print("The all data has created iterator.")
         return self.features
 
-    def Create_Each_Batch(self, insts, batch_size, operator):
+    def _Create_Each_Batch(self, insts, batch_size, operator):
+        """
+        :param insts:
+        :param batch_size:
+        :param operator:
+        :return:
+        """
         # print("create one batch......")
         batch_length = len(insts)
         # copy with the max length for padding
@@ -109,8 +140,6 @@ class Iterators:
         for inst in insts:
             sentence_length.append(inst.words_size)
             word_size = inst.words_size
-            # print(word_size)
-            # print(inst.words)
             if word_size > max_word_size:
                 max_word_size = word_size
 
@@ -140,10 +169,10 @@ class Iterators:
 
         # prepare for window context feature
         B, T = batch_word_features.size()
-        context_indices = self.prepare_winfeature(B, T, wsize=self.config.windows_size)
+        context_indices = self._prepare_winfeature(B, T, wsize=self.config.windows_size)
 
         # prepare for pack_padded_sequence
-        sorted_inputs_words, sorted_seq_lengths, desorted_indices = self.prepare_pack_padded_sequence(
+        sorted_inputs_words, sorted_seq_lengths, desorted_indices = self._prepare_pack_padded_sequence(
             batch_word_features, sentence_length)
         # print(sorted_seq_lengths)
 
@@ -162,7 +191,8 @@ class Iterators:
             features.cuda(features)
         return features
 
-    def prepare_pack_padded_sequence(self, inputs_words, seq_lengths, descending=True):
+    @staticmethod
+    def _prepare_pack_padded_sequence(inputs_words, seq_lengths, descending=True):
         """
         :param inputs_words:
         :param seq_lengths:
@@ -174,8 +204,15 @@ class Iterators:
         sorted_inputs_words = inputs_words[indices]
         return sorted_inputs_words, sorted_seq_lengths.numpy(), desorted_indices
 
-    def prepare_winfeature(self, B, T, wsize=5):
-        assert (wsize % 2 != 0), "win feature size mube be a odd number"
+    @staticmethod
+    def _prepare_winfeature(B, T, wsize=5):
+        """
+        :param B:  batch size
+        :param T:  words size
+        :param wsize:  windows size
+        :return:
+        """
+        assert (wsize % 2 != 0), "win feature size must be a odd number"
         winfeat = torch.zeros(T, wsize)
         winfeat_batch = torch.zeros(B, T, wsize).type(torch.LongTensor)
         wsizehalf = wsize // 2

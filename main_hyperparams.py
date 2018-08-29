@@ -17,7 +17,7 @@ from DataUtils.Alphabet import *
 from DataUtils.Batch_Iterator import *
 from DataUtils.Pickle import pcl
 from DataUtils.Embed import Embed
-from Dataloader import DataLoader_NER
+from Dataloader.DataLoader_NER import DataLoader
 from DataUtils.Load_Pretrained_Embed import *
 from DataUtils.Common import seed_num, paddingkey
 from models.BiLSTM_Context import *
@@ -48,30 +48,28 @@ def preprocessing(config):
     """
     print("Processing Data......")
     # read file
-    data_loader = DataLoader_NER.DataLoader(config)
-    train_data, dev_data, test_data = data_loader.dataLoader(path=[config.train_file, config.dev_file, config.test_file],
-                                                             shuffle=config.shuffle)
+    data_loader = DataLoader(path=[config.train_file, config.dev_file, config.test_file], shuffle=True, config=config)
+    train_data, dev_data, test_data = data_loader.dataLoader()
     print("train sentence {}, dev sentence {}, test sentence {}.".format(len(train_data), len(dev_data), len(test_data)))
     data_dict = {"train_data": train_data, "dev_data": dev_data, "test_data": test_data}
     pcl.save(obj=data_dict, path=os.path.join(config.pkl_directory, config.pkl_data))
 
     # create the alphabet
-    alphabet = CreateAlphabet(min_freq=config.min_freq)
+    alphabet = None
     if config.embed_finetune is False:
-        alphabet.build_vocab(train_data=train_data, dev_data=dev_data, test_data=test_data)
+        alphabet = CreateAlphabet(min_freq=config.min_freq, train_data=train_data, dev_data=dev_data, test_data=test_data, config=config)
+        alphabet.build_vocab()
     if config.embed_finetune is True:
-        # alphabet.build_vocab(train_data=train_data)
-        alphabet.build_vocab(train_data=train_data, dev_data=dev_data, test_data=test_data)
+        alphabet = CreateAlphabet(min_freq=config.min_freq, train_data=train_data, dev_data=dev_data, test_data=test_data, config=config)
+        # alphabet = CreateAlphabet(min_freq=config.min_freq, train_data=train_data, config=config)
+        alphabet.build_vocab()
     alphabet_dict = {"alphabet": alphabet}
     pcl.save(obj=alphabet_dict, path=os.path.join(config.pkl_directory, config.pkl_alphabet))
 
     # create iterator
-    create_iter = Iterators()
-    train_iter, dev_iter, test_iter = create_iter.createIterator(
-        # batch_size=[config.batch_size, len(dev_data), len(test_data)],
-        batch_size=[config.batch_size, config.dev_batch_size, config.test_batch_size],
-        data=[train_data, dev_data, test_data], operator=alphabet,
-        config=config)
+    create_iter = Iterators(batch_size=[config.batch_size, config.dev_batch_size, config.test_batch_size],
+                            data=[train_data, dev_data, test_data], operator=alphabet, config=config)
+    train_iter, dev_iter, test_iter = create_iter.createIterator()
     iter_dict = {"train_iter": train_iter, "dev_iter": dev_iter, "test_iter": test_iter}
     pcl.save(obj=iter_dict, path=os.path.join(config.pkl_directory, config.pkl_iter))
     return train_iter, dev_iter, test_iter, alphabet
@@ -217,13 +215,6 @@ def load_data(config):
         if os.path.exists(config.pkl_directory): shutil.rmtree(config.pkl_directory)
         if not os.path.isdir(config.pkl_directory): os.makedirs(config.pkl_directory)
         train_iter, dev_iter, test_iter, alphabet = preprocessing(config)
-        # load Pre_Trained Embedding
-        # if os.path.exists(os.path.join(config.pkl_directory, config.pkl_embed)) is True:
-        #     embed_dict = pcl.load(os.path.join(config.pkl_directory, config.pkl_embed))
-        #     print(embed_dict.keys())
-        #     embed = embed_dict["pretrain_embed"]
-        #     config.pretrained_weight = embed
-        # else:
         config.pretrained_weight = pre_embed(config=config, alphabet=alphabet)
     elif ((config.train is True) and (config.process is False)) or (config.test is True):
         print("load data from pkl file")

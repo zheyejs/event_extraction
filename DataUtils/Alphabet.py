@@ -25,12 +25,14 @@ class CreateAlphabet:
         Function:   Build Alphabet By Alphabet Class
         Notice:     The Class Need To Change So That Complete All Kinds Of Tasks
     """
-    def __init__(self, min_freq=1, config=None):
-        # print("")
+    def __init__(self, min_freq=1, train_data=None, dev_data=None, test_data=None, config=None):
 
         # minimum vocab size
         self.min_freq = min_freq
         self.config = config
+        self.train_data = train_data
+        self.dev_data = dev_data
+        self.test_data = test_data
 
         # storage word and label
         self.word_state = collections.OrderedDict()
@@ -50,7 +52,6 @@ class CreateAlphabet:
         self.pretrained_alphabet = Alphabet(min_freq=self.min_freq)
         self.pretrained_alphabet_source = Alphabet(min_freq=self.min_freq)
 
-
         # unk key
         self.word_unkId = 0
         self.label_unkId = 0
@@ -59,7 +60,14 @@ class CreateAlphabet:
         self.word_paddingId = 0
         self.label_paddingId = 0
 
-    def build_data(self, train_data=None, dev_data=None, test_data=None):
+    @staticmethod
+    def _build_data(train_data=None, dev_data=None, test_data=None):
+        """
+        :param train_data:
+        :param dev_data:
+        :param test_data:
+        :return:
+        """
         # handle the data whether to fine_tune
         """
         :param train data:
@@ -80,9 +88,19 @@ class CreateAlphabet:
         print("the length of data that create Alphabet {}".format(len(datasets)))
         return datasets
 
-    def build_vocab(self, train_data=None, dev_data=None, test_data=None, debug_index=-1):
+    def build_vocab(self):
+        """
+        :param train_data:
+        :param dev_data:
+        :param test_data:
+        :param debug_index:
+        :return:
+        """
+        train_data = self.train_data
+        dev_data = self.dev_data
+        test_data = self.test_data
         print("Build Vocab Start...... ")
-        datasets = self.build_data(train_data=train_data, dev_data=dev_data, test_data=test_data)
+        datasets = self._build_data(train_data=train_data, dev_data=dev_data, test_data=test_data)
         # create the word Alphabet
 
         for index, data in enumerate(datasets):
@@ -137,17 +155,29 @@ class Alphabet:
         self.fixed_vocab = False
 
     def initialWord2idAndId2Word(self, data):
+        """
+        :param data:
+        :return:
+        """
         for key in data:
             if data[key] >= self.min_freq:
                 self.loadWord2idAndId2Word(key)
         self.set_fixed_flag(True)
 
     def set_fixed_flag(self, bfixed):
+        """
+        :param bfixed:
+        :return:
+        """
         self.fixed_vocab = bfixed
         if (not self.fixed_vocab) and (self.vocab_size >= self.max_cap):
             self.fixed_vocab = True
 
     def loadWord2idAndId2Word(self, string):
+        """
+        :param string:
+        :return:
+        """
         if string in self.words2id:
             return self.words2id[string]
         else:
@@ -163,12 +193,23 @@ class Alphabet:
                 return -1
 
     def from_id(self, qid, defineStr=""):
+        """
+        :param qid:
+        :param defineStr:
+        :return:
+        """
         if int(qid) < 0 or self.vocab_size <= qid:
             return defineStr
         else:
             return self.id2words[qid]
 
     def initial_from_pretrain(self, pretrain_file, unk, padding):
+        """
+        :param pretrain_file:
+        :param unk:
+        :param padding:
+        :return:
+        """
         print("initial alphabet from {}".format(pretrain_file))
         self.loadWord2idAndId2Word(unk)
         self.loadWord2idAndId2Word(padding)
