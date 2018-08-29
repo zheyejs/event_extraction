@@ -26,20 +26,26 @@
 
 ## Data ##
 
-**The number of sentences in the two data is calculated as follows:  **  
+The number of sentences:  
 
 | Data | Train | Dev | Test |  
 | ------------ | ------------ | ------------ | ------------ |  
 | conll2003 | 14987 | 3466 | 3684 |
 
 
-- The Data format is BIES label, data sample in Data directory.
+- The Data format is `BIES` label, data sample in Data directory.
 - Conll2003 dataset can be downloaded from [Conll2003](https://www.clips.uantwerpen.be/conll2003/ner/)
 - Pre-Trained Embedding can be downloaded from [glove.6B.zip](nlp.stanford.edu/data/glove.6B.zip)
 
 ## Time ##
 
-- A simple test of the training speed and decoding time on the `CPU` and `GPU`，requires only `4 seconds` for the decoding time on the GPU. why so fast ?  In terms of decoding, batch calculation is performed in some places, so the decoding time is much faster than one sentence.  
+- A simple test of the training speed and decoding time on the `CPU` and `GPU`.  
+
+| Model | CPU | GPU |   
+| Model | Train | Dev | Test | Train | Dev | Test | 
+| ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ |  
+| BiLSTM | 14987 | 3466 | 3684 | 14987 | 3466 | 3684 |
+
 ![](https://i.imgur.com/RjaG80A.jpg)
 
 ## Performance ##
