@@ -1,6 +1,6 @@
-## 1. conlleval
+##  conlleval
 
-评测脚本，使用方法：
+Usage：
 
     $ ./conlleval < input.txt
 
