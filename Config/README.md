@@ -1,4 +1,4 @@
-## Chinese-NER Task Config ##
+## Config ##
 
 - Use `ConfigParser` to config parameter  
 	- `from configparser import ConfigParser`  .
@@ -6,7 +6,7 @@
 
 - Following is `config.cfg` Parameter details.
 
-- [Embed]pretrained_embed = False
+- [Embed]  
 	- `pretrained_embed` (True or False) ------ whether to use pretrained embedding.
 	- `zeros`(True or False) ------ OOV by zeros .
 	- `avg`(True or False) ------ OOV by avg .
@@ -14,17 +14,28 @@
 	- `nnembed`(True or False) ------ OOV by nn.Embedding .
 	- `pretrained_embed_file` --- pre train path
 
-- [Data]
-
+- [Data]  
 	- `train-file/dev-file/test-file`(path)  ------ train/dev/test data path(`Data`).
-
 	- `min_freq` (integer number) ------ The smallest Word frequency when build vocab.
-
+	- `max_count ` (integer number) ------ The maxnum instance for `debug`.
 	- `shuffle/epochs-shuffle`(True or False) ------ shuffle data .
 
 - [Save]
-	- `save_direction` (path) ------ save model path.
+	- `pkl_directory` (path) ------ save pkl directory path.
+	- `pkl_data` (path) ------ save pkl data path.
+	- `pkl_alphabet` (path) ------ save pkl alphabet path.
+	- `pkl_iter` (path) ------ save pkl batch iterator path.
+	- `pkl_embed` (path) ------ save pkl pre-train embedding path.
 
+	- `save_dict` (True or False) ------ save dict to file.
+	- `dict_directory ` (path) ------ save dict directory path.
+	- `word_dict ` (path) ------ save word dict path.
+	- `label_dict ` (path) ------ save label dict path.
+
+	- `save_model ` (True or False) ------ save model to file.
+	- `save_all_model` (True or False) ------ save all model to file.
+	- `save_best_model` (True or False) ------ save best model to file.
+	- `model_name ` (str) ------ model name.
 	- `rm_model` (True or False) ------ remove model to save space(now not use).
 
 - [Model]
