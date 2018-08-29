@@ -41,12 +41,17 @@ The number of sentences:
 | Model | CPU | GPU |   
 - A simple test of the training speed and decoding time on the `CPU` and `GPU`.  
 
+**CPU(i7-6800k)**  
 
+| Model | Train | Dev | Test |   
+| ------------ | ------------ | ------------ | ------------ |  
+| BiLSTM | 14987 | 3466 | 3684 |  
 
+**GPU(GTX1080-Ti)**  
 
-| Model | Train | Dev | Test | Train | Dev | Test |   
-| ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ |  
-| BiLSTM | 14987 | 3466 | 3684 | 14987 | 3466 | 3684 |  
+| Model | Train | Dev | Test |   
+| ------------ | ------------ | ------------ | ------------ |  
+| BiLSTM | 14987 | 3466 | 3684 |  
 
 ![](https://i.imgur.com/RjaG80A.jpg)
 
