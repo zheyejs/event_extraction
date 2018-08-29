@@ -11,8 +11,8 @@
 ## Usage ##
 	modify the config file, detail see the Config directory
 	Train:
-		(1)	sh run_train_p.sh
-		(2)	python -u main_hyperparams.py --config ./Config/config.cfg --train -p 
+		(1) sh run_train_p.sh
+		(2) python -u main_hyperparams.py --config ./Config/config.cfg --train -p 
 	Test:
 		(1) sh run_test.sh
 		(2) python -u main_hyperparams.py --config ./Config/config.cfg --t_data test --test 
