@@ -41,10 +41,12 @@ The number of sentences:
 
 - A simple test of the training speed and decoding time on the `CPU` and `GPU`.  
 
+
+
 | Model | CPU | GPU |   
-| Model | Train | Dev | Test | Train | Dev | Test | 
+| Model | Train | Dev | Test | Train | Dev | Test |   
 | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ |  
-| BiLSTM | 14987 | 3466 | 3684 | 14987 | 3466 | 3684 |
+| BiLSTM | 14987 | 3466 | 3684 | 14987 | 3466 | 3684 |  
 
 ![](https://i.imgur.com/RjaG80A.jpg)
 
