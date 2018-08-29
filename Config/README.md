@@ -17,7 +17,7 @@
 - [Data]  
 	- `train-file/dev-file/test-file`(path)  ------ train/dev/test data path(`Data`).
 	- `min_freq` (integer number) ------ The smallest Word frequency when build vocab.
-	- `max_count ` (integer number) ------ The maxnum instance for `debug`.
+	- `max_count ` (integer number) ------ The maximum instance for `debug`.
 	- `shuffle/epochs-shuffle`(True or False) ------ shuffle data .
 
 - [Save]
@@ -59,13 +59,10 @@
 	- `max_patience `(Integer) ------ patience to decay.
 
 - [Train]
-
 	- `num-threads` (Integer) ------ threads.
-
 	- `use-cuda` (True or False) ------ support `cuda` speed up.
-
-	- `epochs` (Integer) ------ train epochs
-
+	- `epochs` (Integer) ------ maximum train epochs
+	- `early_max_patience` (Integer) ------ maximum dev no improvment times for early stop.
+ 	- `backward_batch_size` (Integer) ------ multiple-batch to update parameters.
 	- `batch-size/dev-batch-size/test-batch-size` (Integer) ------ number of batch
-
 	- `log-interval`(Integer) ------ steps of print log.
