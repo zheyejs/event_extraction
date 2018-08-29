@@ -37,34 +37,26 @@
 	- `rm_model` (True or False) ------ remove model to save space(now not use).
 
 - [Model]
-
 	- `model-bilstm` (True or False) ------ Bilstm model.
-
+	- `model-***`(True or False) ------ *** model.
 	- `lstm-layers` (integer) ------ number layers of lstm.
-
 	- `embed-dim` (integer) ------ embedding dim = pre-trained embedding dim.
-
 	- `embed-finetune` (True or False) ------ word embedding finetune or no-finetune.
-
 	- `lstm-hiddens` (integer) ------numbers of lstm hidden.
-
 	- `dropout-emb/dropout `(float) ------ dropout for prevent overfitting.
-
 	- `windows-size` (integer) ------ Context window feature size.
 
 - [Optimizer]
-
 	- `adam` (True or False) ------ `torch.optim.Adam`
-
 	- `sgd` (True or False)  ------ `torch.optim.SGD`
-
 	- `learning-rate`(float) ------ learning rate(0.001, 0.01).
-
-	- ` learning-rate-decay`(float) ------ learning rate decay.
-
-	- `weight-decay` (float) ------ 1e-8.
-
-	- `clip-max-norm` (Integer number) ------ 5, 10, 15.
+	- `weight-decay` (float) ------ L2.
+	- `clip_max_norm_use` (True or False) ------ use util.clip.
+	- `clip-max-norm` (Integer number) ------ clip-max-norm value.
+	- `use_lr_decay` (True or False) ------ use lr decay.
+	- `lr_rate_decay`(float) ------ lr decay value.
+	- `min_lrate `(float) ------ minimum lr.
+	- `max_patience `(Integer) ------ patience to decay.
 
 - [Train]
 
