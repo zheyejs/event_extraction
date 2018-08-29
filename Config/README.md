@@ -6,10 +6,15 @@
 
 - Following is `config.cfg` Parameter details.
 
-- [Data]
+- [Embed]pretrained_embed = False
 	- `pretrained_embed` (True or False) ------ whether to use pretrained embedding.
+	- `zeros`(True or False) ------ OOV by zeros .
+	- `avg`(True or False) ------ OOV by avg .
+	- `uniform`(True or False) ------ OOV by uniform .
+	- `nnembed`(True or False) ------ OOV by nn.Embedding .
+	- `pretrained_embed_file` --- pre train path
 
-	- ` pretrained-embed-file` (path)  ------ word embedding file path(`Pretrain_Embedding`).
+- [Data]
 
 	- `train-file/dev-file/test-file`(path)  ------ train/dev/test data path(`Data`).
 
