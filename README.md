@@ -74,7 +74,7 @@ Performance on the `Conll2003`,  eval on the script `conlleval` in [Tools](https
 
 
 ## Reference ##
-- Ma X, and Hovy E. End-to-end Sequence Labeling via Bi-directional LSTM-CNNs-CRF. ACL, 2016  
+- [Ma X, and Hovy E. End-to-end Sequence Labeling via Bi-directional LSTM-CNNs-CRF. ACL, 2016](http://www.aclweb.org/anthology/P/P16/P16-1101.pdf)  
 - https://github.com/liu-nlper/SLTK
 
 ## Question ##
