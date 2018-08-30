@@ -1,6 +1,6 @@
 
-## NER-LSTM-CRF  ##
-- LSTM-CRF impolment in pytorch, and test in conll2003 dataset.
+## NER-LSTM-CNNs-CRF  ##
+- LSTM-CNNs-CRF impolment in pytorch, and test in conll2003 dataset, reference [End-to-end Sequence Labeling via Bi-directional LSTM-CNNs-CRF](http://www.aclweb.org/anthology/P/P16/P16-1101.pdf).
 
 ## Requirement ##
 
@@ -24,8 +24,9 @@
 ## Model ##
 
 - `BiLSTM`  
-- `BiLSTM-CRF`
-- Now, only support `BiLSTM `, BiLSTM-CRF will be support later.
+- + `CNNs`
+-  + `CRF`
+- Now, only support `BiLSTM `, others will be support later.
 
 ## Data ##
 
@@ -71,6 +72,7 @@ Performance on the `Conll2003`,  eval on the script `conlleval` in [Tools](https
 
 ## Updating ##
 - CRF
+- CNN
 
 
 ## Reference ##
