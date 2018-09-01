@@ -116,7 +116,7 @@ class Train(object):
         best_epoch = self.best_score.best_epoch
         if epoch > best_epoch:
             self.best_score.early_current_patience += 1
-            print("Dev Has Not Promote {} / {}".format(self.best_score.early_current_patience, 10))
+            print("Dev Has Not Promote {} / {}".format(self.best_score.early_current_patience, self.early_max_patience))
             if self.best_score.early_current_patience >= self.early_max_patience:
                 print("Early Stop Train. Best Score Locate on {} Epoch.".format(self.best_score.best_epoch))
                 exit()
