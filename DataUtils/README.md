@@ -25,3 +25,5 @@
 	-  `tagSchemeConverter.py` ------ convert NER label （Reference: https://github.com/jiesutd/NCRFpp/blob/master/utils/tagSchemeConverter.py）
 
 	-  `utils.py` ------ common function.
+
+	-  `mainHelp.py` ------ main help file.
