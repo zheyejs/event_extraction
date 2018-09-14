@@ -71,7 +71,7 @@ class T_Inference(object):
     """
         Test Inference
     """
-    def __init__(self, model, data, path_source, path_result, alphabet, config):
+    def __init__(self, model, data, path_source, path_result, alphabet, use_crf, config):
         """
         :param model:  nn model
         :param data:  infer data
@@ -87,6 +87,7 @@ class T_Inference(object):
         self.path_result = path_result
         self.alphabet = alphabet
         self.config = config
+        self.use_crf = use_crf
 
     def infer2file(self):
         """
@@ -101,12 +102,22 @@ class T_Inference(object):
         for data in self.data:
             now_count += 1
             sys.stdout.write("\rinfer with batch number {}/{} .".format(now_count, all_count))
-            logit = self.model(data)
-            for id_batch in range(data.batch_length):
-                inst = data.inst[id_batch]
-                maxId_batch = getMaxindex_batch(logit[id_batch])
-                for id_word in range(inst.words_size):
-                    predict_label.append(self.alphabet.label_alphabet.from_id(maxId_batch[id_word]))
+            word, mask, sentence_length, desorted_indices, tags = self._get_model_args(data)
+            logit = self.model(word, sentence_length, desorted_indices, train=False)
+            if self.use_crf is False:
+                for id_batch in range(data.batch_length):
+                    inst = data.inst[id_batch]
+                    maxId_batch = getMaxindex_batch(logit[id_batch])
+                    for id_word in range(inst.words_size):
+                        predict_label.append(self.alphabet.label_alphabet.from_id(maxId_batch[id_word]))
+            else:
+                path_score, best_paths = self.model.crf_layer(logit, mask)
+                for id_batch in range(data.batch_length):
+                    inst = data.inst[id_batch]
+                    label_ids = best_paths[id_batch].cpu().data.numpy()[:inst.words_size]
+                    for i in label_ids:
+                        predict_label.append(self.alphabet.label_alphabet.from_id(i))
+
         print("\ninfer finished.")
         self.write2file(result=predict_label, path_source=self.path_source, path_result=self.path_result)
 
@@ -141,6 +152,19 @@ class T_Inference(object):
 
         file_out.close()
         print("\nfinished.")
+
+    @staticmethod
+    def _get_model_args(batch_features):
+        """
+        :param batch_features:  Batch Instance
+        :return:
+        """
+        word = batch_features.word_features
+        mask = word > 0
+        sentence_length = batch_features.sentence_length
+        desorted_indices = batch_features.desorted_indices
+        tags = batch_features.label_features
+        return word, mask, sentence_length, desorted_indices, tags
 
 
 
