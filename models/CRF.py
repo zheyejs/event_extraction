@@ -7,6 +7,7 @@
 """
     FILE :  CRF.py
     FUNCTION : None
+    REFERENCE : https://github.com/jiesutd/NCRFpp/blob/master/model/crf.py
 """
 import torch
 from torch.autograd import Variable
