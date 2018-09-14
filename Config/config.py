@@ -159,6 +159,14 @@ class Configurable(myconf):
 
     # Model
     @property
+    def average_batch(self):
+        return self._config.getboolean("Model", "average_batch")
+
+    @property
+    def use_crf(self):
+        return self._config.getboolean("Model", "use_crf")
+
+    @property
     def model_bilstm(self):
         return self._config.getboolean("Model", "model_bilstm")
 

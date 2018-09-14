@@ -66,7 +66,6 @@ class CRF(nn.Module):
         batch_size = feats.size(0)
         seq_len = feats.size(1)
         tag_size = feats.size(2)
-        assert(tag_size == self.tagset_size+2)
         mask = mask.transpose(1, 0).contiguous()
         ins_num = seq_len * batch_size
         """ be careful the view shape, it is .view(ins_num, 1, tag_size) but not .view(ins_num, tag_size, 1) """
@@ -121,14 +120,15 @@ class CRF(nn.Module):
                 decode_idx: (batch, seq_len) decoded sequence
                 path_score: (batch, 1) corresponding score for each sequence (to be implementated)
         """
+        # print(feats.size())
         batch_size = feats.size(0)
         seq_len = feats.size(1)
         tag_size = feats.size(2)
-        assert(tag_size == self.tagset_size+2)
+        # assert(tag_size == self.tagset_size+2)
         """ calculate sentence length for each sentence """
         length_mask = torch.sum(mask.long(), dim=1).view(batch_size, 1).long()
         """ mask to (seq_len, batch_size) """
-        mask = mask.transpose(1,0).contiguous()
+        mask = mask.transpose(1, 0).contiguous()
         ins_num = seq_len * batch_size
         """ be careful the view shape, it is .view(ins_num, 1, tag_size) but not .view(ins_num, tag_size, 1) """
         feats = feats.transpose(1,0).contiguous().view(ins_num, 1, tag_size).expand(ins_num, tag_size, tag_size)
@@ -217,9 +217,11 @@ class CRF(nn.Module):
         Returns:
             score:
         """
+        # print(scores.size())
         batch_size = scores.size(1)
         seq_len = scores.size(0)
         tag_size = scores.size(-1)
+        tags = tags.view(batch_size, seq_len)
         """ convert tag value into a new format, recorded label bigram information to index """
         new_tags = Variable(torch.LongTensor(batch_size, seq_len))
         if self.use_cuda:

@@ -50,23 +50,30 @@ class Train(object):
         self.test_iter = kwargs["test_iter"]
         self.model = kwargs["model"]
         self.config = kwargs["config"]
+        self.use_crf = self.config.use_crf
+        self.average_batch = self.config.average_batch
         self.early_max_patience = self.config.early_max_patience
         self.optimizer = Optimizer(name=self.config.learning_algorithm, model=self.model, lr=self.config.learning_rate,
                                    weight_decay=self.config.weight_decay, grad_clip=self.config.clip_max_norm)
         self.loss_function = self._loss(learning_algorithm=self.config.learning_algorithm,
-                                        label_paddingId=self.config.label_paddingId)
+                                        label_paddingId=self.config.label_paddingId, use_crf=self.use_crf)
         print(self.optimizer)
+        print(self.loss_function)
         self.best_score = Best_Result()
         self.train_eval, self.dev_eval, self.test_eval = Eval(), Eval(), Eval()
         self.train_iter_len = len(self.train_iter)
 
-    @staticmethod
-    def _loss(learning_algorithm, label_paddingId, use_crf=False):
-        if learning_algorithm == "SGD":
+    # @staticmethod
+    def _loss(self, learning_algorithm, label_paddingId, use_crf=False):
+        if use_crf:
+            loss_function = self.model.crf_layer.neg_log_likelihood_loss
+            return loss_function
+        elif learning_algorithm == "SGD":
             loss_function = nn.CrossEntropyLoss(ignore_index=label_paddingId, size_average=False)
+            return loss_function
         else:
             loss_function = nn.CrossEntropyLoss(ignore_index=label_paddingId, size_average=True)
-        return loss_function
+            return loss_function
 
     def _clip_model_norm(self, clip_max_norm_use, clip_max_norm):
         """
@@ -134,9 +141,30 @@ class Train(object):
         :return:
         """
         word = batch_features.word_features
+        mask = word > 0
         sentence_length = batch_features.sentence_length
         desorted_indices = batch_features.desorted_indices
-        return word, sentence_length, desorted_indices
+        tags = batch_features.label_features
+        return word, mask, sentence_length, desorted_indices, tags
+
+    def _calculate_loss(self, feats, mask, tags):
+        """
+        Args:
+            feats: size = (batch_size, seq_len, tag_size)
+            mask: size = (batch_size, seq_len)
+            tags: size = (batch_size, seq_len)
+        """
+        if not self.use_crf:
+            batch_size, max_len = feats.size(0), feats.size(1)
+            lstm_feats = feats.view(batch_size * max_len, -1)
+            tags = tags.view(-1)
+            return self.loss_function(lstm_feats, tags)
+        else:
+            loss_value = self.loss_function(feats, mask, tags)
+        if self.average_batch:
+            batch_size = feats.size(0)
+            loss_value /= float(batch_size)
+        return loss_value
 
     def train(self):
         """
@@ -161,10 +189,9 @@ class Train(object):
             for batch_count, batch_features in enumerate(self.train_iter):
                 backward_count += 1
                 # self.optimizer.zero_grad()
-                word, sentence_length, desorted_indices = self._get_model_args(batch_features)
+                word, mask, sentence_length, desorted_indices, tags = self._get_model_args(batch_features)
                 logit = self.model(word, sentence_length, desorted_indices, train=True)
-                logit = logit.view(logit.size(0) * logit.size(1), -1)
-                loss = self.loss_function(logit, batch_features.label_features)
+                loss = self._calculate_loss(logit, mask, tags)
                 loss.backward()
                 self._clip_model_norm(clip_max_norm_use, clip_max_norm)
                 self._optimizer_batch_step(config=self.config, backward_count=backward_count)
@@ -231,16 +258,28 @@ class Train(object):
         gold_labels = []
         predict_labels = []
         for batch_features in data_iter:
-            word, sentence_length, desorted_indices = self._get_model_args(batch_features)
+            word, mask, sentence_length, desorted_indices, tags = self._get_model_args(batch_features)
             logit = model(word, sentence_length, desorted_indices, train=False)
-            for id_batch in range(batch_features.batch_length):
-                inst = batch_features.inst[id_batch]
-                maxId_batch = getMaxindex_batch(logit[id_batch])
-                predict_label = []
-                for id_word in range(inst.words_size):
-                    predict_label.append(config.create_alphabet.label_alphabet.from_id(maxId_batch[id_word]))
-                gold_labels.append(inst.labels)
-                predict_labels.append(predict_label)
+            if self.use_crf is False:
+                for id_batch in range(batch_features.batch_length):
+                    inst = batch_features.inst[id_batch]
+                    maxId_batch = getMaxindex_batch(logit[id_batch])
+                    predict_label = []
+                    for id_word in range(inst.words_size):
+                        predict_label.append(config.create_alphabet.label_alphabet.from_id(maxId_batch[id_word]))
+                    gold_labels.append(inst.labels)
+                    predict_labels.append(predict_label)
+            else:
+                path_score, best_paths = model.crf_layer(logit, mask)
+                # print(path_score)
+                for id_batch in range(batch_features.batch_length):
+                    inst = batch_features.inst[id_batch]
+                    gold_labels.append(inst.labels)
+                    label_ids = best_paths[id_batch].cpu().data.numpy()[:inst.words_size]
+                    label = []
+                    for i in label_ids:
+                        label.append(config.create_alphabet.label_alphabet.from_id(i))
+                    predict_labels.append(label)
         for p_label, g_label in zip(predict_labels, gold_labels):
             eval_PRF.evalPRF(predict_labels=p_label, gold_labels=g_label, eval=eval_instance)
         if eval_acc.gold_num == 0:
@@ -262,7 +301,6 @@ class Train(object):
             best_score.p = p
             best_score.r = r
             best_score.f = f
-        # print("{} eval: precision = {:.6f}%  recall = {:.6f}% , f-score = {:.6f}%,  [TAG-ACC = {:.6f}%]".format(test_flag, p, r, f, eval_acc.acc()))
         print(
             "{} eval: precision = {:.6f}%  recall = {:.6f}% , f-score = {:.6f}%,  [TAG-ACC = {:.6f}%]".format(test_flag,
                                                                                                               p, r, f,

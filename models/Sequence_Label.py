@@ -15,6 +15,7 @@ import random
 import numpy as np
 import time
 from models.BiLSTM import BiLSTM
+from models.CRF import CRF
 from DataUtils.Common import *
 torch.manual_seed(seed_num)
 random.seed(seed_num)
@@ -42,11 +43,20 @@ class Sequence_Label(nn.Module):
         # pre train
         self.pretrained_embed = config.pretrained_embed
         self.pretrained_weight = config.pretrained_weight
+        # use crf
+        self.use_crf = config.use_crf
+        # cuda
+        self.use_cuda = config.use_cuda
 
-        self.encoder_model = BiLSTM(embed_num=self.embed_num, embed_dim=self.embed_dim, label_num=self.label_num,
+        self.target_size = self.label_num if self.use_crf is False else self.label_num + 2
+
+        self.encoder_model = BiLSTM(embed_num=self.embed_num, embed_dim=self.embed_dim, label_num=self.target_size,
                                     paddingId=self.paddingId, dropout_emb=self.dropout_emb, dropout=self.dropout,
                                     lstm_hiddens=self.lstm_hiddens, lstm_layers=self.lstm_layers,
                                     pretrained_embed=self.pretrained_embed, pretrained_weight=self.pretrained_weight)
+        if self.use_crf is True:
+            args_crf = dict({'target_size': self.label_num, 'use_cuda': self.use_cuda})
+            self.crf_layer = CRF(**args_crf)
 
     def forward(self, word, sentence_length, desorted_indices, train=False):
         """
