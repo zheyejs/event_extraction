@@ -15,8 +15,9 @@ from DataUtils.Batch_Iterator import *
 from DataUtils.Pickle import pcl
 from DataUtils.Embed import Embed
 from Dataloader.DataLoader_NER import DataLoader
-from models.BiLSTM_Context import *
-from models.BiLSTM import BiLSTM
+# from models.BiLSTM_Context import *
+# from models.BiLSTM import BiLSTM
+from models.Sequence_Label import Sequence_Label
 from test import load_test_model
 
 # solve default encoding problem
@@ -178,13 +179,7 @@ def load_model(config):
     :return:  nn model
     """
     print("***************************************")
-    model = None
-    if config.model_bilstm is True:
-        print("loading BiLSTM model......")
-        model = BiLSTM(config)
-    if config.model_bilstm_context is True:
-        print("loading BiLSTM_Context model.....")
-        model = BiLSTM_Context(config)
+    model = Sequence_Label(config)
     if config.use_cuda is True:
         model = model.cuda()
     if config.test is True:

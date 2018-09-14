@@ -121,6 +121,17 @@ class Train(object):
                 print("Early Stop Train. Best Score Locate on {} Epoch.".format(self.best_score.best_epoch))
                 exit()
 
+    @staticmethod
+    def _get_model_args(batch_features):
+        """
+        :param batch_features:  Batch Instance
+        :return:
+        """
+        word = batch_features.word_features
+        sentence_length = batch_features.sentence_length
+        desorted_indices = batch_features.desorted_indices
+        return word, sentence_length, desorted_indices
+
     def train(self):
         """
         :return:
@@ -144,7 +155,8 @@ class Train(object):
             for batch_count, batch_features in enumerate(self.train_iter):
                 backward_count += 1
                 # self.optimizer.zero_grad()
-                logit = self.model(batch_features)
+                word, sentence_length, desorted_indices = self._get_model_args(batch_features)
+                logit = self.model(word, sentence_length, desorted_indices, train=True)
                 loss = self.loss_function(logit.view(logit.size(0) * logit.size(1), -1), batch_features.label_features)
                 loss.backward()
                 self._clip_model_norm(clip_max_norm_use, clip_max_norm)
@@ -212,7 +224,8 @@ class Train(object):
         gold_labels = []
         predict_labels = []
         for batch_features in data_iter:
-            logit = model(batch_features)
+            word, sentence_length, desorted_indices = self._get_model_args(batch_features)
+            logit = model(word, sentence_length, desorted_indices, train=False)
             for id_batch in range(batch_features.batch_length):
                 inst = batch_features.inst[id_batch]
                 maxId_batch = getMaxindex_batch(logit[id_batch])
