@@ -56,7 +56,7 @@ class Sequence_Label(nn.Module):
         :param train:
         :return:
         """
-        x = self.encoder_model(word, sentence_length, desorted_indices)
-        return x
+        encoder_output = self.encoder_model(word, sentence_length, desorted_indices)
+        return encoder_output
 
 

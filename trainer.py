@@ -53,14 +53,20 @@ class Train(object):
         self.early_max_patience = self.config.early_max_patience
         self.optimizer = Optimizer(name=self.config.learning_algorithm, model=self.model, lr=self.config.learning_rate,
                                    weight_decay=self.config.weight_decay, grad_clip=self.config.clip_max_norm)
-        if self.config.learning_algorithm == "SGD":
-            self.loss_function = nn.CrossEntropyLoss(ignore_index=self.config.label_paddingId, size_average=False)
-        else:
-            self.loss_function = nn.CrossEntropyLoss(ignore_index=self.config.label_paddingId, size_average=True)
+        self.loss_function = self._loss(learning_algorithm=self.config.learning_algorithm,
+                                        label_paddingId=self.config.label_paddingId)
         print(self.optimizer)
         self.best_score = Best_Result()
         self.train_eval, self.dev_eval, self.test_eval = Eval(), Eval(), Eval()
         self.train_iter_len = len(self.train_iter)
+
+    @staticmethod
+    def _loss(learning_algorithm, label_paddingId, use_crf=False):
+        if learning_algorithm == "SGD":
+            loss_function = nn.CrossEntropyLoss(ignore_index=label_paddingId, size_average=False)
+        else:
+            loss_function = nn.CrossEntropyLoss(ignore_index=label_paddingId, size_average=True)
+        return loss_function
 
     def _clip_model_norm(self, clip_max_norm_use, clip_max_norm):
         """
@@ -157,7 +163,8 @@ class Train(object):
                 # self.optimizer.zero_grad()
                 word, sentence_length, desorted_indices = self._get_model_args(batch_features)
                 logit = self.model(word, sentence_length, desorted_indices, train=True)
-                loss = self.loss_function(logit.view(logit.size(0) * logit.size(1), -1), batch_features.label_features)
+                logit = logit.view(logit.size(0) * logit.size(1), -1)
+                loss = self.loss_function(logit, batch_features.label_features)
                 loss.backward()
                 self._clip_model_norm(clip_max_norm_use, clip_max_norm)
                 self._optimizer_batch_step(config=self.config, backward_count=backward_count)
