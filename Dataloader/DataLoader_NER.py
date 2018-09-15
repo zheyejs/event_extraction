@@ -91,6 +91,9 @@ class DataLoader(DataLoaderHelp):
         self.max_count = config.max_count
         self.path = path
         self.shuffle = shuffle
+        # char feature
+        self.pad_char = [char_pad, char_pad]
+        self.max_char_len = config.max_char_len
 
     def dataLoader(self):
         """
@@ -135,12 +138,19 @@ class DataLoader(DataLoaderHelp):
                     inst = Instance()
                 else:
                     line = line.strip().split(" ")
-                    # print(line)
                     word = line[0]
                     # print(word)
                     word = self._normalize_word(word)
                     # print(word)
-                    # inst.words.append(word.lower())
+                    char = []
+                    char.extend(self.pad_char)
+                    for i in range(len(word)):
+                        char.append(word[i])
+                    char.extend(self.pad_char)
+                    if len(char) > self.max_char_len:
+                        char = char[:self.max_char_len]
+                    # print(char)
+                    inst.chars.append(char)
                     inst.words.append(word)
                     inst.labels.append(line[-1])
                 if len(insts) == self.max_count:
@@ -152,7 +162,3 @@ class DataLoader(DataLoaderHelp):
         return insts
 
 
-if __name__ == "__main__":
-    path = ["../Data/test/test.txt", "../Data/test/test.txt", "../Data/test/test.txt"]
-    conll2000data = DataLoader()
-    conll2000data.dataLoader

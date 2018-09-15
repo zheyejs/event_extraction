@@ -15,6 +15,7 @@ import torch.nn.functional as F
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 import random
 from DataUtils.Common import *
+from models.modelHelp import prepare_pack_padded_sequence
 torch.manual_seed(seed_num)
 random.seed(seed_num)
 
@@ -49,13 +50,14 @@ class BiLSTM(nn.Module):
         # init.xavier_uniform(self.linear.weight)
         # self.linear.bias.data.uniform_(-np.sqrt(6 / (config.lstm_hiddens * 2 + 1)), np.sqrt(6 / (config.lstm_hiddens * 2 + 1)))
 
-    def forward(self, word, sentence_length, desorted_indices):
+    def forward(self, word, sentence_length):
         """
         :param word:
         :param sentence_length:
         :param desorted_indices:
         :return:
         """
+        word, sentence_length, desorted_indices = prepare_pack_padded_sequence(word, sentence_length, use_cuda=self.use_cuda)
         x = self.embed(word)  # (N,W,D)
         x = self.dropout_embed(x)
         packed_embed = pack_padded_sequence(x, sentence_length, batch_first=True)

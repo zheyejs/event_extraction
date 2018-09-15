@@ -40,7 +40,7 @@ class Batch_Features:
         """
         features.word_features = features.word_features.cuda()
         features.label_features = features.label_features.cuda()
-        features.desorted_indices = features.desorted_indices.cuda()
+        # features.desorted_indices = features.desorted_indices.cuda()
         features.context_indices = features.context_indices.cuda()
 
 
@@ -58,6 +58,7 @@ class Iterators:
         self.batch = []
         self.features = []
         self.data_iter = []
+        self.max_char_len = config.max_char_len
 
     def createIterator(self):
         """
@@ -103,6 +104,14 @@ class Iterators:
                 label = inst.labels[index]
                 labelId = operator.label_alphabet.loadWord2idAndId2Word(label)
                 inst.label_index.append(labelId)
+
+                char_index = []
+                for char in inst.chars[index]:
+                    charId = operator.char_alphabet.loadWord2idAndId2Word(char)
+                    if charId == -1:
+                        charId = operator.char_unkId
+                    char_index.append(charId)
+                inst.chars_index.append(char_index)
 
     def _Create_Each_Iterator(self, insts, batch_size, operator):
         """
@@ -150,6 +159,7 @@ class Iterators:
         # create with the Tensor/Variable
         # word features
         batch_word_features = Variable(torch.zeros(batch_length, max_word_size).type(torch.LongTensor))
+        batch_char_features = Variable(torch.zeros(batch_length, max_word_size, self.max_char_len).type(torch.LongTensor))
         batch_label_features = Variable(torch.zeros(batch_length * max_word_size).type(torch.LongTensor))
 
         for id_inst in range(batch_length):
@@ -167,24 +177,34 @@ class Iterators:
                     batch_label_features.data[id_inst * max_word_size + id_word_index] = operator.label_paddingId
                     # batch_label_features.data[id_inst * max_word_size + id_word_index] = 0
 
+                # char
+                max_char_size = len(inst.chars_index[id_word_index]) if id_word_index < inst.words_size else 0
+                for id_word_c in range(self.max_char_len):
+                    if id_word_c < max_char_size:
+                        batch_char_features.data[id_inst][id_word_index][id_word_c] = inst.chars_index[id_word_index][id_word_c]
+                    else:
+                        batch_char_features.data[id_inst][id_word_index][id_word_c] = operator.char_paddingId
+
         # prepare for window context feature
         B, T = batch_word_features.size()
         context_indices = self._prepare_winfeature(B, T, wsize=self.config.windows_size)
 
         # prepare for pack_padded_sequence
-        sorted_inputs_words, sorted_seq_lengths, desorted_indices = self._prepare_pack_padded_sequence(
-            batch_word_features, sentence_length)
+        # sorted_inputs_words, sorted_seq_lengths, desorted_indices = self._prepare_pack_padded_sequence(
+        #     batch_word_features, sentence_length)
         # print(sorted_seq_lengths)
 
         # batch
         features = Batch_Features()
         features.batch_length = batch_length
         features.inst = insts
-        features.word_features = sorted_inputs_words
-        # features.word_features = batch_word_features
+        # features.word_features = sorted_inputs_words
+        features.word_features = batch_word_features
         features.label_features = batch_label_features
-        features.sentence_length = sorted_seq_lengths
-        features.desorted_indices = desorted_indices
+        # features.sentence_length = sorted_seq_lengths
+        features.sentence_length = sentence_length
+        # features.desorted_indices = desorted_indices
+        features.desorted_indices = None
         features.context_indices = context_indices
 
         if self.config.use_cuda is True:

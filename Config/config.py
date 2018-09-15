@@ -199,6 +199,10 @@ class Configurable(myconf):
         return self._config.getfloat("Model", "dropout")
 
     @property
+    def max_char_len(self):
+        return self._config.getint("Model", "max_char_len")
+
+    @property
     def windows_size(self):
         return self._config.getint("Model", "windows_size")
 

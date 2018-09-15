@@ -37,27 +37,33 @@ class CreateAlphabet:
         # storage word and label
         self.word_state = collections.OrderedDict()
         self.label_state = collections.OrderedDict()
+        self.char_state = collections.OrderedDict()
         # self.word_state = {}
         # self.label_state = {}
 
         # unk and pad
         self.word_state[unkkey] = self.min_freq
         self.word_state[paddingkey] = self.min_freq
+        self.char_state[unkkey] = self.min_freq
+        self.char_state[paddingkey] = self.min_freq
         # self.label_state[unkkey] = 1
         self.label_state[paddingkey] = 1
 
         # word and label Alphabet
         self.word_alphabet = Alphabet(min_freq=self.min_freq)
+        self.char_alphabet = Alphabet(min_freq=self.min_freq)
         self.label_alphabet = Alphabet()
         self.pretrained_alphabet = Alphabet(min_freq=self.min_freq)
         self.pretrained_alphabet_source = Alphabet(min_freq=self.min_freq)
 
         # unk key
         self.word_unkId = 0
+        self.char_unkId = 0
         self.label_unkId = 0
 
         # padding key
         self.word_paddingId = 0
+        self.char_paddingId = 0
         self.label_paddingId = 0
 
     @staticmethod
@@ -110,6 +116,16 @@ class CreateAlphabet:
                     self.word_state[word] = 1
                 else:
                     self.word_state[word] += 1
+
+            # char
+            for char in data.chars:
+                # print(char)
+                for c in char:
+                    if c not in self.char_state:
+                        self.char_state[c] = 1
+                    else:
+                        self.char_state[c] += 1
+
             # label
             for label in data.labels:
                 if label not in self.label_state:
@@ -121,12 +137,15 @@ class CreateAlphabet:
 
         # Create id2words and words2id by the Alphabet Class
         self.word_alphabet.initialWord2idAndId2Word(self.word_state)
+        self.char_alphabet.initialWord2idAndId2Word(self.char_state)
         self.label_alphabet.initialWord2idAndId2Word(self.label_state)
 
         # unkId and paddingId
         self.word_unkId = self.word_alphabet.loadWord2idAndId2Word(unkkey)
+        self.char_unkId = self.char_alphabet.loadWord2idAndId2Word(unkkey)
         # self.label_unkId = self.label_alphabet.loadWord2idAndId2Word(unkkey)
         self.word_paddingId = self.word_alphabet.loadWord2idAndId2Word(paddingkey)
+        self.char_paddingId = self.char_alphabet.loadWord2idAndId2Word(paddingkey)
         self.label_paddingId = self.label_alphabet.loadWord2idAndId2Word(paddingkey)
 
         # fix the vocab

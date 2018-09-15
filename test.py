@@ -102,8 +102,8 @@ class T_Inference(object):
         for data in self.data:
             now_count += 1
             sys.stdout.write("\rinfer with batch number {}/{} .".format(now_count, all_count))
-            word, mask, sentence_length, desorted_indices, tags = self._get_model_args(data)
-            logit = self.model(word, sentence_length, desorted_indices, train=False)
+            word, mask, sentence_length, tags = self._get_model_args(data)
+            logit = self.model(word, sentence_length, train=False)
             if self.use_crf is False:
                 predict_ids = torch_max(logit)
                 for id_batch in range(data.batch_length):
@@ -164,9 +164,9 @@ class T_Inference(object):
         word = batch_features.word_features
         mask = word > 0
         sentence_length = batch_features.sentence_length
-        desorted_indices = batch_features.desorted_indices
+        # desorted_indices = batch_features.desorted_indices
         tags = batch_features.label_features
-        return word, mask, sentence_length, desorted_indices, tags
+        return word, mask, sentence_length, tags
 
 
 

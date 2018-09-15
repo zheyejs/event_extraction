@@ -12,4 +12,5 @@
 seed_num = 666
 unkkey = "<unk>"
 paddingkey = "<pad>"
+char_pad = "<char_pad>"
 judge_flag = "##$$"

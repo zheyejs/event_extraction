@@ -143,9 +143,10 @@ class Train(object):
         word = batch_features.word_features
         mask = word > 0
         sentence_length = batch_features.sentence_length
-        desorted_indices = batch_features.desorted_indices
+        # desorted_indices = batch_features.desorted_indices
         tags = batch_features.label_features
-        return word, mask, sentence_length, desorted_indices, tags
+        # return word, mask, sentence_length, desorted_indices, tags
+        return word, mask, sentence_length, tags
 
     def _calculate_loss(self, feats, mask, tags):
         """
@@ -189,8 +190,8 @@ class Train(object):
             for batch_count, batch_features in enumerate(self.train_iter):
                 backward_count += 1
                 # self.optimizer.zero_grad()
-                word, mask, sentence_length, desorted_indices, tags = self._get_model_args(batch_features)
-                logit = self.model(word, sentence_length, desorted_indices, train=True)
+                word, mask, sentence_length, tags = self._get_model_args(batch_features)
+                logit = self.model(word, sentence_length, train=True)
                 loss = self._calculate_loss(logit, mask, tags)
                 loss.backward()
                 self._clip_model_norm(clip_max_norm_use, clip_max_norm)
@@ -259,9 +260,8 @@ class Train(object):
         predict_labels = []
         time_t = []
         for batch_features in data_iter:
-            word, mask, sentence_length, desorted_indices, tags = self._get_model_args(batch_features)
-            logit = model(word, sentence_length, desorted_indices, train=False)
-
+            word, mask, sentence_length, tags = self._get_model_args(batch_features)
+            logit = model(word, sentence_length, train=False)
             if self.use_crf is False:
                 predict_ids = torch_max(logit)
                 for id_batch in range(batch_features.batch_length):
@@ -315,7 +315,8 @@ class Train(object):
         if test is True:
             best_score.best_test = False
 
-    def getAcc(self, eval_acc, batch_features, logit, config):
+    @staticmethod
+    def getAcc(eval_acc, batch_features, logit, config):
         """
         :param eval_acc:  eval instance
         :param batch_features:  batch data feature
@@ -324,13 +325,14 @@ class Train(object):
         :return:
         """
         eval_acc.clear_PRF()
+        predict_ids = torch_max(logit)
         for id_batch in range(batch_features.batch_length):
             inst = batch_features.inst[id_batch]
+            label_ids = predict_ids[id_batch]
             predict_label = []
             gold_lable = inst.labels
-            maxId_batch = getMaxindex_batch(logit[id_batch])
             for id_word in range(inst.words_size):
-                predict_label.append(config.create_alphabet.label_alphabet.from_id(maxId_batch[id_word]))
+                predict_label.append(config.create_alphabet.label_alphabet.from_id(label_ids[id_word]))
             assert len(predict_label) == len(gold_lable)
             cor = 0
             for p_lable, g_lable in zip(predict_label, gold_lable):
