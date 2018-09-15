@@ -43,21 +43,14 @@ The number of sentences:
 
 ## Time ##
 
-A simple test of the training speed and decoding time on  `CPU` and `GPU`.  
-
-**CPU(i7-6800k)**  
-
-| Model | Train | Dev | Test |   
-| ------------ | ------------ | ------------ | ------------ |  
-| BiLSTM | 31.85s | 4.55s | 4.00s |  
-| BiLSTM-CRF | - | - | - |  
+A simple test of the training speed and decoding time on  `GPU`.  
 
 **GPU(GTX1080-Ti)**  
 
 | Model | Train | Dev | Test |   
 | ------------ | ------------ | ------------ | ------------ |  
-| BiLSTM | 5.70s | 1.70s | 1.56s |    
-| BiLSTM-CRF | - | - | - |  
+| BiLSTM | 4.00s | 0.80s | 0.90s |    
+| BiLSTM-CRF | 13.00s | 1.80s | 1.90s |  
 
 
 ## Performance ##
@@ -66,12 +59,11 @@ Performance on the `Conll2003`,  eval on the script `conlleval` in [Tools](https
 
 | Model | % P | % R | % F1 |  
 | ------------ | ------------ | ------------ | ------------ |  
-| BLSTM | 88.64 | 87.53 | 88.08 |  
-| BLSTM-CRF | - | - | - |  
+| BLSTM | 87.37 | 86.87 | 87.12 |  
+| BLSTM-CRF | 89.86 | 87.42 | 88.62 |  
 
 
 ## Updating ##
-- CRF
 - CNN
 
 

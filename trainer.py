@@ -257,21 +257,23 @@ class Train(object):
         eval_PRF = EvalPRF()
         gold_labels = []
         predict_labels = []
+        time_t = []
         for batch_features in data_iter:
             word, mask, sentence_length, desorted_indices, tags = self._get_model_args(batch_features)
             logit = model(word, sentence_length, desorted_indices, train=False)
+
             if self.use_crf is False:
+                predict_ids = torch_max(logit)
                 for id_batch in range(batch_features.batch_length):
                     inst = batch_features.inst[id_batch]
-                    maxId_batch = getMaxindex_batch(logit[id_batch])
+                    label_ids = predict_ids[id_batch]
                     predict_label = []
                     for id_word in range(inst.words_size):
-                        predict_label.append(config.create_alphabet.label_alphabet.from_id(maxId_batch[id_word]))
+                        predict_label.append(config.create_alphabet.label_alphabet.from_id(label_ids[id_word]))
                     gold_labels.append(inst.labels)
                     predict_labels.append(predict_label)
             else:
                 path_score, best_paths = model.crf_layer(logit, mask)
-                # print(path_score)
                 for id_batch in range(batch_features.batch_length):
                     inst = batch_features.inst[id_batch]
                     gold_labels.append(inst.labels)
