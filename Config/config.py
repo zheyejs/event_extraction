@@ -225,7 +225,7 @@ class Configurable(myconf):
 
     @property
     def clip_max_norm(self):
-        return self._config.getint("Optimizer", "clip_max_norm")
+        return self._config.get("Optimizer", "clip_max_norm")
 
     @property
     def use_lr_decay(self):

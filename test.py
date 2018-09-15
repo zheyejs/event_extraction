@@ -105,11 +105,13 @@ class T_Inference(object):
             word, mask, sentence_length, desorted_indices, tags = self._get_model_args(data)
             logit = self.model(word, sentence_length, desorted_indices, train=False)
             if self.use_crf is False:
+                predict_ids = torch_max(logit)
                 for id_batch in range(data.batch_length):
                     inst = data.inst[id_batch]
-                    maxId_batch = getMaxindex_batch(logit[id_batch])
+                    label_ids = predict_ids[id_batch]
+                    # maxId_batch = getMaxindex_batch(logit[id_batch])
                     for id_word in range(inst.words_size):
-                        predict_label.append(self.alphabet.label_alphabet.from_id(maxId_batch[id_word]))
+                        predict_label.append(self.alphabet.label_alphabet.from_id(label_ids[id_word]))
             else:
                 path_score, best_paths = self.model.crf_layer(logit, mask)
                 for id_batch in range(data.batch_length):
