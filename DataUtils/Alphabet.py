@@ -121,6 +121,8 @@ class CreateAlphabet:
             for char in data.chars:
                 # print(char)
                 for c in char:
+                    if c.isalnum() is False:
+                        continue
                     if c not in self.char_state:
                         self.char_state[c] = 1
                     else:
@@ -132,6 +134,8 @@ class CreateAlphabet:
                     self.label_state[label] = 1
                 else:
                     self.label_state[label] += 1
+        # print(self.char_state)
+        # exit()
 
         # self.label_state[unkkey] = 1
 

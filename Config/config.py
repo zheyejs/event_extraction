@@ -167,6 +167,10 @@ class Configurable(myconf):
         return self._config.getboolean("Model", "use_crf")
 
     @property
+    def use_char(self):
+        return self._config.getboolean("Model", "use_char")
+
+    @property
     def model_bilstm(self):
         return self._config.getboolean("Model", "model_bilstm")
 
@@ -201,6 +205,18 @@ class Configurable(myconf):
     @property
     def max_char_len(self):
         return self._config.getint("Model", "max_char_len")
+
+    @property
+    def char_dim(self):
+        return self._config.getint("Model", "char_dim")
+
+    @property
+    def conv_filter_sizes(self):
+        return self._config.get("Model", "conv_filter_sizes")
+
+    @property
+    def conv_filter_nums(self):
+        return self._config.get("Model", "conv_filter_nums")
 
     @property
     def windows_size(self):

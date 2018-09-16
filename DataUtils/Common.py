@@ -9,8 +9,8 @@
     FUNCTION : Common File
 """
 
-seed_num = 666
+seed_num = 233
 unkkey = "<unk>"
 paddingkey = "<pad>"
-char_pad = "<char_pad>"
+char_pad = "cpad"
 judge_flag = "##$$"

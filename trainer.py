@@ -141,12 +141,12 @@ class Train(object):
         :return:
         """
         word = batch_features.word_features
+        char = batch_features.char_features
         mask = word > 0
         sentence_length = batch_features.sentence_length
         # desorted_indices = batch_features.desorted_indices
         tags = batch_features.label_features
-        # return word, mask, sentence_length, desorted_indices, tags
-        return word, mask, sentence_length, tags
+        return word, char, mask, sentence_length, tags
 
     def _calculate_loss(self, feats, mask, tags):
         """
@@ -190,8 +190,8 @@ class Train(object):
             for batch_count, batch_features in enumerate(self.train_iter):
                 backward_count += 1
                 # self.optimizer.zero_grad()
-                word, mask, sentence_length, tags = self._get_model_args(batch_features)
-                logit = self.model(word, sentence_length, train=True)
+                word, char, mask, sentence_length, tags = self._get_model_args(batch_features)
+                logit = self.model(word, char, sentence_length, train=True)
                 loss = self._calculate_loss(logit, mask, tags)
                 loss.backward()
                 self._clip_model_norm(clip_max_norm_use, clip_max_norm)
@@ -258,10 +258,9 @@ class Train(object):
         eval_PRF = EvalPRF()
         gold_labels = []
         predict_labels = []
-        time_t = []
         for batch_features in data_iter:
-            word, mask, sentence_length, tags = self._get_model_args(batch_features)
-            logit = model(word, sentence_length, train=False)
+            word, char, mask, sentence_length, tags = self._get_model_args(batch_features)
+            logit = model(word, char, sentence_length, train=False)
             if self.use_crf is False:
                 predict_ids = torch_max(logit)
                 for id_batch in range(batch_features.batch_length):

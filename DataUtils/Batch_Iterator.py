@@ -27,6 +27,7 @@ class Batch_Features:
         self.batch_length = 0
         self.inst = None
         self.word_features = 0
+        self.char_features = 0
         self.label_features = 0
         self.sentence_length = []
         self.desorted_indices = None
@@ -40,6 +41,7 @@ class Batch_Features:
         """
         features.word_features = features.word_features.cuda()
         features.label_features = features.label_features.cuda()
+        features.char_features = features.char_features.cuda()
         # features.desorted_indices = features.desorted_indices.cuda()
         features.context_indices = features.context_indices.cuda()
 
@@ -184,7 +186,7 @@ class Iterators:
                         batch_char_features.data[id_inst][id_word_index][id_word_c] = inst.chars_index[id_word_index][id_word_c]
                     else:
                         batch_char_features.data[id_inst][id_word_index][id_word_c] = operator.char_paddingId
-
+        # print(batch_char_features)
         # prepare for window context feature
         B, T = batch_word_features.size()
         context_indices = self._prepare_winfeature(B, T, wsize=self.config.windows_size)
@@ -200,6 +202,7 @@ class Iterators:
         features.inst = insts
         # features.word_features = sorted_inputs_words
         features.word_features = batch_word_features
+        features.char_features = batch_char_features
         features.label_features = batch_label_features
         # features.sentence_length = sorted_seq_lengths
         features.sentence_length = sentence_length

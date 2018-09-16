@@ -63,12 +63,16 @@ def get_params(config, alphabet):
 
     # get params
     config.embed_num = alphabet.word_alphabet.vocab_size
+    config.char_embed_num = alphabet.char_alphabet.vocab_size
     config.class_num = alphabet.label_alphabet.vocab_size
     config.paddingId = alphabet.word_paddingId
+    config.char_paddingId = alphabet.char_paddingId
     config.label_paddingId = alphabet.label_paddingId
     config.create_alphabet = alphabet
-    print("embed_num : {}, class_num : {}".format(config.embed_num, config.class_num))
+    print("embed_num : {}, char_embed_num: {}, class_num : {}".format(config.embed_num, config.char_embed_num,
+                                                                      config.class_num))
     print("PaddingID {}".format(config.paddingId))
+    print("char PaddingID {}".format(config.char_paddingId))
 
 
 def save_dict2file(dict, path):

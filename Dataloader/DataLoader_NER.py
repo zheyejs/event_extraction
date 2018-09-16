@@ -92,7 +92,8 @@ class DataLoader(DataLoaderHelp):
         self.path = path
         self.shuffle = shuffle
         # char feature
-        self.pad_char = [char_pad, char_pad]
+        # self.pad_char = [char_pad, char_pad]
+        self.pad_char = []
         self.max_char_len = config.max_char_len
 
     def dataLoader(self):
@@ -139,9 +140,6 @@ class DataLoader(DataLoaderHelp):
                 else:
                     line = line.strip().split(" ")
                     word = line[0]
-                    # print(word)
-                    word = self._normalize_word(word)
-                    # print(word)
                     char = []
                     char.extend(self.pad_char)
                     for i in range(len(word)):
@@ -149,6 +147,7 @@ class DataLoader(DataLoaderHelp):
                     char.extend(self.pad_char)
                     if len(char) > self.max_char_len:
                         char = char[:self.max_char_len]
+                    word = self._normalize_word(word)
                     # print(char)
                     inst.chars.append(char)
                     inst.words.append(word)
