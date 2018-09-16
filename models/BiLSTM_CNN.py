@@ -16,6 +16,7 @@ from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 import random
 from models.initialize import *
 from DataUtils.Common import *
+from torch.nn import init
 from models.modelHelp import prepare_pack_padded_sequence
 torch.manual_seed(seed_num)
 random.seed(seed_num)
@@ -44,7 +45,7 @@ class BiLSTM_CNN(nn.Module):
 
         # char embedding layer
         self.char_embedding = nn.Embedding(self.char_embed_num, self.char_dim, padding_idx=char_paddingId)
-        # init_embedding(self.char_embedding.weight)
+        init_embedding(self.char_embedding.weight)
 
         # dropout
         self.dropout_embed = nn.Dropout(self.dropout_emb)
@@ -60,8 +61,9 @@ class BiLSTM_CNN(nn.Module):
                               bidirectional=True, batch_first=True, bias=True)
 
         self.linear = nn.Linear(in_features=self.lstm_hiddens * 2, out_features=C, bias=True)
+        init_linear(self.linear)
         # init.xavier_uniform(self.linear.weight)
-        # self.linear.bias.data.uniform_(-np.sqrt(6 / (config.lstm_hiddens * 2 + 1)), np.sqrt(6 / (config.lstm_hiddens * 2 + 1)))
+        # self.linear.bias.data.uniform_(-np.sqrt(6 / (self.lstm_hiddens * 2 + 1)), np.sqrt(6 / (self.lstm_hiddens * 2 + 1)))
 
     def _char_forward(self, inputs):
         """

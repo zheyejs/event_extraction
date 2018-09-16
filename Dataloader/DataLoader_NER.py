@@ -92,8 +92,8 @@ class DataLoader(DataLoaderHelp):
         self.path = path
         self.shuffle = shuffle
         # char feature
-        # self.pad_char = [char_pad, char_pad]
-        self.pad_char = []
+        self.pad_char = [char_pad, char_pad]
+        # self.pad_char = []
         self.max_char_len = config.max_char_len
 
     def dataLoader(self):
