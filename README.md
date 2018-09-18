@@ -24,9 +24,8 @@
 ## Model ##
 
 - `BiLSTM`  
-- + `CNNs`
+-  + `CNN`
 -  + `CRF`
-- Now, only support `BiLSTM `, others will be support later.
 
 ## Data ##
 
@@ -49,8 +48,10 @@ A simple test of the training speed and decoding time on  `GPU`.
 
 | Model | Train | Dev | Test |   
 | ------------ | ------------ | ------------ | ------------ |  
-| BiLSTM | 4.00s | 0.80s | 0.90s |    
-| BiLSTM-CRF | 13.00s | 1.80s | 1.90s |  
+| BiLSTM | 3.80s | 0.80s | 0.90s |    
+| BiLSTM-CRF | 13.10s | 1.80s | 1.90s |  
+| BiLSTM-CNN | 13.00s | 0.8s | 0.9s |  
+| BiLSTM-CNN-CRF | 24.30s | 1.90s | 1.90s |  
 
 
 ## Performance ##
@@ -59,17 +60,17 @@ Performance on the `Conll2003`,  eval on the script `conlleval` in [Tools](https
 
 | Model | % P | % R | % F1 |  
 | ------------ | ------------ | ------------ | ------------ |  
-| BLSTM | 87.37 | 86.87 | 87.12 |  
-| BLSTM-CRF | 89.86 | 87.42 | 88.62 |  
-
-
-## Updating ##
-- CNN
+| BLSTM | 87.78 | 87.92 | 87.85 |  
+| BLSTM-CRF | 90.30 | 88.33 | 89.30 |  
+| BLSTM-CNN | 88.18 | 90.30 | 89.23 |  
+| BLSTM-CNN-CRF | 89.93 | 90.32 | 90.12 |  
 
 
 ## Reference ##
 - [Ma X, and Hovy E. End-to-end Sequence Labeling via Bi-directional LSTM-CNNs-CRF. ACL, 2016](http://www.aclweb.org/anthology/P/P16/P16-1101.pdf)  
-- https://github.com/liu-nlper/SLTK
+- https://github.com/jiesutd/NCRFpp  
+- https://github.com/liu-nlper/SLTK  
+
 
 ## Question ##
 
