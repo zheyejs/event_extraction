@@ -24,8 +24,8 @@
 ## Model ##
 
 - `BiLSTM`  
--  + `CNN`
--  + `CRF`
+	- `CNN`
+	-  `CRF`
 
 ## Data ##
 
