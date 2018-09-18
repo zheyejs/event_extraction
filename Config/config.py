@@ -240,6 +240,10 @@ class Configurable(myconf):
         return self._config.getfloat("Optimizer", "weight_decay")
 
     @property
+    def momentum(self):
+        return self._config.getfloat("Optimizer", "momentum")
+
+    @property
     def clip_max_norm_use(self):
         return self._config.getboolean("Optimizer", "clip_max_norm_use")
 

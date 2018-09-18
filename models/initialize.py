@@ -62,6 +62,7 @@ def init_linear(input_linear, seed=1337):
     torch.manual_seed(seed)
     scope = np.sqrt(6.0 / (input_linear.weight.size(0) + input_linear.weight.size(1)))
     nn.init.uniform(input_linear.weight, -scope, scope)
+    # nn.init.uniform(input_linear.bias, -scope, scope)
     if input_linear.bias is not None:
         input_linear.bias.data.zero_()
 

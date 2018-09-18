@@ -141,14 +141,19 @@ class DataLoader(DataLoaderHelp):
                     line = line.strip().split(" ")
                     word = line[0]
                     char = []
-                    char.extend(self.pad_char)
+                    # char feature
                     for i in range(len(word)):
                         char.append(word[i])
-                    char.extend(self.pad_char)
+                    # char.extend(self.pad_char)
                     if len(char) > self.max_char_len:
-                        char = char[:self.max_char_len]
+                        half = self.max_char_len // 2
+                        word_half = word[:half] + word[-(self.max_char_len - half):]
+                        char = word_half
+                    else:
+                        for i in range(self.max_char_len-len(char)):
+                            char.append(char_pad)
+                    # exit()
                     word = self._normalize_word(word)
-                    # print(char)
                     inst.chars.append(char)
                     inst.words.append(word)
                     inst.labels.append(line[-1])

@@ -15,6 +15,7 @@ import torch.nn.functional as F
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 import random
 from DataUtils.Common import *
+from models.initialize import *
 from models.modelHelp import prepare_pack_padded_sequence
 torch.manual_seed(seed_num)
 random.seed(seed_num)
@@ -39,6 +40,8 @@ class BiLSTM(nn.Module):
 
         if self.pretrained_embed:
             self.embed.weight.data.copy_(self.pretrained_weight)
+        else:
+            init_embedding(self.embed.weight)
 
         self.dropout_embed = nn.Dropout(self.dropout_emb)
         self.dropout = nn.Dropout(self.dropout)
@@ -47,6 +50,7 @@ class BiLSTM(nn.Module):
                               bidirectional=True, batch_first=True, bias=True)
 
         self.linear = nn.Linear(in_features=self.lstm_hiddens * 2, out_features=C, bias=True)
+        init_linear(self.linear)
         # init.xavier_uniform(self.linear.weight)
         # self.linear.bias.data.uniform_(-np.sqrt(6 / (config.lstm_hiddens * 2 + 1)), np.sqrt(6 / (config.lstm_hiddens * 2 + 1)))
 
@@ -65,6 +69,6 @@ class BiLSTM(nn.Module):
         x, _ = pad_packed_sequence(x, batch_first=True)
         x = x[desorted_indices]
         x = self.dropout(x)
-        # x = F.tanh(x)
+        x = F.tanh(x)
         logit = self.linear(x)
         return logit

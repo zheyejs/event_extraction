@@ -51,6 +51,7 @@ class Optimizer(object):
                  weight_decay=0,
                  grad_clip=None,
                  optim_args=None,
+                 momentum=None,
                  **kwargs):
         """
         :param decay_method: Method of learning rate decay.
@@ -61,6 +62,7 @@ class Optimizer(object):
         self.model = model
         self.init_lr = lr
         self.weight_decay = weight_decay
+        self.momentum = momentum
         # self.gclip = grad_clip
         self.gclip = None if grad_clip == "None" else float(grad_clip)
         # print(self.gclip)
@@ -78,6 +80,9 @@ class Optimizer(object):
         if self.init_lr > 0:
             self.optim_args['lr'] = self.init_lr
 
+        if self.name == "SGD" and self.momentum is not None:
+            self.optim_args['momentum'] = self.momentum
+
         # Get all parameters that require grads
         self.named_params = self.get_params(self.model)
 
@@ -93,6 +98,9 @@ class Optimizer(object):
                 'params': [p for n, p in self.named_params if 'bias' in n],
             }
             self.param_groups = [weight_group, bias_group]
+
+        # elif self.name == "SGD" and self.momentum is not None:
+
 
         else:
             self.param_groups = [{'params': self.params}]
