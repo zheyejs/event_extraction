@@ -54,8 +54,7 @@ class Train(object):
         self.average_batch = self.config.average_batch
         self.early_max_patience = self.config.early_max_patience
         self.optimizer = Optimizer(name=self.config.learning_algorithm, model=self.model, lr=self.config.learning_rate,
-                                   weight_decay=self.config.weight_decay, grad_clip=self.config.clip_max_norm,
-                                   momentum=self.config.momentum)
+                                   weight_decay=self.config.weight_decay, grad_clip=self.config.clip_max_norm)
         self.loss_function = self._loss(learning_algorithm=self.config.learning_algorithm,
                                         label_paddingId=self.config.label_paddingId, use_crf=self.use_crf)
         print(self.optimizer)
