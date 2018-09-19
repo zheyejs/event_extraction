@@ -13,13 +13,37 @@
 	Train:
 		The best nn model will be saved during training.
 		(1) sh run_train_p.sh
-		(2) python -u main.py --config ./Config/config.cfg --train -p 
+		(2) python main.py --config ./Config/config.cfg --train -p 
 	Test:
 		Decoding test data, and write decode result to file.
 		(1) sh run_test.sh
-		(2) python -u main.py --config ./Config/config.cfg --t_data test --test 
+		(2) python main.py --config ./Config/config.cfg --t_data test --test 
 	Eval:
 		For the decode result file, use conlleval script in Tools directory to calculate F-score.
+
+## Config ##
+	[Embed]
+		pretrained_embed = True
+		nnembed = True
+		pretrained_embed_file = embed file path
+	[Data]
+		max_count = -1  ## Number of sentences loaded(-1 represents all)
+	[Model]
+		use_crf = False  ## CRF 
+		use_char = True  ## CNN
+		model_bilstm = True  ##BiLSTM
+		embed_dim = 100, lstm_hiddens = 100
+		dropout_emb = 0.5, dropout = 0.5
+		max_char_len = 20, char_dim = 30, conv_filter_sizes = 3, conv_filter_nums = 30
+	[Optimizer]
+		sgd = True
+		learning_rate = 0.015 , weight_decay = 1.0e-8
+		use_lr_decay = True, lr_rate_decay = 0.05, min_lrate = 0.000005, max_patience = 1
+	[Train]
+		use_cuda = False (choose cuda speed up, default is False)
+		early_max_patience = 10(early stop max patience)
+
+This is a major configuration file description, for more detailed reference to config.cfg file and [config readme](https://github.com/bamtercelboo/pytorch_NER_BiLSTM_CNN_CRF/tree/master/Config).
 
 ## Model ##
 
