@@ -39,18 +39,25 @@
 - [Model]
 	- `model-bilstm` (True or False) ------ Bilstm model.
 	- `model-***`(True or False) ------ *** model.
+	- `use_char `(True or False) ------ CNN feature
+	- `use_crf `(True or False) ------ CRF feature
 	- `lstm-layers` (integer) ------ number layers of lstm.
 	- `embed-dim` (integer) ------ embedding dim = pre-trained embedding dim.
 	- `embed-finetune` (True or False) ------ word embedding finetune or no-finetune.
 	- `lstm-hiddens` (integer) ------numbers of lstm hidden.
 	- `dropout-emb/dropout `(float) ------ dropout for prevent overfitting.
 	- `windows-size` (integer) ------ Context window feature size.
+	- `max_char_len` (integer) ------ The maximum length of a word.
+	- `char_dim` (integer) ------ The conv char dimension.
+	- `conv_filter_sizes` (str(3,4,5)) ------ conv filter sizes split by a comma in English.
+	- `conv_filter_nums` (str(30,40,50)) ------ conv filter nums split by a comma in English.
 
 - [Optimizer]
 	- `adam` (True or False) ------ `torch.optim.Adam`
 	- `sgd` (True or False)  ------ `torch.optim.SGD`
-	- `learning-rate`(float) ------ learning rate(0.001, 0.01).
+	- `learning-rate`(float) ------ learning rate.
 	- `weight-decay` (float) ------ L2.
+	- `momentum ` (float) ------ SGD momentum.
 	- `clip_max_norm_use` (True or False) ------ use util.clip.
 	- `clip-max-norm` (Integer number) ------ clip-max-norm value.
 	- `use_lr_decay` (True or False) ------ use lr decay.
