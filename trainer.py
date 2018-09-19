@@ -63,7 +63,6 @@ class Train(object):
         self.train_eval, self.dev_eval, self.test_eval = Eval(), Eval(), Eval()
         self.train_iter_len = len(self.train_iter)
 
-    # @staticmethod
     def _loss(self, learning_algorithm, label_paddingId, use_crf=False):
         if use_crf:
             loss_function = self.model.crf_layer.neg_log_likelihood_loss
@@ -95,20 +94,18 @@ class Train(object):
         """
         if config.use_lr_decay is True and epoch > config.max_patience and (
                 epoch - 1) % config.max_patience == 0 and new_lr > config.min_lrate:
-            # print("epoch", epoch)
             new_lr = max(new_lr * config.lr_rate_decay, config.min_lrate)
             set_lrate(self.optimizer, new_lr)
         return new_lr
 
     def _decay_learning_rate(self, epoch, init_lr):
-        """衰减学习率
+        """lr decay 
 
         Args:
-            epoch: int, 迭代次数
-            init_lr: 初始学习率
+            epoch: int, epoch 
+            init_lr:  initial lr
         """
         lr = init_lr / (1 + self.config.lr_rate_decay * epoch)
-        # print('learning rate: {0}'.format(lr))
         for param_group in self.optimizer.param_groups:
             param_group['lr'] = lr
         return self.optimizer
