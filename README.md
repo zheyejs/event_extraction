@@ -4,9 +4,9 @@
 
 ## Requirement ##
 
-	pyorch: 0.3.1
+	pyorch: 0.3.1(pip install torch==0.3.1)
 	python: 3.6.1
-	cuda: 8.0 (support cuda speed up, can chose)
+	cuda: 8.0 or 9.0(support cuda speed up, can chose)
 
 ## Usage ##
 	modify the config file, detail see the Config directory
