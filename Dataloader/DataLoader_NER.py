@@ -140,19 +140,7 @@ class DataLoader(DataLoaderHelp):
                 else:
                     line = line.strip().split(" ")
                     word = line[0]
-                    char = []
-                    # char feature
-                    for i in range(len(word)):
-                        char.append(word[i])
-                    # char.extend(self.pad_char)
-                    if len(char) > self.max_char_len:
-                        half = self.max_char_len // 2
-                        word_half = word[:half] + word[-(self.max_char_len - half):]
-                        char = word_half
-                    else:
-                        for i in range(self.max_char_len-len(char)):
-                            char.append(char_pad)
-                    # exit()
+                    char = self._add_char(word)
                     word = self._normalize_word(word)
                     inst.chars.append(char)
                     inst.words.append(word)
@@ -164,5 +152,23 @@ class DataLoader(DataLoaderHelp):
                 insts.append(inst)
             # print("\n")
         return insts
+
+    def _add_char(self, word):
+        """
+        :param word:
+        :return:
+        """
+        char = []
+        # char feature
+        for i in range(len(word)):
+            char.append(word[i])
+        if len(char) > self.max_char_len:
+            half = self.max_char_len // 2
+            word_half = word[:half] + word[-(self.max_char_len - half):]
+            char = word_half
+        else:
+            for i in range(self.max_char_len - len(char)):
+                char.append(char_pad)
+        return char
 
 
