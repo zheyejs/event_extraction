@@ -4,9 +4,11 @@
 
 ## Requirement ##
 
-	pyorch: 0.3.1(pip install torch==0.3.1)[pytorch 0.4.0  refer to [pytorch0.4.0error #2](https://github.com/bamtercelboo/pytorch_NER_BiLSTM_CNN_CRF/issues/2)]
+	pyorch: 0.3.1(pip install torch==0.3.1)
 	python: 3.6.1
 	cuda: 8.0 or 9.0(support cuda speed up, can chose)
+
+[**pytorch 0.4.0**  refer to [pytorch0.4.0error #2](https://github.com/bamtercelboo/pytorch_NER_BiLSTM_CNN_CRF/issues/2)]
 
 ## Usage ##
 	modify the config file, detail see the Config directory
