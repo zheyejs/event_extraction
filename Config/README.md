@@ -21,6 +21,7 @@
 	- `shuffle/epochs-shuffle`(True or False) ------ shuffle data .
 
 - [Save]
+	- `save_pkl` (True or False) ------ save pkl file for test.
 	- `pkl_directory` (path) ------ save pkl directory path.
 	- `pkl_data` (path) ------ save pkl data path.
 	- `pkl_alphabet` (path) ------ save pkl alphabet path.

@@ -4,7 +4,7 @@
 
 ## Requirement ##
 
-	pyorch: 0.3.1(pip install torch==0.3.1)
+	pyorch: 0.3.1(pip install torch==0.3.1)[pytorch 0.4.0  refer to [pytorch0.4.0error #2](https://github.com/bamtercelboo/pytorch_NER_BiLSTM_CNN_CRF/issues/2)]
 	python: 3.6.1
 	cuda: 8.0 or 9.0(support cuda speed up, can chose)
 
@@ -23,11 +23,13 @@
 
 ## Config ##
 	[Embed]
-		pretrained_embed = True
+		pretrained_embed = True（default: False）
 		nnembed = True
 		pretrained_embed_file = embed file path
 	[Data]
 		max_count = -1  ## Number of sentences loaded(-1 represents all)
+	[Save]
+		save_pkl = True(save pkl file for test, default True)
 	[Model]
 		use_crf = False  ## CRF 
 		use_char = True  ## CNN
@@ -40,7 +42,7 @@
 		learning_rate = 0.015 , weight_decay = 1.0e-8
 		use_lr_decay = True, lr_rate_decay = 0.05, min_lrate = 0.000005, max_patience = 1
 	[Train]
-		use_cuda = False (choose cuda speed up, default is False)
+		use_cuda = True (choose cuda speed up, default is True)
 		early_max_patience = 10(early stop max patience)
 
 This is a major configuration file description, for more detailed reference to config.cfg file and [config readme](https://github.com/bamtercelboo/pytorch_NER_BiLSTM_CNN_CRF/tree/master/Config).
