@@ -126,7 +126,8 @@ def preprocessing(config):
     train_data, dev_data, test_data = data_loader.dataLoader()
     print("train sentence {}, dev sentence {}, test sentence {}.".format(len(train_data), len(dev_data), len(test_data)))
     data_dict = {"train_data": train_data, "dev_data": dev_data, "test_data": test_data}
-    pcl.save(obj=data_dict, path=os.path.join(config.pkl_directory, config.pkl_data))
+    if config.save_pkl:
+        pcl.save(obj=data_dict, path=os.path.join(config.pkl_directory, config.pkl_data))
 
     # create the alphabet
     alphabet = None
@@ -138,14 +139,16 @@ def preprocessing(config):
         # alphabet = CreateAlphabet(min_freq=config.min_freq, train_data=train_data, config=config)
         alphabet.build_vocab()
     alphabet_dict = {"alphabet": alphabet}
-    pcl.save(obj=alphabet_dict, path=os.path.join(config.pkl_directory, config.pkl_alphabet))
+    if config.save_pkl:
+        pcl.save(obj=alphabet_dict, path=os.path.join(config.pkl_directory, config.pkl_alphabet))
 
     # create iterator
     create_iter = Iterators(batch_size=[config.batch_size, config.dev_batch_size, config.test_batch_size],
                             data=[train_data, dev_data, test_data], operator=alphabet, config=config)
     train_iter, dev_iter, test_iter = create_iter.createIterator()
     iter_dict = {"train_iter": train_iter, "dev_iter": dev_iter, "test_iter": test_iter}
-    pcl.save(obj=iter_dict, path=os.path.join(config.pkl_directory, config.pkl_iter))
+    if config.save_pkl:
+        pcl.save(obj=iter_dict, path=os.path.join(config.pkl_directory, config.pkl_iter))
     return train_iter, dev_iter, test_iter, alphabet
 
 
@@ -218,10 +221,12 @@ def load_data(config):
         train_iter, dev_iter, test_iter = iter_dict.values()
         # train_iter, dev_iter, test_iter = iter_dict["train_iter"], iter_dict["dev_iter"], iter_dict["test_iter"]
         # load embed from pkl
-        embed_dict = pcl.load(os.path.join(config.pkl_directory, config.pkl_embed))
-        print(embed_dict.keys())
-        embed = embed_dict["pretrain_embed"]
-        config.pretrained_weight = embed
+        config.pretrained_weight = None
+        if os.path.exists(os.path.join(config.pkl_directory, config.pkl_embed)):
+            embed_dict = pcl.load(os.path.join(config.pkl_directory, config.pkl_embed))
+            print(embed_dict.keys())
+            embed = embed_dict["pretrain_embed"]
+            config.pretrained_weight = embed
 
     return train_iter, dev_iter, test_iter, alphabet
 
