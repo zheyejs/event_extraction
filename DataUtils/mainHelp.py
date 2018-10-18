@@ -10,6 +10,7 @@
 """
 
 import shutil
+import time
 from DataUtils.Alphabet import *
 from DataUtils.Batch_Iterator import *
 from DataUtils.Pickle import pcl
@@ -127,7 +128,8 @@ def preprocessing(config):
     print("train sentence {}, dev sentence {}, test sentence {}.".format(len(train_data), len(dev_data), len(test_data)))
     data_dict = {"train_data": train_data, "dev_data": dev_data, "test_data": test_data}
     if config.save_pkl:
-        pcl.save(obj=data_dict, path=os.path.join(config.pkl_directory, config.pkl_data))
+        # pcl.save(obj=data_dict, path=os.path.join(config.pkl_directory, config.pkl_data))
+        torch.save(obj=data_dict, f=os.path.join(config.pkl_directory, config.pkl_data))
 
     # create the alphabet
     alphabet = None
@@ -140,7 +142,8 @@ def preprocessing(config):
         alphabet.build_vocab()
     alphabet_dict = {"alphabet": alphabet}
     if config.save_pkl:
-        pcl.save(obj=alphabet_dict, path=os.path.join(config.pkl_directory, config.pkl_alphabet))
+        # pcl.save(obj=alphabet_dict, path=os.path.join(config.pkl_directory, config.pkl_alphabet))
+        torch.save(obj=alphabet_dict, f=os.path.join(config.pkl_directory, config.pkl_alphabet))
 
     # create iterator
     create_iter = Iterators(batch_size=[config.batch_size, config.dev_batch_size, config.test_batch_size],
@@ -148,7 +151,8 @@ def preprocessing(config):
     train_iter, dev_iter, test_iter = create_iter.createIterator()
     iter_dict = {"train_iter": train_iter, "dev_iter": dev_iter, "test_iter": test_iter}
     if config.save_pkl:
-        pcl.save(obj=iter_dict, path=os.path.join(config.pkl_directory, config.pkl_iter))
+        # pcl.save(obj=iter_dict, path=os.path.join(config.pkl_directory, config.pkl_iter))
+        torch.save(obj=iter_dict, f=os.path.join(config.pkl_directory, config.pkl_iter))
     return train_iter, dev_iter, test_iter, alphabet
 
 
@@ -175,7 +179,8 @@ def pre_embed(config, alphabet):
         pretrain_embed = p.get_embed()
 
         embed_dict = {"pretrain_embed": pretrain_embed}
-        pcl.save(obj=embed_dict, path=os.path.join(config.pkl_directory, config.pkl_embed))
+        # pcl.save(obj=embed_dict, path=os.path.join(config.pkl_directory, config.pkl_embed))
+        torch.save(obj=embed_dict, f=os.path.join(config.pkl_directory, config.pkl_embed))
 
     return pretrain_embed
 
@@ -203,6 +208,7 @@ def load_data(config):
     print("load data for process or pkl data.")
     train_iter, dev_iter, test_iter = None, None, None
     alphabet = None
+    start_time = time.time()
     if (config.train is True) and (config.process is True):
         print("process data")
         if os.path.exists(config.pkl_directory): shutil.rmtree(config.pkl_directory)
@@ -212,22 +218,27 @@ def load_data(config):
     elif ((config.train is True) and (config.process is False)) or (config.test is True):
         print("load data from pkl file")
         # load alphabet from pkl
-        alphabet_dict = pcl.load(path=os.path.join(config.pkl_directory, config.pkl_alphabet))
+        # alphabet_dict = pcl.load(path=os.path.join(config.pkl_directory, config.pkl_alphabet))
+        alphabet_dict = torch.load(f=os.path.join(config.pkl_directory, config.pkl_alphabet))
         print(alphabet_dict.keys())
         alphabet = alphabet_dict["alphabet"]
         # load iter from pkl
-        iter_dict = pcl.load(path=os.path.join(config.pkl_directory, config.pkl_iter))
+        # iter_dict = pcl.load(path=os.path.join(config.pkl_directory, config.pkl_iter))
+        iter_dict = torch.load(f=os.path.join(config.pkl_directory, config.pkl_iter))
         print(iter_dict.keys())
         train_iter, dev_iter, test_iter = iter_dict.values()
         # train_iter, dev_iter, test_iter = iter_dict["train_iter"], iter_dict["dev_iter"], iter_dict["test_iter"]
         # load embed from pkl
         config.pretrained_weight = None
         if os.path.exists(os.path.join(config.pkl_directory, config.pkl_embed)):
-            embed_dict = pcl.load(os.path.join(config.pkl_directory, config.pkl_embed))
+            # embed_dict = pcl.load(os.path.join(config.pkl_directory, config.pkl_embed))
+            embed_dict = torch.load(f=os.path.join(config.pkl_directory, config.pkl_embed))
             print(embed_dict.keys())
             embed = embed_dict["pretrain_embed"]
             config.pretrained_weight = embed
-
+    end_time = time.time()
+    print("All Data/Alphabet/Iterator Use Time {:.4f}".format(end_time - start_time))
+    print("***************************************")
     return train_iter, dev_iter, test_iter, alphabet
 
 
