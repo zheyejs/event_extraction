@@ -68,10 +68,10 @@ class Train(object):
             loss_function = self.model.crf_layer.neg_log_likelihood_loss
             return loss_function
         elif learning_algorithm == "SGD":
-            loss_function = nn.CrossEntropyLoss(ignore_index=label_paddingId, size_average=False)
+            loss_function = nn.CrossEntropyLoss(ignore_index=label_paddingId, reduction="sum")
             return loss_function
         else:
-            loss_function = nn.CrossEntropyLoss(ignore_index=label_paddingId, size_average=True)
+            loss_function = nn.CrossEntropyLoss(ignore_index=label_paddingId, reduction="mean")
             return loss_function
 
     def _clip_model_norm(self, clip_max_norm_use, clip_max_norm):
@@ -276,7 +276,8 @@ class Train(object):
                     label_ids = best_paths[id_batch].cpu().data.numpy()[:inst.words_size]
                     label = []
                     for i in label_ids:
-                        label.append(config.create_alphabet.label_alphabet.from_id(i))
+                        # print("\n", i)
+                        label.append(config.create_alphabet.label_alphabet.from_id(int(i)))
                     predict_labels.append(label)
         for p_label, g_label in zip(predict_labels, gold_labels):
             eval_PRF.evalPRF(predict_labels=p_label, gold_labels=g_label, eval=eval_instance)
