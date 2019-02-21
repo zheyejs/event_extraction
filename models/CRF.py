@@ -37,19 +37,18 @@ class CRF(nn.Module):
         """
         kwargs:
             target_size: int, target size
-            use_cuda: bool, cuda
+            device: str, device
         """
         super(CRF, self).__init__()
         for k in kwargs:
             self.__setattr__(k, kwargs[k])
+        device = self.device
 
         # init transitions
         self.START_TAG, self.STOP_TAG = -2, -1
-        init_transitions = torch.zeros(self.target_size + 2, self.target_size + 2)
+        init_transitions = torch.zeros(self.target_size + 2, self.target_size + 2, device=device)
         init_transitions[:, self.START_TAG] = -10000.0
         init_transitions[self.STOP_TAG, :] = -10000.0
-        if self.use_cuda:
-            init_transitions = init_transitions.cuda()
         self.transitions = nn.Parameter(init_transitions)
 
     def _forward_alg(self, feats, mask):
@@ -173,9 +172,7 @@ class CRF(nn.Module):
         """ calculate the score from last partition to end state (and then select the STOP_TAG from it) """
         last_values = last_partition.expand(batch_size, tag_size, tag_size) + self.transitions.view(1,tag_size, tag_size).expand(batch_size, tag_size, tag_size)
         _, last_bp = torch.max(last_values, 1)
-        pad_zero = torch.zeros(batch_size, tag_size, requires_grad=True).long()
-        if self.use_cuda:
-            pad_zero = pad_zero.cuda()
+        pad_zero = torch.zeros(batch_size, tag_size, device=self.device, requires_grad=True).long()
         back_points.append(pad_zero)
         back_points = torch.cat(back_points).view(seq_len, batch_size, tag_size)
 
@@ -188,9 +185,7 @@ class CRF(nn.Module):
         back_points = back_points.transpose(1,0).contiguous()
         """ decode from the end, padded position ids are 0, which will be filtered if following evaluation """
         # decode_idx = Variable(torch.LongTensor(seq_len, batch_size))
-        decode_idx = torch.empty(seq_len, batch_size, dtype=torch.float, requires_grad=True)
-        if self.use_cuda:
-            decode_idx = decode_idx.cuda()
+        decode_idx = torch.empty(seq_len, batch_size, device=self.device, requires_grad=True).long()
         decode_idx[-1] = pointer.detach()
         for idx in range(len(back_points)-2, -1, -1):
             pointer = torch.gather(back_points[idx], 1, pointer.contiguous().view(batch_size, 1))
@@ -224,10 +219,8 @@ class CRF(nn.Module):
         tag_size = scores.size(-1)
         tags = tags.view(batch_size, seq_len)
         """ convert tag value into a new format, recorded label bigram information to index """
-        new_tags = Variable(torch.LongTensor(batch_size, seq_len))
-        # new_tags = torch.empty(batch_size, seq_len, requires_grad=True)
-        if self.use_cuda:
-            new_tags = new_tags.cuda()
+        # new_tags = Variable(torch.LongTensor(batch_size, seq_len))
+        new_tags = torch.empty(batch_size, seq_len, device=self.device, requires_grad=True).long()
         for idx in range(seq_len):
             if idx == 0:
                 new_tags[:, 0] = (tag_size - 2) * tag_size + tags[:, 0]

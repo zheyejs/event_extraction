@@ -67,8 +67,7 @@
 	- `max_patience `(Integer) ------ patience to decay.
 
 - [Train]
-	- `num-threads` (Integer) ------ threads.
-	- `use-cuda` (True or False) ------ support `cuda` speed up.
+	- `num-threads` (Integer) ------ threads.  
 	- `epochs` (Integer) ------ maximum train epochs
 	- `early_max_patience` (Integer) ------ maximum dev no improvment times for early stop.
  	- `backward_batch_size` (Integer) ------ multiple-batch to update parameters.

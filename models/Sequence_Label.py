@@ -70,7 +70,7 @@ class Sequence_Label(nn.Module):
                                             pretrained_embed=self.pretrained_embed, pretrained_weight=self.pretrained_weight,
                                             char_embed_num=self.char_embed_num, char_dim=self.char_dim,
                                             char_paddingId=self.char_paddingId, conv_filter_sizes=self.conv_filter_sizes,
-                                            conv_filter_nums=self.conv_filter_nums)
+                                            conv_filter_nums=self.conv_filter_nums, device=self.device)
         else:
             self.encoder_model = BiLSTM(embed_num=self.embed_num, embed_dim=self.embed_dim, label_num=self.target_size,
                                         paddingId=self.paddingId, dropout_emb=self.dropout_emb, dropout=self.dropout,
@@ -78,7 +78,7 @@ class Sequence_Label(nn.Module):
                                         pretrained_embed=self.pretrained_embed, pretrained_weight=self.pretrained_weight,
                                         device=self.device)
         if self.use_crf is True:
-            args_crf = dict({'target_size': self.label_num, 'use_cuda': self.use_cuda})
+            args_crf = dict({'target_size': self.label_num, 'device': self.device})
             self.crf_layer = CRF(**args_crf)
 
     @staticmethod
