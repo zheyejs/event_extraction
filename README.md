@@ -1,25 +1,25 @@
 
-## NER-LSTM-CNNs-CRF  ##
+# NER-LSTM-CNNs-CRF  #
 - LSTM-CNNs-CRF impolment in pytorch, and test in conll2003 dataset, reference [End-to-end Sequence Labeling via Bi-directional LSTM-CNNs-CRF](http://www.aclweb.org/anthology/P/P16/P16-1101.pdf).
+
+- PyTorch0.3.1 Code release on here. [[PyTorch0.3.1](https://github.com/bamtercelboo/pytorch_NER_BiLSTM_CNN_CRF/releases/tag/PyTorch0.3.1)]  
 
 ## Requirement ##
 
-	pyorch: 0.3.1(pip install torch==0.3.1)
-	python: 3.6.1
-	cuda: 8.0 or 9.0(support cuda speed up, can chose)
+	PyTorch: 1.0.1
+	Python: 3.6
+	Cuda: 8.0 or 9.0(support cuda speed up, can chose)
 
-[**pytorch 0.4.0**  refer to [pytorch0.4.0error #2](https://github.com/bamtercelboo/pytorch_NER_BiLSTM_CNN_CRF/issues/2)]
+
 
 ## Usage ##
 	modify the config file, detail see the Config directory
 	Train:
 		The best nn model will be saved during training.
-		(1) sh run_train_p.sh
-		(2) python main.py --config ./Config/config.cfg --train -p 
+		sh run_train_p.sh
 	Test:
-		Decoding test data, and write decode result to file.
-		(1) sh run_test.sh
-		(2) python main.py --config ./Config/config.cfg --t_data test --test 
+		Train finished. Decoding test data, and write decode result to file.
+		sh run_test.sh
 	Eval:
 		For the decode result file, use conlleval script in Tools directory to calculate F-score.
 
