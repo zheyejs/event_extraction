@@ -69,6 +69,6 @@ class BiLSTM(nn.Module):
         x, _ = pad_packed_sequence(x, batch_first=True)
         x = x[desorted_indices]
         x = self.dropout(x)
-        x = F.tanh(x)
+        x = torch.tanh(x)
         logit = self.linear(x)
         return logit

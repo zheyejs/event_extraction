@@ -104,6 +104,6 @@ class BiLSTM_CNN(nn.Module):
         x = self.dropout_embed(x)
         x, _ = self.bilstm(x)
         x = self.dropout(x)
-        x = F.tanh(x)
+        x = torch.tanh(x)
         logit = self.linear(x)
         return logit

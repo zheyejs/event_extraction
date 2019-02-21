@@ -198,7 +198,7 @@ class Train(object):
                 if (steps - 1) % self.config.log_interval == 0:
                     self.getAcc(self.train_eval, batch_features, logit, self.config)
                     sys.stdout.write(
-                        "\nbatch_count = [{}] , loss is {:.6f}, [TAG-ACC is {:.6f}%]".format(batch_count + 1, loss.data[0], self.train_eval.acc()))
+                        "\nbatch_count = [{}] , loss is {:.6f}, [TAG-ACC is {:.6f}%]".format(batch_count + 1, loss.item(), self.train_eval.acc()))
             end_time = time.time()
             print("\nTrain Time {:.3f}".format(end_time - start_time), end="")
             self.eval(model=self.model, epoch=epoch, config=self.config)

@@ -14,7 +14,6 @@ import datetime
 import Config.config as configurable
 from DataUtils.mainHelp import *
 from DataUtils.Alphabet import *
-from models.BiLSTM_Context import *
 from test import load_test_data
 from test import T_Inference
 from trainer import Train
