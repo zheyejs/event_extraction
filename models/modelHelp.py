@@ -16,19 +16,16 @@ torch.manual_seed(seed_num)
 random.seed(seed_num)
 
 
-def prepare_pack_padded_sequence(inputs_words, seq_lengths, use_cuda=False, descending=True):
+def prepare_pack_padded_sequence(inputs_words, seq_lengths, device="cpu", descending=True):
     """
-    :param use_cuda:
+    :param device:
     :param inputs_words:
     :param seq_lengths:
     :param descending:
     :return:
     """
-    # if use_cuda is True:
-    #     sorted_seq_lengths, indices = torch.sort(torch.cuda.LongTensor(seq_lengths), descending=descending)
-    # else:
-    sorted_seq_lengths, indices = torch.sort(torch.LongTensor(seq_lengths), descending=descending)
-    if use_cuda is True:
+    sorted_seq_lengths, indices = torch.sort(torch.Tensor(seq_lengths).long(), descending=descending)
+    if device != "cpu":
         sorted_seq_lengths, indices = sorted_seq_lengths.cuda(), indices.cuda()
     _, desorted_indices = torch.sort(indices, descending=False)
     sorted_inputs_words = inputs_words[indices]

@@ -53,13 +53,14 @@ class BiLSTM_CNN(nn.Module):
 
         # cnn
         # self.char_encoders = nn.ModuleList()
-        self.char_encoders = []
+        # self.char_encoders = []
+        self.char_encoders = nn.ModuleList()
         for i, filter_size in enumerate(self.conv_filter_sizes):
             f = nn.Conv3d(in_channels=1, out_channels=self.conv_filter_nums[i], kernel_size=(1, filter_size, self.char_dim))
             self.char_encoders.append(f)
-        for conv in self.char_encoders:
-            if self.use_cuda is True:
-                conv.cuda()
+        # for conv in self.char_encoders:
+            # if self.use_cuda is True:
+            # conv.cuda()
         lstm_input_dim = D + sum(self.conv_filter_nums)
         self.bilstm = nn.LSTM(input_size=lstm_input_dim, hidden_size=self.lstm_hiddens, num_layers=self.lstm_layers,
                               bidirectional=True, batch_first=True, bias=True)

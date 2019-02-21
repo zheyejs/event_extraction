@@ -182,13 +182,13 @@ class CRF(nn.Module):
         """ elect end ids in STOP_TAG """
         pointer = last_bp[:, self.STOP_TAG]
         insert_last = pointer.contiguous().view(batch_size,1,1).expand(batch_size,1, tag_size)
-        back_points = back_points.transpose(1, 0).contiguous()
+        back_points = back_points.transpose(1,0).contiguous()
         """move the end ids(expand to tag_size) to the corresponding position of back_points to replace the 0 values """
         back_points.scatter_(1, last_position, insert_last)
-        back_points = back_points.transpose(1, 0).contiguous()
+        back_points = back_points.transpose(1,0).contiguous()
         """ decode from the end, padded position ids are 0, which will be filtered if following evaluation """
         # decode_idx = Variable(torch.LongTensor(seq_len, batch_size))
-        decode_idx = torch.empty(seq_len, batch_size, dtype=torch.float, device="cpu", requires_grad=True)
+        decode_idx = torch.empty(seq_len, batch_size, dtype=torch.float, requires_grad=True)
         if self.use_cuda:
             decode_idx = decode_idx.cuda()
         decode_idx[-1] = pointer.detach()

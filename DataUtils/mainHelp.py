@@ -128,7 +128,6 @@ def preprocessing(config):
     print("train sentence {}, dev sentence {}, test sentence {}.".format(len(train_data), len(dev_data), len(test_data)))
     data_dict = {"train_data": train_data, "dev_data": dev_data, "test_data": test_data}
     if config.save_pkl:
-        # pcl.save(obj=data_dict, path=os.path.join(config.pkl_directory, config.pkl_data))
         torch.save(obj=data_dict, f=os.path.join(config.pkl_directory, config.pkl_data))
 
     # create the alphabet
@@ -142,16 +141,15 @@ def preprocessing(config):
         alphabet.build_vocab()
     alphabet_dict = {"alphabet": alphabet}
     if config.save_pkl:
-        # pcl.save(obj=alphabet_dict, path=os.path.join(config.pkl_directory, config.pkl_alphabet))
         torch.save(obj=alphabet_dict, f=os.path.join(config.pkl_directory, config.pkl_alphabet))
 
     # create iterator
     create_iter = Iterators(batch_size=[config.batch_size, config.dev_batch_size, config.test_batch_size],
-                            data=[train_data, dev_data, test_data], operator=alphabet, config=config)
+                            data=[train_data, dev_data, test_data], operator=alphabet, device=config.device,
+                            config=config)
     train_iter, dev_iter, test_iter = create_iter.createIterator()
     iter_dict = {"train_iter": train_iter, "dev_iter": dev_iter, "test_iter": test_iter}
     if config.save_pkl:
-        # pcl.save(obj=iter_dict, path=os.path.join(config.pkl_directory, config.pkl_iter))
         torch.save(obj=iter_dict, f=os.path.join(config.pkl_directory, config.pkl_iter))
     return train_iter, dev_iter, test_iter, alphabet
 
@@ -192,7 +190,7 @@ def load_model(config):
     """
     print("***************************************")
     model = Sequence_Label(config)
-    if config.use_cuda is True:
+    if config.device != "cpu":
         model = model.cuda()
     if config.test is True:
         model = load_test_model(model, config)

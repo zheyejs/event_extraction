@@ -51,8 +51,6 @@ class BiLSTM(nn.Module):
 
         self.linear = nn.Linear(in_features=self.lstm_hiddens * 2, out_features=C, bias=True)
         init_linear(self.linear)
-        # init.xavier_uniform(self.linear.weight)
-        # self.linear.bias.data.uniform_(-np.sqrt(6 / (config.lstm_hiddens * 2 + 1)), np.sqrt(6 / (config.lstm_hiddens * 2 + 1)))
 
     def forward(self, word, sentence_length):
         """
@@ -61,7 +59,7 @@ class BiLSTM(nn.Module):
         :param desorted_indices:
         :return:
         """
-        word, sentence_length, desorted_indices = prepare_pack_padded_sequence(word, sentence_length, use_cuda=self.use_cuda)
+        word, sentence_length, desorted_indices = prepare_pack_padded_sequence(word, sentence_length, device=self.device)
         x = self.embed(word)  # (N,W,D)
         x = self.dropout_embed(x)
         packed_embed = pack_padded_sequence(x, sentence_length, batch_first=True)

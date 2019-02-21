@@ -100,18 +100,18 @@ def parse_argument():
     :return:
     """
     parser = argparse.ArgumentParser(description="NER & POS")
-    parser.add_argument("-c", "--config", dest="config_file", type=str, default="./Config/config.cfg",
-                        help="config path")
+    parser.add_argument("-c", "--config", dest="config_file", type=str, default="./Config/config.cfg",help="config path")
+    parser.add_argument("-device", "--device", dest="device", type=str, default="cuda:0", help="device[‘cpu’,‘cuda:0’,‘cuda:1’,......]")
     parser.add_argument("--train", dest="train", action="store_true", default=True, help="train model")
     parser.add_argument("-p", "--process", dest="process", action="store_true", default=True, help="data process")
     parser.add_argument("-t", "--test", dest="test", action="store_true", default=False, help="test model")
     parser.add_argument("--t_model", dest="t_model", type=str, default=None, help="model for test")
-    parser.add_argument("--t_data", dest="t_data", type=str, default=None,
-                        help="data[train dev test None] for test model")
+    parser.add_argument("--t_data", dest="t_data", type=str, default=None, help="data[train, dev, test, None] for test model")
     parser.add_argument("--predict", dest="predict", action="store_true", default=False, help="predict model")
     args = parser.parse_args()
     # print(vars(args))
     config = configurable.Configurable(config_file=args.config_file)
+    config.device = args.device
     config.train = args.train
     config.process = args.process
     config.test = args.test
@@ -127,6 +127,7 @@ def parse_argument():
         print("t_data : {}, not in [None, 'train', 'dev', 'test']".format(config.t_data))
         exit()
     print("***************************************")
+    print("Device : {}".format(config.device))
     print("Data Process : {}".format(config.process))
     print("Train model : {}".format(config.train))
     print("Test model : {}".format(config.test))
@@ -142,7 +143,7 @@ if __name__ == "__main__":
 
     print("Process ID {}, Process Parent ID {}".format(os.getpid(), os.getppid()))
     config = parse_argument()
-    if config.use_cuda is True:
+    if config.device != "cpu":
         print("Using GPU To Train......")
         # torch.backends.cudnn.enabled = True
         # torch.backends.cudnn.deterministic = True

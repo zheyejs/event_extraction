@@ -64,6 +64,12 @@ class Train(object):
         self.train_iter_len = len(self.train_iter)
 
     def _loss(self, learning_algorithm, label_paddingId, use_crf=False):
+        """
+        :param learning_algorithm:
+        :param label_paddingId:
+        :param use_crf:
+        :return:
+        """
         if use_crf:
             loss_function = self.model.crf_layer.neg_log_likelihood_loss
             return loss_function
@@ -112,6 +118,8 @@ class Train(object):
 
     def _optimizer_batch_step(self, config, backward_count):
         """
+        :param config:
+        :param backward_count:
         :return:
         """
         if backward_count % config.backward_batch_size == 0 or backward_count == self.train_iter_len:
