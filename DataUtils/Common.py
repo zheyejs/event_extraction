@@ -14,3 +14,5 @@ unkkey = "<unk>"
 paddingkey = "<pad>"
 # char_pad = "cpad"
 char_pad = "##"
+cpu_device = "cpu"
+

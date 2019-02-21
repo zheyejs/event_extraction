@@ -190,7 +190,7 @@ def load_model(config):
     """
     print("***************************************")
     model = Sequence_Label(config)
-    if config.device != "cpu":
+    if config.device != cpu_device:
         model = model.cuda()
     if config.test is True:
         model = load_test_model(model, config)

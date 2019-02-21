@@ -149,7 +149,6 @@ class Train(object):
         char = batch_features.char_features
         mask = word > 0
         sentence_length = batch_features.sentence_length
-        # desorted_indices = batch_features.desorted_indices
         tags = batch_features.label_features
         return word, char, mask, sentence_length, tags
 

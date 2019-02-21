@@ -143,7 +143,7 @@ if __name__ == "__main__":
 
     print("Process ID {}, Process Parent ID {}".format(os.getpid(), os.getppid()))
     config = parse_argument()
-    if config.device != "cpu":
+    if config.device != cpu_device:
         print("Using GPU To Train......")
         device_number = config.device[-1]
         torch.cuda.set_device(int(device_number))

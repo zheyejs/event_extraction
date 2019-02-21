@@ -158,9 +158,9 @@ class Iterators:
 
         # create with the Tensor/Variable
         # word features
-        batch_word_features = torch.zeros(batch_length, max_word_size, device="cpu", requires_grad=True).long()
-        batch_char_features = torch.zeros(batch_length, max_word_size, self.max_char_len, device="cpu", requires_grad=True).long()
-        batch_label_features = torch.zeros(batch_length * max_word_size, device="cpu", requires_grad=True).long()
+        batch_word_features = torch.zeros(batch_length, max_word_size, device=cpu_device, requires_grad=True).long()
+        batch_char_features = torch.zeros(batch_length, max_word_size, self.max_char_len, device=cpu_device, requires_grad=True).long()
+        batch_label_features = torch.zeros(batch_length * max_word_size, device=cpu_device, requires_grad=True).long()
 
         for id_inst in range(batch_length):
             inst = insts[id_inst]
@@ -195,7 +195,7 @@ class Iterators:
         features.sentence_length = sentence_length
         features.desorted_indices = None
 
-        if device != "cpu":
+        if device != cpu_device:
             features.cuda(features)
         return features
 
