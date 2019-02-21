@@ -16,12 +16,13 @@
 	modify the config file, detail see the Config directory
 	Train:
 		The best nn model will be saved during training.
-		sh run_train_p.sh
+		---> sh run_train_p.sh
 	Test:
 		Train finished. Decoding test data, and write decode result to file.
-		sh run_test.sh
+		---> sh run_test.sh
 	Eval:
 		For the decode result file, use conlleval script in Tools directory to calculate F-score.
+		---> sh run_eval.sh  
 
 ## Config ##
 	[Embed]
@@ -44,7 +45,6 @@
 		learning_rate = 0.015 , weight_decay = 1.0e-8
 		use_lr_decay = True, lr_rate_decay = 0.05, min_lrate = 0.000005, max_patience = 1
 	[Train]
-		use_cuda = True (choose cuda speed up, default is True)
 		early_max_patience = 10(early stop max patience)
 
 This is a major configuration file description, for more detailed reference to config.cfg file and [config readme](https://github.com/bamtercelboo/pytorch_NER_BiLSTM_CNN_CRF/tree/master/Config).
@@ -65,7 +65,11 @@ The number of sentences:
 
 
 - The Data format is `BIES` label, data sample in Data directory.
+
+- Tag convert scripr in Here [[tagSchemeConverter.py](https://github.com/bamtercelboo/pytorch_NER_BiLSTM_CNN_CRF/blob/master/DataUtils/tagSchemeConverter.py)]  
+
 - Conll2003 dataset can be downloaded from [Conll2003](https://www.clips.uantwerpen.be/conll2003/ner/)
+
 - Pre-Trained Embedding can be downloaded from [glove.6B.zip](nlp.stanford.edu/data/glove.6B.zip)
 
 ## Time ##
@@ -102,6 +106,6 @@ Performance on the `Conll2003`,  eval on the script `conlleval` in [Tools](https
 
 ## Question ##
 
-- if you have any question, you can open a issue or email `bamtercelboo@{gmail.com, 163.com}`.
+- if you have any question, you can open a issue or email **bamtercelboo@{gmail.com, 163.com}**.
 
 - if you have any good suggestions, you can PR or email me.
