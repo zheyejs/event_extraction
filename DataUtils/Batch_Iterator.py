@@ -31,7 +31,16 @@ class Batch_Features:
         self.label_features = 0
         self.sentence_length = []
         self.desorted_indices = None
-        self.context_indices = None
+
+    @staticmethod
+    def cuda(features):
+        """
+        :param features:
+        :return:
+        """
+        features.word_features = features.word_features.cuda()
+        features.label_features = features.label_features.cuda()
+        features.char_features = features.char_features.cuda()
 
 
 class Iterators:
@@ -149,12 +158,9 @@ class Iterators:
 
         # create with the Tensor/Variable
         # word features
-        batch_word_features = torch.zeros(batch_length, max_word_size, device=device, requires_grad=True).long()
-        # batch_word_features = Variable(torch.zeros(batch_length, max_word_size).type(torch.LongTensor))
-        # batch_char_features = Variable(torch.zeros(batch_length, max_word_size, self.max_char_len).type(torch.LongTensor))
-        batch_char_features = torch.zeros(batch_length, max_word_size, self.max_char_len, device=device, requires_grad=True).long()
-        # batch_label_features = Variable(torch.zeros(batch_length * max_word_size).type(torch.LongTensor))
-        batch_label_features = torch.zeros(batch_length * max_word_size, device=device, requires_grad=True).long()
+        batch_word_features = torch.zeros(batch_length, max_word_size, device="cpu", requires_grad=True).long()
+        batch_char_features = torch.zeros(batch_length, max_word_size, self.max_char_len, device="cpu", requires_grad=True).long()
+        batch_label_features = torch.zeros(batch_length * max_word_size, device="cpu", requires_grad=True).long()
 
         for id_inst in range(batch_length):
             inst = insts[id_inst]
@@ -178,32 +184,19 @@ class Iterators:
                         batch_char_features.data[id_inst][id_word_index][id_word_c] = inst.chars_index[id_word_index][id_word_c]
                     else:
                         batch_char_features.data[id_inst][id_word_index][id_word_c] = operator.char_paddingId
-        # print(batch_char_features)
-        # prepare for window context feature
-        B, T = batch_word_features.size()
-        # context_indices = self._prepare_winfeature(B, T, wsize=self.config.windows_size)
-
-        # prepare for pack_padded_sequence
-        # sorted_inputs_words, sorted_seq_lengths, desorted_indices = self._prepare_pack_padded_sequence(
-        #     batch_word_features, sentence_length)
-        # print(sorted_seq_lengths)
 
         # batch
         features = Batch_Features()
         features.batch_length = batch_length
         features.inst = insts
-        # features.word_features = sorted_inputs_words
         features.word_features = batch_word_features
         features.char_features = batch_char_features
         features.label_features = batch_label_features
-        # features.sentence_length = sorted_seq_lengths
         features.sentence_length = sentence_length
-        # features.desorted_indices = desorted_indices
         features.desorted_indices = None
-        # features.context_indices = context_indices
 
-        # if self.config.use_cuda is True:
-        #     features.cuda(features)
+        if device != "cpu":
+            features.cuda(features)
         return features
 
     @staticmethod

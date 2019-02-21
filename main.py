@@ -145,6 +145,9 @@ if __name__ == "__main__":
     config = parse_argument()
     if config.device != "cpu":
         print("Using GPU To Train......")
+        device_number = config.device[-1]
+        torch.cuda.set_device(int(device_number))
+        print("Current Cuda Device {}".format(torch.cuda.current_device()))
         # torch.backends.cudnn.enabled = True
         # torch.backends.cudnn.deterministic = True
         torch.cuda.manual_seed(seed_num)
