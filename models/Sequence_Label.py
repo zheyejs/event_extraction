@@ -41,7 +41,7 @@ class Sequence_Label(nn.Module):
         # lstm
         self.lstm_hiddens = config.lstm_hiddens
         self.lstm_layers = config.lstm_layers
-        # pre train
+        # pretrain
         self.pretrained_embed = config.pretrained_embed
         self.pretrained_weight = config.pretrained_weight
         # char

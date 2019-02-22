@@ -89,7 +89,7 @@ class Train(object):
         if clip_max_norm_use is True:
             gclip = None if clip_max_norm == "None" else float(clip_max_norm)
             assert isinstance(gclip, float)
-            utils.clip_grad_norm(self.model.parameters(), max_norm=gclip)
+            utils.clip_grad_norm_(self.model.parameters(), max_norm=gclip)
 
     def _dynamic_lr(self, config, epoch, new_lr):
         """

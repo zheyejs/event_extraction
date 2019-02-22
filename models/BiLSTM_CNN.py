@@ -65,7 +65,8 @@ class BiLSTM_CNN(nn.Module):
                               bidirectional=True, batch_first=True, bias=True)
 
         self.linear = nn.Linear(in_features=self.lstm_hiddens * 2, out_features=C, bias=True)
-        init_linear(self.linear)
+        # init_linear(self.linear)
+        init_linear_weight_bias(self.linear)
 
     def _char_forward(self, inputs):
         """
