@@ -59,7 +59,7 @@ This is a major configuration file description, for more detailed reference to c
 
 ## Data ##
 
-The number of sentences:  
+- The number of sentences:  
 
 | Data | Train | Dev | Test |  
 | ------------ | ------------ | ------------ | ------------ |  
@@ -76,12 +76,14 @@ The number of sentences:
 
 ## Performance ##
 
-Performance on the `Conll2003`,  eval on the script `conlleval` in [Tools](https://github.com/bamtercelboo/pytorch_NER_PosTag_BiLSTM_CRF/tree/master/Tools)  
+- Performance on the `Conll2003`,  eval on the script `conlleval` in [Tools](https://github.com/bamtercelboo/pytorch_NER_BiLSTM_CNN_CRF/tree/master/Tools)  
+
+- log in [final_log](https://github.com/bamtercelboo/pytorch_NER_BiLSTM_CNN_CRF/tree/master/final_log)  
 
 | Model | % P | % R | % F1 |  
 | ------------ | ------------ | ------------ | ------------ |  
 | BLSTM | 88.61 | 88.50 | 88.56 |  
-| BLSTM-CRF | 90.30 | 88.33 | 89.30 |  
+| BLSTM-CRF | 90.33 | 88.81 | 89.56 |  
 | BLSTM-CNN | 89.23 | 90.97 | 90.09 |  
 | BLSTM-CNN-CRF | 91.42 | 91.24 | 91.33 |  
 
