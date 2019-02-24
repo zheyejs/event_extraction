@@ -28,6 +28,20 @@ def init_cnn_weight(cnn_layer, seed=1337):
     cnn_layer.bias.data.zero_()
 
 
+def init_cnn(cnn_layer, seed=1337):
+    """初始化cnn层权重
+    Args:
+        cnn_layer: weight.size() == [nb_filter, in_channels, [kernel_size]]
+        seed: int
+    """
+    filter_nums = cnn_layer.weight.size(0)
+    kernel_size = cnn_layer.weight.size()[2:]
+    scope = np.sqrt(2. / (filter_nums * np.prod(kernel_size)))
+    torch.manual_seed(seed)
+    nn.init.xavier_normal_(cnn_layer.weight)
+    cnn_layer.bias.data.uniform_(-scope, scope)
+
+
 def init_lstm_weight(lstm, num_layer=1, seed=1337):
     """初始化lstm权重
     Args:
@@ -86,5 +100,12 @@ def init_embedding(input_embedding, seed=666):
     torch.manual_seed(seed)
     scope = np.sqrt(3.0 / input_embedding.size(1))
     nn.init.uniform_(input_embedding, -scope, scope)
+
+
+def init_embed(input_embedding, seed=656):
+    """初始化embedding层权重
+    """
+    torch.manual_seed(seed)
+    nn.init.xavier_uniform_(input_embedding)
 
 

@@ -12,6 +12,7 @@ import os
 import sys
 import torch
 from DataUtils.utils import *
+from DataUtils.Common import *
 
 
 def load_test_model(model, config):
@@ -44,23 +45,23 @@ def load_test_data(train_iter=None, dev_iter=None, test_iter=None, config=None):
     if config.t_data is None:
         print("default[test] for model test.")
         data = test_iter
-        path_source = config.test_file
-        path_result = "{}.out".format(config.test_file)
+        path_source = ".".join([config.test_file, shuffle])
+        path_result = "{}.out".format(path_source)
     elif config.t_data == "train":
         print("train data for model test.")
         data = train_iter
-        path_source = config.train_file
-        path_result = "{}.out".format(config.train_file)
+        path_source = ".".join([config.train_file, shuffle])
+        path_result = "{}.out".format(path_source)
     elif config.t_data == "dev":
         print("dev data for model test.")
         data = dev_iter
-        path_source = config.dev_file
-        path_result = "{}.out".format(config.dev_file)
+        path_source = ".".join([config.dev_file, shuffle])
+        path_result = "{}.out".format(path_source)
     elif config.t_data == "test":
         print("test data for model test.")
         data = test_iter
-        path_source = config.test_file
-        path_result = "{}.out".format(config.test_file)
+        path_source = ".".join([config.test_file, shuffle])
+        path_result = "{}.out".format(path_source)
     else:
         print("Error value --- t_data = {}, must in [None, 'train', 'dev', 'test'].".format(config.t_data))
         exit()

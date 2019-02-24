@@ -45,7 +45,8 @@ class BiLSTM_CNN(nn.Module):
 
         # char embedding layer
         self.char_embedding = nn.Embedding(self.char_embed_num, self.char_dim, padding_idx=char_paddingId)
-        init_embedding(self.char_embedding.weight)
+        # init_embedding(self.char_embedding.weight)
+        init_embed(self.char_embedding.weight)
 
         # dropout
         self.dropout_embed = nn.Dropout(self.dropout_emb)
@@ -65,7 +66,6 @@ class BiLSTM_CNN(nn.Module):
                               bidirectional=True, batch_first=True, bias=True)
 
         self.linear = nn.Linear(in_features=self.lstm_hiddens * 2, out_features=C, bias=True)
-        # init_linear(self.linear)
         init_linear_weight_bias(self.linear)
 
     def _char_forward(self, inputs):
@@ -79,6 +79,7 @@ class BiLSTM_CNN(nn.Module):
         max_len, max_len_char = inputs.size(1), inputs.size(2)
         inputs = inputs.view(-1, max_len * max_len_char)  # [bs, -1]
         input_embed = self.char_embedding(inputs)  # [bs, ml*ml_c, feature_dim]
+        # input_embed = self.dropout_embed(input_embed)
         # [bs, 1, max_len, max_len_char, feature_dim]
         input_embed = input_embed.view(-1, 1, max_len, max_len_char, self.char_dim)
         # conv
@@ -100,6 +101,7 @@ class BiLSTM_CNN(nn.Module):
         :return:
         """
         char_conv = self._char_forward(char)
+        char_conv = self.dropout(char_conv)
         word = self.embed(word)  # (N,W,D)
         x = torch.cat((word, char_conv), -1)
         x = self.dropout_embed(x)
@@ -108,3 +110,4 @@ class BiLSTM_CNN(nn.Module):
         x = torch.tanh(x)
         logit = self.linear(x)
         return logit
+

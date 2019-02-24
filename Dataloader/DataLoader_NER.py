@@ -8,6 +8,7 @@
     FILE :
     FUNCTION :
 """
+import os
 import re
 import random
 import torch
@@ -74,6 +75,21 @@ class DataLoaderHelp(object):
         print("Sort Finished.")
         return sorted_insts
 
+    @staticmethod
+    def _write_shuffle_inst_to_file(insts, path):
+        """
+        :return:
+        """
+        w_path = ".".join([path, shuffle])
+        if os.path.exists(w_path):
+            os.remove(w_path)
+        file = open(w_path, encoding="UTF-8", mode="w")
+        for id, inst in enumerate(insts):
+            for word, label in zip(inst.words, inst.labels):
+                file.write(" ".join([word, label, "\n"]))
+            file.write("\n")
+        print("write shuffle insts to file {}".format(w_path))
+
 
 class DataLoader(DataLoaderHelp):
     """
@@ -107,13 +123,8 @@ class DataLoader(DataLoaderHelp):
         for id_data in range(len(path)):
             print("Loading Data Form {}".format(path[id_data]))
             insts = self._Load_Each_Data(path=path[id_data], shuffle=shuffle)
-            if shuffle is True and id_data == 0:
-                print("shuffle train data......")
-                random.shuffle(insts)
-            # sorted(inst)
-            if id_data == 0:
-                insts = self._sort(insts)
-            # sorted_insts = self.sort(insts)
+            random.shuffle(insts)
+            self._write_shuffle_inst_to_file(insts, path=path[id_data])
             self.data_list.append(insts)
         # return train/dev/test data
         if len(self.data_list) == 3:
