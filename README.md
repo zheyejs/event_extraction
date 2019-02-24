@@ -33,11 +33,12 @@
 		max_count = -1  ## Number of sentences loaded(-1 represents all)
 	[Save]
 		save_pkl = True(save pkl file for test, default True)
+		save_best_model = True(save best performance result for test, default True)
 	[Model]
-		use_crf = False  ## CRF 
+		use_crf = True  ## CRF 
 		use_char = True  ## CNN
 		model_bilstm = True  ##BiLSTM
-		embed_dim = 100, lstm_hiddens = 100
+		embed_dim = 100, lstm_hiddens = 200
 		dropout_emb = 0.5, dropout = 0.5
 		max_char_len = 20, char_dim = 30, conv_filter_sizes = 3, conv_filter_nums = 30
 	[Optimizer]
@@ -45,6 +46,7 @@
 		learning_rate = 0.015 , weight_decay = 1.0e-8
 		use_lr_decay = True, lr_rate_decay = 0.05, min_lrate = 0.000005, max_patience = 1
 	[Train]
+		batch_size = 10
 		early_max_patience = 10(early stop max patience)
 
 This is a major configuration file description, for more detailed reference to config.cfg file and [config readme](https://github.com/bamtercelboo/pytorch_NER_BiLSTM_CNN_CRF/tree/master/Config).
@@ -72,30 +74,16 @@ The number of sentences:
 
 - Pre-Trained Embedding can be downloaded from [glove.6B.zip](nlp.stanford.edu/data/glove.6B.zip)  
 
-## Time ##
-
-A simple test of the training speed and decoding time on  `GPU`.  
-
-**GPU(GTX1080-Ti)**  
-
-| Model | Train | Dev | Test |   
-| ------------ | ------------ | ------------ | ------------ |  
-| BiLSTM | 3.80s | 0.80s | 0.90s |    
-| BiLSTM-CRF | 13.10s | 1.80s | 1.90s |  
-| BiLSTM-CNN | 13.00s | 0.8s | 0.9s |  
-| BiLSTM-CNN-CRF | 24.30s | 1.90s | 1.90s |  
-
-
 ## Performance ##
 
-Performance on the `Conll2003`,  eval on the script `conlleval` in [Tools](https://github.com/bamtercelboo/pytorch_NER_PosTag_BiLSTM_CRF/tree/master/Tools)
+Performance on the `Conll2003`,  eval on the script `conlleval` in [Tools](https://github.com/bamtercelboo/pytorch_NER_PosTag_BiLSTM_CRF/tree/master/Tools)  
 
 | Model | % P | % R | % F1 |  
 | ------------ | ------------ | ------------ | ------------ |  
-| BLSTM | 87.78 | 87.92 | 87.85 |  
+| BLSTM | 88.61 | 88.50 | 88.56 |  
 | BLSTM-CRF | 90.30 | 88.33 | 89.30 |  
-| BLSTM-CNN | 88.18 | 90.30 | 89.23 |  
-| BLSTM-CNN-CRF | 89.93 | 90.32 | 90.12 |  
+| BLSTM-CNN | 89.23 | 90.97 | 90.09 |  
+| BLSTM-CNN-CRF | 91.42 | 91.24 | 91.33 |  
 
 
 ## Reference ##

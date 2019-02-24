@@ -21,8 +21,6 @@ class Configurable(myconf):
         self.train = None
         config = myconf()
         config.read(config_file)
-        # if config.has_section(self.add_sec) is False:
-        #     config.add_section(self.add_sec)
         self._config = config
         self.config_file = config_file
 
