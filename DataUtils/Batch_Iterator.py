@@ -95,19 +95,19 @@ class Iterators:
             # copy with the word and pos
             for index in range(inst.words_size):
                 word = inst.words[index]
-                wordId = operator.word_alphabet.loadWord2idAndId2Word(word)
+                wordId = operator.word_alphabet.from_string(word)
                 # if wordID is None:
                 if wordId == -1:
                     wordId = operator.word_unkId
                 inst.words_index.append(wordId)
 
                 label = inst.labels[index]
-                labelId = operator.label_alphabet.loadWord2idAndId2Word(label)
+                labelId = operator.label_alphabet.from_string(label)
                 inst.label_index.append(labelId)
 
                 char_index = []
                 for char in inst.chars[index]:
-                    charId = operator.char_alphabet.loadWord2idAndId2Word(char)
+                    charId = operator.char_alphabet.from_string(char)
                     if charId == -1:
                         charId = operator.char_unkId
                     char_index.append(charId)
