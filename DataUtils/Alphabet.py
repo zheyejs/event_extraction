@@ -155,6 +155,7 @@ class CreateAlphabet:
         # fix the vocab
         self.word_alphabet.set_fixed_flag(True)
         self.label_alphabet.set_fixed_flag(True)
+        self.char_alphabet.set_fixed_flag(True)
 
 
 class Alphabet:
