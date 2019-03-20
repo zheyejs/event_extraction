@@ -12,7 +12,7 @@
 import torch
 from torch.autograd import Variable
 import random
-import numpy as np
+
 from DataUtils.Common import *
 torch.manual_seed(seed_num)
 random.seed(seed_num)
@@ -158,40 +158,33 @@ class Iterators:
 
         # create with the Tensor/Variable
         # word features
-        # batch_word_features = torch.zeros(batch_length, max_word_size, device=cpu_device, requires_grad=True).long()
-        # batch_char_features = torch.zeros(batch_length, max_word_size, self.max_char_len, device=cpu_device, requires_grad=True).long()
-        # batch_label_features = torch.zeros(batch_length * max_word_size, device=cpu_device, requires_grad=True).long()
-
-        batch_word_features = np.zeros((batch_length, max_word_size))
-        batch_char_features = np.zeros((batch_length, max_word_size, self.max_char_len))
-        batch_label_features = np.zeros((batch_length * max_word_size))
+        batch_word_features = torch.zeros(batch_length, max_word_size, device=cpu_device, requires_grad=True).long()
+        batch_char_features = torch.zeros(batch_length, max_word_size, self.max_char_len, device=cpu_device, requires_grad=True).long()
+        batch_label_features = torch.zeros(batch_length * max_word_size, device=cpu_device, requires_grad=True).long()
 
         for id_inst in range(batch_length):
             inst = insts[id_inst]
             # copy with the word features
             for id_word_index in range(max_word_size):
                 if id_word_index < inst.words_size:
-                    batch_word_features[id_inst][id_word_index] = inst.words_index[id_word_index]
+                    batch_word_features.data[id_inst][id_word_index] = inst.words_index[id_word_index]
                 else:
-                    batch_word_features[id_inst][id_word_index] = operator.word_paddingId
+                    batch_word_features.data[id_inst][id_word_index] = operator.word_paddingId
 
                 if id_word_index < len(inst.label_index):
-                    batch_label_features[id_inst * max_word_size + id_word_index] = inst.label_index[id_word_index]
+                    batch_label_features.data[id_inst * max_word_size + id_word_index] = inst.label_index[id_word_index]
                 else:
-                    batch_label_features[id_inst * max_word_size + id_word_index] = operator.label_paddingId
+                    batch_label_features.data[id_inst * max_word_size + id_word_index] = operator.label_paddingId
+                    # batch_label_features.data[id_inst * max_word_size + id_word_index] = 0
 
                 # char
                 max_char_size = len(inst.chars_index[id_word_index]) if id_word_index < inst.words_size else 0
                 for id_word_c in range(self.max_char_len):
                     if id_word_c < max_char_size:
-                        batch_char_features[id_inst][id_word_index][id_word_c] = inst.chars_index[id_word_index][id_word_c]
+                        batch_char_features.data[id_inst][id_word_index][id_word_c] = inst.chars_index[id_word_index][id_word_c]
                     else:
-                        batch_char_features[id_inst][id_word_index][id_word_c] = operator.char_paddingId
+                        batch_char_features.data[id_inst][id_word_index][id_word_c] = operator.char_paddingId
 
-        batch_word_features = torch.from_numpy(batch_word_features).long()
-        batch_char_features = torch.from_numpy(batch_char_features).long()
-        batch_label_features = torch.from_numpy(batch_label_features).long()
-        
         # batch
         features = Batch_Features()
         features.batch_length = batch_length
